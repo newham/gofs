@@ -1,0 +1,56 @@
+{{define "SearchTemp"}}
+
+<!--pannle-->
+<div class="panel panel-default">
+    <div class="panel-head">
+        <!--breadcrumb-->
+        <ol class="breadcrumb my-breadcrumb">
+            <li>
+                <a href="/">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                </a>
+            </li>
+        </ol>
+    </div>
+    <div class="panel-body" style="padding:5px;">
+        {{if .Results}}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="td-do">Do</th>
+                    <th colspan="2">Search Results</th>
+                </tr>
+            </thead>
+            <tbody id="folder-list">
+                {{range $k, $v := .Results}}
+                <tr>
+                    <td class="td-do">
+                        {{if $v.Editable}}
+                        <a href="/edit?name={{$v.Name}}&type=open">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a> | {{end}}
+                        <a href="/download?name={{$v.Name}}&type=file" download="{{$v.Name}}">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                        </a> |
+                        <a href="javascript:if(confirm('Ensure Delete  [{{$v.Name}}]?'))location='/del?name={{$v.Name}}'">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/download?name={{$v.Name}}&type=file" class="a-file" download="{{$v.Name}}">
+                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> &nbsp{{$v.Name}}</a>
+                    </td>
+
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+        {{else}}
+        <h4 style="padding-left: 10px;">no result
+            <a href="/">[back]</a>
+            <h4 style="padding-left: 10px;">
+                {{end}}
+    </div>
+</div>
+
+{{template "MsgTemp" .}} {{end}}

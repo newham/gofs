@@ -1,0 +1,148 @@
+.file-drop-zone {
+    /*height: 200px !important;*/
+}
+
+.td-do {
+    width: 110px;
+    text-align: left;
+}
+
+.td-size {
+    width: 80px;
+}
+
+.td-time {
+    width: 150px;
+}
+.a-file {
+    color:black;
+}
+
+.file-preview-frame{
+    width:16% !important;
+    height: 120px !important;
+}
+.file-footer-caption{
+    width:60px !important;
+    margin: 0px !important;
+}
+.file-preview-other{
+    padding:0px !important;
+}
+.file-other-icon {
+    font-size: 20px;
+}
+.file-drop-zone {
+    /*border: 0px !important;*/
+}
+.file-preview {
+    border-radius: 0px !important;
+    border: 0px !important;
+    margin-bottom: 15px !important;
+}
+
+.table {
+    margin-bottom: 0px;
+}
+
+.md-editor {
+    border: 0px solid #2B4DB4 !important;
+    padding: 0px;
+}
+
+.md-header {
+    padding: 6px !important;
+    background:white !important;
+}
+
+.md-preview {
+
+    border-top: 0px !important;
+    border-bottom: 0px !important;
+}
+pre {
+    background-color: white !important;
+    border: 0px !important;
+    border-radius: 0px !important;
+}
+
+.navbar-default{
+    background:#4169E1 !important;
+    border-top:0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px !important;
+    /* border-bottom: 2px solid #2B4DB4; */
+}
+.navbar-default a{
+    color: whitesmoke !important;
+}
+
+.input-search{
+    background: #2B4DB4;
+    color: white;
+    border:1px solid #2B4DB4 !important;
+}
+
+div{
+    border-radius: 2px !important;
+}
+
+.btn{
+    border-radius: 2px !important;
+}
+
+.btn-search{
+    border:1px solid #4169E1 !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.tbl-thead{
+    /* background:#4169E1;
+    color:white; */
+}
+
+.my-breadcrumb{
+    background: white;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    /* padding-left: 10px !important; */
+}
+
+.panel-heading{
+    background: white !important;
+}
+
+.table-responsive {
+    margin-bottom: 0px;
+    border: 0px;
+}
+
+.icon-bar{
+    background: whitesmoke !important;
+}
+
+.navbar-toggle {
+    border:0px !important;
+    background: #2B4DB4 !important;
+}
+
+body{
+    background: #eee;
+}
+
+.form-control{
+    border-radius: 2px !important;
+}
+
+.panel-body-login{
+    background: #4169E1;
+    padding: 5px 10px 5px 10px;
+}
+
+.panel-body-login input{
+    background: #2B4DB4;
+    border: 1px solid #2B4DB4;
+    color: whitesmoke;
+}

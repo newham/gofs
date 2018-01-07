@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "HeadTemp"}}
+</head>
+
+<body>
+    {{template "Nav2Temp"}}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">About</div>
+                    <div class="panel-body" style="padding:10px;">
+                        <ul>
+                            <li>1.This is a HTTP file server</li>
+                            <li>2.You can edit,delete,update,download file</li>
+                            <li>3.You can use bash shell like console to create folder&file</li>
+                            <li>4.Every readme.md file in a folder will be show in page</li>
+                            <li>5.You can search file by name</li>
+                            <a href="/">[Back]</a>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">License</div>
+                    <div class="panel-body" style="padding:10px;">
+                        <pre class="pre-scrollable">
+                        {{.License}}
+                        </pre>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

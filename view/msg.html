@@ -1,0 +1,16 @@
+{{define "MsgTemp"}}
+
+
+<!--msg-->
+{{if ne .Msg.Type 0}} {{if eq .Msg.Type 1}}
+<div class="alert alert-success">
+    {{end}} {{if eq .Msg.Type 2}}
+    <div class="alert alert-danger">
+        {{end}}
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{.Msg.Text}}
+    </div>
+    {{end}}
+
+    <!--end msg-->
+
+    {{end}}

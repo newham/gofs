@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="gofs">
+    <meta name="author" content="han.liu">
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="159.99.105.108">-->
+    <link rel="icon" href="public/img/icon.ico">
+
+    <title>Http File Server</title>
+    <!--css-->
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="public/css/fileinput.min.css" rel="stylesheet">-->
+    <link href="public/css/site.css" rel="stylesheet">
+    <link href="public/css/bootstrap-markdown.min.css" rel="stylesheet">
+
+    <!--js-->
+    <script src="public/js/jquery.min.js"></script>
+    <script src="public/js/bootstrap.min.js"></script>
+    <!--<script src="public/js/fileinput.min.js"></script>-->
+    <script src="public/js/markdown.js"></script>
+    <script src="public/js/bootstrap-markdown.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!--breadcrumb-->
+                <div class="panel" style="margin-top:20px;">
+                    <ol class="breadcrumb my-breadcrumb">
+                        <li>
+                            <a href="history.back()" class="btn btn-xs btn-primary">
+                                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+                <!--pannle-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{.FileName}}
+                    </div>
+                    <div class="panel-body" style="padding:0px;">
+                        <form action="/edit?type=save" method="POST" id="editForm">
+                            <textarea id="edit-textarea" rows="32" name="text" style="padding: 10px;"></textarea>
+                            <input type="hidden" name="name" value="{{.FileName}}">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#edit-textarea").markdown({
+            autofocus: true,
+            savable: true,
+            onShow: function (e) {
+                e.setContent("{{.FileText}}");
+            },
+            onSave: function (e) {
+                $('#editForm').submit();
+            },
+        });
+    </script>
+</body>
+
+</html>
