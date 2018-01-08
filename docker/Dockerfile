@@ -8,4 +8,4 @@ EXPOSE 8087
 
 WORKDIR /gofs
 
-ENTRYPOINT /gofs/gofs
+ENTRYPOINT /github.com/newham/gofs/gofs

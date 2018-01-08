@@ -1,7 +1,7 @@
 package router
 
 import (
-	"gofs/controllers"
+	"github.com/newham/gofs/controllers"
 	"net/http"
 	"strings"
 )

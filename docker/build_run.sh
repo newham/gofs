@@ -23,7 +23,7 @@ docker rmi $image:$version
 echo "build docker"
 docker build -t $image:$version .
 echo "run docker"
-docker run --name $image -p $outport:$inport -v /gofs/files:$savedfilepath -d $image:$version
+docker run --name $image -p $outport:$inport -v /github.com/newham/gofs/files:$savedfilepath -d $image:$version
 
 rm -rdf copy
 

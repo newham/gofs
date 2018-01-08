@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gofs/api"
-	_ "gofs/router"
+	"github.com/newham/gofs/api"
+	_ "github.com/newham/gofs/router"
 	"net/http"
 )
 

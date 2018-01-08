@@ -17,7 +17,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gofs/api"
+	"github.com/newham/gofs/api"
 )
 
 const (
