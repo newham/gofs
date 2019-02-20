@@ -506,20 +506,27 @@ func getHtml(name string) *template.Template {
 }
 
 func getParentDirectory(dirctory string) string {
-	path := path.Dir(path.Dir(dirctory))
-	if !strings.HasSuffix(path, "/") {
-		path = path + "/"
+	p := path.Dir(path.Dir(dirctory))
+	if !strings.HasSuffix(p, "/") {
+		p = p + "/"
 	}
-	// println("ParentDirectory:" + path)
-	return path
+	return p
 }
 func getCurrentDirectory(file string) string {
-	path := path.Dir(file)
-	if !strings.HasSuffix(path, "/") {
-		path = path + "/"
+	p := path.Dir(file)
+	if !strings.HasSuffix(p, "/") {
+		p = p + "/"
 	}
-	// println("CurrentDirectory:" + path)
-	return path
+	return p
+}
+func getFileDirectory(file string) string {
+	p := path.Dir(file)
+	// println("file=",file,"p=",p)
+	p = strings.Replace(p, ROOT_PATH, "", -1 )
+	if !strings.HasSuffix(p, "/") {
+		p = p + "/"
+	}
+	return p
 }
 func readFile(filePath string) string {
 	f, _ := os.OpenFile(filePath, os.O_RDONLY, 0777)
@@ -703,10 +710,9 @@ func search(key string) []File {
 		}
 
 		if strings.Contains(fi.Name(), key) {
-			filename := strings.Replace(filename, "\\", "/", -1)[5:]
-			// println(filename)
+			filename := strings.Replace(filename, "\\", "/", -1)
 			fileType := getType(filename)
-			result = append(result, File{filename, formatSize(fi.Size()), getCurrentDirectory(filename), fi.ModTime().String()[:16], fileType, isEditable(fileType)})
+			result = append(result, File{getFileName(filename), formatSize(fi.Size()), getFileDirectory(filename), fi.ModTime().String()[:16], fileType, isEditable(fileType)})
 			return nil
 		}
 

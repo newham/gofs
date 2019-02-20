@@ -18,6 +18,7 @@
             <thead>
                 <tr>
                     <th class="td-do">Do</th>
+                    <th>Path</th>
                     <th colspan="2">Search Results</th>
                 </tr>
             </thead>
@@ -25,19 +26,22 @@
                 {{range $k, $v := .Results}}
                 <tr>
                     <td class="td-do">
-                        {{if $v.Editable}}
-                        <a href="/edit?name={{$v.Name}}&type=open">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </a> | {{end}}
-                        <a href="/download?name={{$v.Name}}&type=file" download="{{$v.Name}}">
+                        <a href="javascript:if(confirm('Ensure Delete  [{{$v.Name}}]?'))location='/del?name={{$v.Path}}{{$v.Name}}'">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a> |
+                        <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}">
                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                         </a> |
-                        <a href="javascript:if(confirm('Ensure Delete  [{{$v.Name}}]?'))location='/del?name={{$v.Name}}'">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
+                        {{if $v.Editable}}
+                        <a href="/edit?name={{$v.Path}}{{$v.Name}}&type=open">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a> {{end}}
                     </td>
                     <td>
-                        <a href="/download?name={{$v.Name}}&type=file" class="a-file" download="{{$v.Name}}">
+                        {{$v.Path}}
+                    </td>
+                    <td>
+                        <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" class="a-file" download="{{$v.Name}}">
                             <span class="glyphicon glyphicon-file" aria-hidden="true"></span> &nbsp{{$v.Name}}</a>
                     </td>
 
