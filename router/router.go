@@ -1,9 +1,10 @@
 package router
 
 import (
-	"github.com/newham/gofs/controllers"
 	"net/http"
 	"strings"
+
+	"github.com/newham/gofs/controllers"
 )
 
 func init() {
@@ -33,14 +34,14 @@ func BaseController(w http.ResponseWriter, r *http.Request) {
 	//router
 	if strings.HasPrefix(uri, "/folder") {
 		controllers.FolderController(w, r)
+	} else if strings.HasPrefix(uri, "/file") {
+		controllers.FileController(w, r)
 	} else if strings.HasPrefix(uri, "/download") {
 		controllers.DownloadController(w, r)
 	} else if strings.HasPrefix(uri, "/del") {
 		controllers.DelController(w, r)
 	} else if strings.HasPrefix(uri, "/upload") {
 		controllers.UploadController(w, r)
-	} else if strings.HasPrefix(uri, "/bash") {
-		controllers.BashController(w, r)
 	} else if strings.HasPrefix(uri, "/search") {
 		controllers.SearchController(w, r)
 	} else if strings.HasPrefix(uri, "/edit") {
@@ -52,4 +53,7 @@ func BaseController(w http.ResponseWriter, r *http.Request) {
 	} else {
 		controllers.HttpController(w, r)
 	}
+	// else if strings.HasPrefix(uri, "/bash") {
+	// 	controllers.BashController(w, r)
+	// }
 }

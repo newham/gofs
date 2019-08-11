@@ -67,15 +67,18 @@ pre {
 }
 
 .navbar-default{
-    background:#4169E1 !important;
+    margin-bottom: 5px;
+    background:#eee !important;
+    border-bottom:0px;
     border-top:0px;
     border-left: 0px;
     border-right: 0px;
     border-radius: 0px !important;
+    color: #2B4DB4;
     /* border-bottom: 2px solid #2B4DB4; */
 }
 .navbar-default a{
-    color: whitesmoke !important;
+    color: #2B4DB4 !important;
 }
 
 .input-search{
@@ -85,11 +88,11 @@ pre {
 }
 
 div{
-    border-radius: 2px !important;
+    border-radius: 15px !important;
 }
 
 .btn{
-    border-radius: 2px !important;
+    border-radius: 15px !important;
 }
 
 .btn-search{
@@ -105,7 +108,7 @@ div{
 
 .my-breadcrumb{
     background: white;
-    border-radius: 0px;
+    border-radius: 15px;
     margin-bottom: 0px;
     /* padding-left: 10px !important; */
 }
@@ -133,7 +136,7 @@ body{
 }
 
 .form-control{
-    border-radius: 2px !important;
+    border-radius: 15px !important;
 }
 
 .panel-body-login{
@@ -145,4 +148,47 @@ body{
     background: #2B4DB4;
     border: 1px solid #2B4DB4;
     color: whitesmoke;
+}
+
+.input-group input{
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.input-group button{
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.panel-heading{
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.modal-header{
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.modal-footer{
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.fade{
+    border-radius:0px !important;
+}
+
+.fade.in{
+    border-radius:0px !important;
+}
+
+.panel-body{
+    border-radius:0px !important;
+}
+
+.pannel-footer{
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+    padding: 10px;
 }

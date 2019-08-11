@@ -1,0 +1,10 @@
+{{define "SearchBar"}}
+<form method="POST" action="/search">
+    <div class="input-group" style="margin-bottom: 20px;">
+        <input type="text" class="form-control" placeholder="keywords" name="key">
+        <span class="input-group-btn">
+            <button class="btn btn-success" type="submit">Search</button>
+        </span>
+    </div>
+</form>
+{{end}}

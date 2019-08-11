@@ -36,7 +36,7 @@ var SESSION_MAP = map[string]string{}
 
 var SESSION_FILE api.Config
 
-var EDITABLE_TYPE = []string{"txt", "md", "markdown","h", "c","cpp","c++", "go", "xml", "json","java", "conf", "ini", "css", "js", "sh", "py","log"}
+var EDITABLE_TYPE = []string{"txt", "md", "markdown", "h", "c", "cpp", "c++", "go", "xml", "json", "java", "conf", "ini", "css", "js", "sh", "py", "log"}
 
 type Msg struct {
 	Text string
@@ -131,14 +131,14 @@ func hasSession(r *http.Request) bool {
 
 func CheckSession(w http.ResponseWriter, r *http.Request) bool {
 	//read config,need_login if false,do not check session
-	if !api.AppConfig.DefaultBool("need_login",false){
+	if !api.AppConfig.DefaultBool("need_login", false) {
 		return true
 	}
 	//check session
 	if hasSession(r) {
 		return true
 	} else {
-		err := getHtml("login").Execute(w, map[string]string{"Msg": "ERROR:Login first!","Type":"text-danger"})
+		err := getHtml("login").Execute(w, map[string]string{"Msg": "ERROR:Login first!", "Type": "text-danger"})
 		if err != nil {
 			panic(err)
 		}
@@ -155,16 +155,16 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 	var msg interface{}
 	var code int
 	if username == "" || password == "" || confirmPassword != password {
-		code = 400 
-		msg = map[string]string{"Msg": "ERROR:username or password wrong!","Type":"text-danger"}
+		code = 400
+		msg = map[string]string{"Msg": "ERROR:username or password wrong!", "Type": "text-danger"}
 	} else {
 		err := api.AppendString(USER_FILE, fmt.Sprintf("%s,%s\n", username, password))
 		if err != nil {
 			code = 500
-			msg = map[string]string{"Msg": "ERROR:save user failed!","Type":"text-danger"}
+			msg = map[string]string{"Msg": "ERROR:save user failed!", "Type": "text-danger"}
 		} else {
 			code = 200
-			msg = map[string]string{"Msg": "SUCCESS:register","Type":"text-success"}
+			msg = map[string]string{"Msg": "SUCCESS:register", "Type": "text-success"}
 		}
 	}
 	toLogin(w, code, msg)
@@ -191,7 +191,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	var msg interface{}
 	var code int
 	if r.Method == http.MethodPost {
-		msg = map[string]string{"Msg": "ERROR:wrong username or password!","Type":"text-danger"}
+		msg = map[string]string{"Msg": "ERROR:wrong username or password!", "Type": "text-danger"}
 		code = 400
 
 	} else {
@@ -203,7 +203,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 }
 
 func checkUserPwd(username, password string) bool {
-	if username == "" || password == ""{
+	if username == "" || password == "" {
 		return false
 	}
 	str, err := api.ReadString(USER_FILE)
@@ -336,19 +336,73 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func FolderController(w http.ResponseWriter, r *http.Request) {
-	folderName := r.FormValue("name")
-	format := r.FormValue("format")
-	if format == "json" {
-		b, _ := json.Marshal(CommonResponse{getMsg(""), getFolder(folderName)})
-		w.WriteHeader(200)
-		w.Write(b)
-	} else {
-		getHtml("").Execute(w, CommonResponse{getMsg(""), getFolder(folderName)})
+func FileController(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		fileName := r.FormValue("name")
+		path := r.FormValue("path")
+		filePath := ROOT_PATH + path + fileName
 
+		msg := " created success"
+		code := 200
+
+		if api.IsFileExist(filePath) {
+			msg = " created failed : file existed"
+			code = 400
+		} else {
+			_, err := os.Create(filePath)
+
+			if err != nil {
+				msg = " created failed :" + err.Error()
+				code = 400
+			}
+		}
+
+		getHtml("").Execute(w, CommonResponse{getMsg(fileName + msg), getFolder(path)})
+
+		log(code, "file", msg)
+	}
+}
+
+func FolderController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		folderName := r.FormValue("name")
+		format := r.FormValue("format")
+		if format == "json" {
+			b, _ := json.Marshal(CommonResponse{getMsg(""), getFolder(folderName)})
+			w.WriteHeader(200)
+			w.Write(b)
+		} else {
+			getHtml("").Execute(w, CommonResponse{getMsg(""), getFolder(folderName)})
+
+		}
+
+		log(200, "folder", folderName)
+	} else if r.Method == http.MethodPost {
+		folderName := r.FormValue("name")
+		path := r.FormValue("path")
+		filePath := ROOT_PATH + path + folderName
+
+		msg := " created success"
+		code := 200
+
+		if api.IsFileExist(filePath) {
+			msg = " created failed : folder existed"
+			code = 400
+		} else {
+			err := os.MkdirAll(filePath, 0777)
+
+			if err != nil {
+				msg = " created failed :" + err.Error()
+				code = 400
+			}
+		}
+
+		getHtml("").Execute(w, CommonResponse{getMsg(folderName + msg), getFolder(path)})
+
+		log(code, "folder", msg)
 	}
 
-	log(200, "folder", folderName)
 }
 
 func BashController(w http.ResponseWriter, r *http.Request) {
@@ -496,7 +550,7 @@ func getHtml(name string) *template.Template {
 		}
 		return t
 	default:
-		t, err := template.ParseFiles("view/index.html", "view/head.html", "view/nav.html", "view/folder.html", "view/msg.html", "view/markdown.html")
+		t, err := template.ParseFiles("view/index.html", "view/head.html", "view/nav.html", "view/folder.html", "view/msg.html", "view/markdown.html", "view/bar.html")
 		if err != nil {
 			panic(err)
 		}
@@ -522,7 +576,7 @@ func getCurrentDirectory(file string) string {
 func getFileDirectory(file string) string {
 	p := path.Dir(file)
 	// println("file=",file,"p=",p)
-	p = strings.Replace(p, ROOT_PATH, "", -1 )
+	p = strings.Replace(p, ROOT_PATH, "", -1)
 	if !strings.HasSuffix(p, "/") {
 		p = p + "/"
 	}

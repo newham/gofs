@@ -5,8 +5,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -25,33 +25,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#bashModal">
-                        <span class="glyphicon glyphicon-console" aria-hidden="true"></span> Bash</a>
-                </li>
-                <li>
                     <a href="/about">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a>
                 </li>
-                <!--
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-console" aria-hidden="true"></span> Shell<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" data-toggle="modal" data-target="#bashModal">Mkdir</a></li>
-                    </ul>
-                </li>
-                -->
             </ul>
-            <ul class="nav navbar-nav navbar-right" style="padding-left:10px;padding-right:10px;">
-                <li>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li>
                     <form class="navbar-form navbar-left" method="POST" action="/search">
                         <div class="input-group">
-                            <input type="text" class="form-control input-search" placeholder="Search" name="key">
+                            <input type="text" class="form-control input-search" placeholder="keywords" name="key">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-success btn-search">Go</button>
+                                <button type="submit" class="btn btn-success btn-search">Search</button>
                             </span>
                         </div>
                     </form>
-                </li>
+                </li> -->
                 <li>
                     <a href="/logout">logout</a>
                 </li>
@@ -68,7 +56,8 @@
 <!-- 按钮触发模态框 -->
 
 <!-- 模态框（Modal） -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,41 +75,60 @@
     <!-- /.modal -->
 </div>
 
-<div class="modal fade" id="bashModal" tabindex="-1" role="dialog" aria-labelledby="bashModalLabel" aria-hidden="true">
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="mkdirModal" tabindex="-1" role="dialog" aria-labelledby="mkdirModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="bashModalLabel">Bash Shell</h4>
-            </div>
-            <form action="/bash" method="POST">
+        <form action="/folder" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="uploadModalLabel">New Folder</h4>
+                </div>
                 <div class="modal-body">
-                    <blockquote>
-                        <label>Support</label>
-                        <ul>
-                            <li>mkdir</li>
-                            <li>touch</li>
-                            <li>rm</li>
-                        </ul>
-                    </blockquote>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">$ </span>
-                        <input name="shell" type="text" class="form-control" placeholder="bash" aria-describedby="basic-addon1">
-                    </div>
 
+                    <input name="name" type="text" class="form-control" placeholder="folder name"
+                        aria-describedby="basic-addon1">
                     <input name="path" type="hidden" value="{{$.Folder.Path}}">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal -->
 </div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="touchModal" tabindex="-1" role="dialog" aria-labelledby="touchModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/file" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="uploadModalLabel">New File</h4>
+                </div>
+                <div class="modal-body">
 
+                    <input name="name" type="text" class="form-control" placeholder="file name"
+                        aria-describedby="basic-addon1">
+                    <input name="path" type="hidden" value="{{$.Folder.Path}}">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
 <!--js-->
 
 <script src="public/js/fine-uploader.min.js"></script>
@@ -141,7 +149,7 @@
             </div>
             <div class="col-xs-6">
             <button class="btn btn-success btn-block" onclick="doUpload()">
-                    <span class="badge">step 2 </span> Update
+                    <span class="badge">step 2 </span> Do Upload
                 </button>
             </div>
         </div>

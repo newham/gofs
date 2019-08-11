@@ -11,73 +11,105 @@
         </ol>
     </div>
     <div class="panel-body" style="padding:5px;">
-        
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr class="tbl-thead">
-                        <th class="td-do">
-                            <a onclick="selectAll()" class="btn btn-xs btn-success"id="btn-all">all</a>
-                            <a onclick="deleteAll()" class="btn btn-xs btn-danger" id="btn-delete" style="display:none">delete</a>
-                        </th>
-                        <th >File</th>
+                        <th class="td-do">Action</th>
+                        <th>File</th>
                         <th class="td-size">Type</th>
                         <th class="td-size">Size</th>
                         <th class="td-time">ModTime</th>
                     </tr>
                 </thead>
                 <tbody id="folder-list">
-                
+                    <tr>
+                        <td>
+                            <a onclick="selectAll()" class="btn btn-xs btn-success" id="btn-all">√</a>
+                            <a onclick="deleteAll()" class="btn btn-xs btn-danger" id="btn-delete"
+                                style="display:none">delete</a>
+                        </td>
+                        <td colspan="4">
+                            <button href="#" data-toggle="modal" data-target="#uploadModal" class="btn btn-xs btn-primary">
+                                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload
+                                <span id="upload-info" class="badge bg-success"></span>
+                            </button>
+                            |
+                            <button href="#" data-toggle="modal" data-target="#mkdirModal" class="btn btn-xs btn-primary">
+                                <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> New Folder
+                            </button>
+                            |
+                            <button href="#" data-toggle="modal" data-target="#touchModal" class="btn btn-xs btn-primary">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> New File
+                            </button>
+                        </td>
+                    </tr>
                     {{if ne .Folder.Path "/"}}
                     <tr>
                         <td></td>
                         <td colspan="4">
-                            <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ../</a>
+                            <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open"
+                                    aria-hidden="true"></span> ../</a>
                         </td>
                     </tr>
-                    {{end}} 
-                {{if or .Folder.Folders .Folder.Files}}
+                    {{end}}
+                    {{if or .Folder.Folders .Folder.Files}}
                     {{range $k, $v := .Folder.Folders}}
                     <tr>
                         <td class="td-do">
                             <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v}}"> |
-                            <a href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                            
+                            <a
+                                href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
+                                    class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+
                         </td>
-                        <td colspan="4" >
-                            <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> &nbsp{{$v}}</a>
+                        <td colspan="4">
+                            <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span
+                                    class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> &nbsp{{$v}}</a>
                         </td>
-                        
+
                     </tr>
-                    {{end}} 
+                    {{end}}
                     {{range $k, $v := .Folder.Files}}
                     <tr>
                         <td class="td-do">
                             <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}"> |
-                            <a href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> |
-                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file"  download="{{$v.Name}}" ><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a> |
+                            <a
+                                href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
+                                    class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> |
+                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}"><span
+                                    class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a> |
                             {{if $v.Editable}}
-                            <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span
+                                    class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             {{end}}
-                            
+
                         </td>
                         <td>
-                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file"  download="{{$v.Name}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> &nbsp{{$v.Name}}</a>
+                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file"
+                                download="{{$v.Name}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                                &nbsp{{$v.Name}}</a>
                         </td>
                         <td class="td-size">&nbsp{{$v.Type}}</td>
                         <td class="td-size">&nbsp{{$v.Size}}</td>
                         <td class="td-time">&nbsp{{$v.ModTime}}</td>
-                        
+
                     </tr>
                     {{end}}
-                {{else}}
-                <tr>
-                    <td colspan="5"><h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal" data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> upload]</a> files!</h4></td></tr>      
-                {{end}}
+                    {{else}}
+                    <tr>
+                        <td colspan="5">
+                            <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal"
+                                    data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload"
+                                        aria-hidden="true"></span> upload]</a> files!</h4>
+                        </td>
+                    </tr>
+                    {{end}}
                 </tbody>
             </table>
         </div>
-        
+
     </div>
 </div>
 <!--end pannel-->
@@ -85,72 +117,72 @@
 <!--shell-->
 <!--js-->
 <script>
-    var isAll=false;
+    var isAll = false;
     /*user display:none*/
     // $('#btn-delete').hide();
-    
-    function selectAll(){
-        if(isAll){
-            $('input:checkbox').each(function() {
+
+    function selectAll() {
+        if (isAll) {
+            $('input:checkbox').each(function () {
                 this.checked = false;
             });
             setBtn(false);
-        }else{
-            $('input:checkbox').each(function() {
+        } else {
+            $('input:checkbox').each(function () {
                 this.checked = true;
             });
             setBtn(true);
         }
-        isAll=!isAll;
+        isAll = !isAll;
     }
-    function deleteAll(){
-        var files="";
-        $('input:checkbox').each(function() {
-            if(this.checked){
-                files=files+"|"+$(this).val();
+    function deleteAll() {
+        var files = "";
+        $('input:checkbox').each(function () {
+            if (this.checked) {
+                files = files + "|" + $(this).val();
             }
-            
+
         });
-        if (files==""){
+        if (files == "") {
             alert("please select one");
             return;
         }
-        if (confirm("Ensure to delete["+files+"]?")){
-            $.post( 
+        if (confirm("Ensure to delete[" + files + "]?")) {
+            $.post(
                 "/del?type=array",
                 { array: files },
-                function(data) {
+                function (data) {
                     $('body').html(data);
                 }
             )
         }
-        
+
     }
 
-    $('input:checkbox').click(function(){
-        var isChecked=false;
-        $('input:checkbox').each(function() {
-            if(this.checked){
-                isChecked=true;
-                isAll=true;
+    $('input:checkbox').click(function () {
+        var isChecked = false;
+        $('input:checkbox').each(function () {
+            if (this.checked) {
+                isChecked = true;
+                isAll = true;
             }
         });
         setBtn(isChecked);
     })
 
-    function setBtn(isChecked){
-        if(isChecked){
+    function setBtn(isChecked) {
+        if (isChecked) {
             $('#btn-all').text('X');
             $('#btn-all').removeClass("btn-success");
             $('#btn-all').addClass("btn-warning");
             $('#btn-delete').show();
-        }else{
-            $('#btn-all').text('all');
+        } else {
+            $('#btn-all').text('√');
             $('#btn-all').addClass("btn-success");
             $('#btn-all').removeClass("btn-warning");
             $('#btn-delete').hide();
         }
-            
+
     }
 </script>
 
