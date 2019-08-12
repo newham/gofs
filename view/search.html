@@ -1,60 +1,64 @@
 {{define "SearchTemp"}}
-{{template "MsgTemp" .}} 
-<!--pannle-->
-<div class="panel panel-default">
-    <div class="panel-head">
-        <!--breadcrumb-->
-        <ol class="breadcrumb my-breadcrumb">
-            <li>
-                <a href="/">
-                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                </a>
-            </li>
-        </ol>
-    </div>
-    <div class="panel-body" style="padding:5px;">
-        {{if .Results}}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="td-do">Do</th>
-                    <th>Path</th>
-                    <th colspan="2">Search Results</th>
-                </tr>
-            </thead>
-            <tbody id="folder-list">
-                {{range $k, $v := .Results}}
-                <tr>
-                    <td class="td-do">
-                        <a href="javascript:if(confirm('Ensure Delete  [{{$v.Name}}]?'))location='/del?name={{$v.Path}}{{$v.Name}}'">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a> |
-                        <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}">
-                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                        </a> |
-                        {{if $v.Editable}}
-                        <a href="/edit?name={{$v.Path}}{{$v.Name}}&type=open">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </a> {{end}}
-                    </td>
-                    <td>
-                        {{$v.Path}}
-                    </td>
-                    <td>
-                        <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" class="a-file" download="{{$v.Name}}">
-                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> &nbsp{{$v.Name}}</a>
-                    </td>
+    {{template "MsgTemp" .}}
+    <!--pannle-->
+    <div class="panel panel-default">
+        <div class="panel-head">
+            <!--breadcrumb-->
+            <ol class="breadcrumb my-breadcrumb">
+                <li>
+                    <a href="/">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ol>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                {{if .Results}}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="td-do">Do</th>
+                        <th>Path</th>
+                        <th colspan="2">Search Results</th>
+                    </tr>
+                    </thead>
+                    <tbody id="folder-list">
+                    {{range $k, $v := .Results}}
+                        <tr>
+                            <td class="td-do">
+                                <a href="javascript:if(confirm('Ensure Delete  [{{$v.Name}}]?'))location='/del?name={{$v.Path}}{{$v.Name}}'">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a> |
+                                <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}">
+                                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                                </a> |
+                                {{if $v.Editable}}
+                                    <a href="/edit?name={{$v.Path}}{{$v.Name}}&type=open">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a> {{end}}
+                            </td>
+                            <td>
+                                {{$v.Path}}
+                            </td>
+                            <td>
+                                <a href="/download?name={{$v.Path}}{{$v.Name}}&type=file" class="a-file"
+                                   download="{{$v.Name}}">
+                                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span> &nbsp{{$v.Name}}
+                                </a>
+                            </td>
 
-                </tr>
-                {{end}}
-            </tbody>
-        </table>
-        {{else}}
-        <h4 style="padding-left: 10px;">no result
-            <a href="/">[back]</a>
-            <h4 style="padding-left: 10px;">
-                {{end}}
+                        </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+                {{else}}
+            </div>
+            <h4 style="padding-left: 10px;">no result
+                <a href="/">[back]</a>
+            </h4>
+            {{end}}
+        </div>
     </div>
-</div>
 
 {{end}}

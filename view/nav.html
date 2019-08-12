@@ -41,7 +41,7 @@
                     </form>
                 </li> -->
                 <li>
-                    <a href="/logout">logout</a>
+                    <a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> logout</a>
                 </li>
 
             </ul>
@@ -88,7 +88,7 @@
                 <div class="modal-body">
 
                     <input name="name" type="text" class="form-control" placeholder="folder name"
-                        aria-describedby="basic-addon1">
+                        aria-describedby="basic-addon1" required>
                     <input name="path" type="hidden" value="{{$.Folder.Path}}">
 
                 </div>
@@ -115,7 +115,7 @@
                 <div class="modal-body">
 
                     <input name="name" type="text" class="form-control" placeholder="file name"
-                        aria-describedby="basic-addon1">
+                        aria-describedby="basic-addon1" required checked>
                     <input name="path" type="hidden" value="{{$.Folder.Path}}">
 
                 </div>

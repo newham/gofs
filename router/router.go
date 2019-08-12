@@ -51,7 +51,7 @@ func BaseController(w http.ResponseWriter, r *http.Request) {
 	} else if strings.HasPrefix(uri, "/logout") {
 		controllers.LogoutController(w, r)
 	} else {
-		controllers.HttpController(w, r)
+		controllers.HttpController(w, r, "")
 	}
 	// else if strings.HasPrefix(uri, "/bash") {
 	// 	controllers.BashController(w, r)

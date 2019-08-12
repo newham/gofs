@@ -38,6 +38,8 @@ var SESSION_FILE api.Config
 
 var EDITABLE_TYPE = []string{"txt", "md", "markdown", "h", "c", "cpp", "c++", "go", "xml", "json", "java", "conf", "ini", "css", "js", "sh", "py", "log"}
 
+const HOME = "home/"
+
 type Msg struct {
 	Text string
 	Type int
@@ -108,6 +110,16 @@ func deleteSession(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Set-Cookie", fmt.Sprintf("SESSION=%s", api.GetUUID()))
 }
 
+func getUsername(r *http.Request) string {
+	session, err := r.Cookie("SESSION")
+	if err != nil || session == nil {
+		return ""
+	} else if SESSION_MAP[session.Value] != "" {
+		return SESSION_MAP[session.Value]
+	}
+	return ""
+}
+
 func setSession(username string, w http.ResponseWriter) {
 	uuid := api.GetUUID()
 	SESSION_MAP[uuid] = username
@@ -119,14 +131,7 @@ func setSession(username string, w http.ResponseWriter) {
 }
 
 func hasSession(r *http.Request) bool {
-	session, err := r.Cookie("SESSION")
-	if err != nil || session == nil {
-		return false
-	} else if SESSION_MAP[session.Value] != "" {
-		return true
-	}
-	return false
-
+	return getUsername(r) != ""
 }
 
 func CheckSession(w http.ResponseWriter, r *http.Request) bool {
@@ -152,9 +157,10 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	confirmPassword := r.FormValue("confirmPassword")
+	token := r.FormValue("token")
 	var msg interface{}
 	var code int
-	if username == "" || password == "" || confirmPassword != password {
+	if username == "" || password == "" || confirmPassword != password || token != api.AppConfig.String("token") {
 		code = 400
 		msg = map[string]string{"Msg": "ERROR:username or password wrong!", "Type": "text-danger"}
 	} else {
@@ -184,7 +190,9 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	//check pwd
 	if checkUserPwd(username, password) {
 		setSession(username, w)
-		HttpController(w, r)
+		mkhome(username)
+		//HttpController(w, r, username)
+		redirectPath(w, r, getHome(username))
 		return
 	}
 	//set msg
@@ -200,6 +208,13 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	}
 	//return html
 	toLogin(w, code, msg)
+}
+
+func mkhome(username string) {
+	path := ROOT_PATH + getHome(username)
+	if !api.IsFileExist(path) {
+		os.MkdirAll(path, 0666)
+	}
 }
 
 func checkUserPwd(username, password string) bool {
@@ -244,9 +259,12 @@ func AboutController(w http.ResponseWriter, r *http.Request) {
 	log(200, "about", "")
 }
 
-func HttpController(w http.ResponseWriter, r *http.Request) {
+func HttpController(w http.ResponseWriter, r *http.Request, username string) {
+	if username == "" {
+		username = getUsername(r)
+	}
 	//1.
-	err := getHtml("").Execute(w, CommonResponse{getMsg(""), getFolder("/")})
+	err := getHtml("").Execute(w, CommonResponse{getMsg(""), getFolder(getHome(username))})
 	//2.
 	// err = t.Execute(w, &CommonResponse{"Hello World"})
 	if err != nil {
@@ -313,12 +331,16 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(fileName, "/") {
 			currentPath = getParentDirectory(fileName)
 		}
+		if !checkPermission(w, r, currentPath) {
+			return
+		}
 		for _, v := range array {
 			if err := os.RemoveAll(ROOT_PATH + v); err != nil {
 				panic(err)
 			}
 		}
-		getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + "array" + "] Success"), getFolder(currentPath)})
+		//getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + "array" + "] Success"), getFolder(currentPath)})
+		redirectPath(w, r, currentPath)
 		log(200, "del", "array")
 	} else {
 		fileName := r.FormValue("name")
@@ -331,9 +353,17 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 		} else {
 			currentPath = getCurrentDirectory(fileName)
 		}
-		getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + fileName + "] Success"), getFolder(currentPath)})
+		if !checkPermission(w, r, currentPath) {
+			return
+		}
+		//getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + fileName + "] Success"), getFolder(currentPath)})
+		redirectPath(w, r, currentPath)
 		log(200, "del", fileName)
 	}
+}
+
+func redirectPath(w http.ResponseWriter, r *http.Request, path string) {
+	http.Redirect(w, r, "/folder?name="+path, 301)
 }
 
 func FileController(w http.ResponseWriter, r *http.Request) {
@@ -341,6 +371,10 @@ func FileController(w http.ResponseWriter, r *http.Request) {
 		fileName := r.FormValue("name")
 		path := r.FormValue("path")
 		filePath := ROOT_PATH + path + fileName
+
+		if !checkPermission(w, r, path+fileName) {
+			return
+		}
 
 		msg := " created success"
 		code := 200
@@ -357,9 +391,10 @@ func FileController(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		getHtml("").Execute(w, CommonResponse{getMsg(fileName + msg), getFolder(path)})
+		//getHtml("").Execute(w, CommonResponse{getMsg(fileName + msg), getFolder(path)})
+		redirectPath(w, r, path)
 
-		log(code, "file", msg)
+		log(code, "file", fileName+msg)
 	}
 }
 
@@ -368,6 +403,11 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		folderName := r.FormValue("name")
 		format := r.FormValue("format")
+
+		if !checkPermission(w, r, folderName) {
+			return
+		}
+
 		if format == "json" {
 			b, _ := json.Marshal(CommonResponse{getMsg(""), getFolder(folderName)})
 			w.WriteHeader(200)
@@ -382,6 +422,10 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 		folderName := r.FormValue("name")
 		path := r.FormValue("path")
 		filePath := ROOT_PATH + path + folderName
+
+		if !checkPermission(w, r, path+folderName) {
+			return
+		}
 
 		msg := " created success"
 		code := 200
@@ -400,7 +444,7 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 
 		getHtml("").Execute(w, CommonResponse{getMsg(folderName + msg), getFolder(path)})
 
-		log(code, "folder", msg)
+		log(code, "folder", folderName+msg)
 	}
 
 }
@@ -456,7 +500,11 @@ func BashController(w http.ResponseWriter, r *http.Request) {
 
 func SearchController(w http.ResponseWriter, r *http.Request) {
 	fileName := r.FormValue("key")
-	result := search(fileName)
+	path := getHome(getUsername(r))
+	if getUsername(r) == "admin" {
+		path = ""
+	}
+	result := search(path, fileName)
 	if len(result) > 0 {
 		getHtml("search").Execute(w, SearchResponse{getMsg("Search [" + fileName + "] Success"), result})
 		log(200, "search", fileName)
@@ -484,6 +532,27 @@ func EditController(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func checkPermission(w http.ResponseWriter, r *http.Request, path string) bool {
+	username := getUsername(r)
+	if username == "admin" {
+		return true
+	}
+	res := strings.HasPrefix(path, getHome(username))
+	if !res {
+		getHtml("").Execute(w, CommonResponse{getMsg("open failed , permission denied"), getFolder(getHome(getUsername(r)))})
+		log(403, "folder", path)
+	}
+	return res
+}
+
+func getHome(username string) string {
+	home := "/" + HOME + username
+	if !strings.HasSuffix(home, "/") {
+		home += "/"
+	}
+	return home
+}
+
 func getFileName(path string) string {
 	return path[strings.LastIndex(path, "/")+1:]
 }
@@ -502,7 +571,7 @@ func getFolder(path string) Folder {
 		if fi.IsDir() {
 			folders = append(folders, fi.Name()+"/")
 		} else {
-			if strings.Contains(strings.ToLower(fi.Name()), "readme") {
+			if strings.ToLower(fi.Name()) == "readme.md" {
 				f, _ := os.OpenFile(ROOT_PATH+path+fi.Name(), os.O_RDONLY, 0777)
 				defer f.Close()
 				b, _ := ioutil.ReadAll(f)
@@ -750,8 +819,8 @@ func DoZlibCompress(src []byte) []byte {
 	return in.Bytes()
 }
 
-func search(key string) []File {
-	dirPth := ROOT_PATH
+func search(path string, key string) []File {
+	dirPth := ROOT_PATH + path
 	result := make([]File, 0, 10)
 
 	filepath.Walk(dirPth, func(filename string, fi os.FileInfo, err error) error { //遍历目录
@@ -763,7 +832,7 @@ func search(key string) []File {
 			return nil
 		}
 
-		if strings.Contains(fi.Name(), key) {
+		if strings.Contains(strings.ToLower(fi.Name()), strings.ToLower(key)) {
 			filename := strings.Replace(filename, "\\", "/", -1)
 			fileType := getType(filename)
 			result = append(result, File{getFileName(filename), formatSize(fi.Size()), getFileDirectory(filename), fi.ModTime().String()[:16], fileType, isEditable(fileType)})

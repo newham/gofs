@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-xs-12">
-                <div style="margin-top:10%;margin-bottom: 8%;" class="text-primary">
+                <div style="margin-top:10%;margin-bottom: 8%;" class="text-primary text-center">
                     <h2>GOFS</h2>
                 </div>
                 <form class="form" role="form" action="/login" method="POST">
@@ -20,19 +20,17 @@
                         <input type="password" name="password" class="form-control" id="password"
                             placeholder="password">
                     </div>
-                    <button type="submit" class="btn btn-success btn-block">sigin</button>
+                    <button type="submit" class="btn btn-success btn-block">sign in</button>
                 </form>
-                <br>
-                do not have account?
+
                 <!-- <a href="#" data-toggle="modal" data-target="#registerModal">register</a> -->
-                <a onclick="showRegister()" href="#">sigup</a>
-
-
                 {{if .Msg}}
-
-                <strong class="{{.Type}}">{{.Msg}}</strong>
-
+                    <br>
+                    <strong class="{{.Type}}">{{.Msg}}</strong>
+                    <br>
                 {{end}}
+                <br>
+                do not have account? <a onclick="showRegister()" href="#">sign up</a>
                 <br>
                 <br>
 
@@ -62,7 +60,7 @@
                     </div>
                     <div class="form-group">
 
-                        <button type="submit" class="btn btn-primary btn-block">register</button>
+                        <button type="submit" class="btn btn-primary btn-block">sign up</button>
 
                     </div>
                 </form>
