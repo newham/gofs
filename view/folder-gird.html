@@ -1,0 +1,182 @@
+{{define "FolderTemp"}}
+
+
+    <!--pannle-->
+
+    <!--end pannel-->
+    <div class="panel" id="gird-view">
+        <div class="panel-head">
+            <!--bread-->
+            <ol class="breadcrumb my-breadcrumb">
+                <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a> {{.Folder.Path}}
+                </li>
+            </ol>
+        </div>
+        <div style="padding-left:15px; ">
+            <a onclick="selectAll()" class="btn btn-xs btn-success" id="btn-all">√</a>
+            <a onclick="deleteAll()" class="btn btn-xs btn-danger" id="btn-delete"
+               style="display:none">delete</a>
+            <button href="#" data-toggle="modal" data-target="#uploadModal"
+                    class="btn btn-xs btn-primary">
+                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload
+                <span id="upload-info" class="badge bg-success"></span>
+            </button>
+            <button href="#" data-toggle="modal" data-target="#mkdirModal"
+                    class="btn btn-xs btn-primary">
+                <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> New Folder
+            </button>
+            <button href="#" data-toggle="modal" data-target="#touchModal"
+                    class="btn btn-xs btn-primary">
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> New File
+            </button>
+        </div>
+        <div class="panel-body" style="padding: 20px !important;">
+
+            <div class="row">
+                {{if ne .Folder.Path "/"}}
+                    <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
+                        <a href="/folder?name={{.Folder.Up}}">
+                            <img src="/public/img/folder.png" class="grid-img">
+                            <div class="grid-title">
+                                ../
+                            </div>
+                        </a>
+                    </div>
+                {{end}}
+                {{range $k, $v := .Folder.Folders}}
+                    <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
+                        <a href="/folder?name={{$.Folder.Path}}{{$v}}">
+                            <img src="/public/img/folder.png" class="grid-img">
+                            <div class="grid-title">
+                                {{$v}}
+                            </div>
+                        </a>
+                        <div class="grid-footer">
+                            <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v}}">
+                            <a
+                                    href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
+                                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                        </div>
+
+                    </div>
+                {{end}}
+                {{range $k, $v := .Folder.Files}}
+                    <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
+                        <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}">
+                            <img src="/public/img/file.png" class="grid-img">
+
+
+                            <div class="grid-title">
+                                {{$v.Name}}
+                            </div>
+                        </a>
+                        <div class="grid-footer">
+
+                            <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}">
+                            <a
+                                    href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
+                                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            {{if $v.Editable}}
+                                <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span
+                                            class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            {{end}}
+
+
+                        </div>
+
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+    <!--shell-->
+    <!--js-->
+    <script>
+        var isAll = false;
+        /*user display:none*/
+        // $('#btn-delete').hide();
+
+        function selectAll() {
+            if (isAll) {
+                $('input:checkbox').each(function () {
+                    this.checked = false;
+                    // $(this).hide();
+                });
+                setBtn(false);
+            } else {
+                $('input:checkbox').each(function () {
+                    this.checked = true;
+                    // $(this).show();
+                });
+                setBtn(true);
+            }
+            isAll = !isAll;
+        }
+
+        function deleteAll() {
+            var files = "";
+            $('input:checkbox').each(function () {
+                if (this.checked) {
+                    files = files + "|" + $(this).val();
+                }
+
+            });
+            if (files == "") {
+                alert("please select one");
+                return;
+            }
+            if (confirm("Ensure to delete[" + files + "]?")) {
+                $.post(
+                    "/del?type=array",
+                    {array: files},
+                    function (data) {
+                        $('body').html(data);
+                    }
+                )
+            }
+
+        }
+
+        $('input:checkbox').click(function () {
+            var isChecked = false;
+            $('input:checkbox').each(function () {
+                if (this.checked) {
+                    isChecked = true;
+                    isAll = true;
+                }
+            });
+            setBtn(isChecked);
+        })
+
+        function setBtn(isChecked) {
+            if (isChecked) {
+                $('#btn-all').text('X');
+                $('#btn-all').removeClass("btn-success");
+                $('#btn-all').addClass("btn-warning");
+                $('#btn-delete').show();
+            } else {
+                $('#btn-all').text('√');
+                $('#btn-all').addClass("btn-success");
+                $('#btn-all').removeClass("btn-warning");
+                $('#btn-delete').hide();
+            }
+
+        }
+
+        var isGird = true;
+
+        function view() {
+            if (isGird) {
+                $('#gird-view').show();
+                $('#table-view').hide();
+            } else {
+                $('#gird-view').hide();
+                $('#table-view').show();
+            }
+            isGird = !isGird;
+        }
+
+        view();
+    </script>
+
+{{end}}

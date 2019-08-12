@@ -40,9 +40,29 @@
                         </div>
                     </form>
                 </li> -->
-                <li>
-                    <a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> logout</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                        View
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/folder?t=grid&name={{$.Folder.Path}}">
+                                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                                 grid
+                            </a></li>
+                        <li><a href="/folder?t=table&name={{$.Folder.Path}}"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> table</a></li>
+                    </ul>
                 </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        {{$.Username}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> logout</a></li>
+                    </ul>
+                </li>
+
 
             </ul>
         </div>
