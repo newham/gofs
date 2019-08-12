@@ -213,7 +213,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 func mkhome(username string) {
 	path := ROOT_PATH + getHome(username)
 	if !api.IsFileExist(path) {
-		os.MkdirAll(path, 0666)
+		os.MkdirAll(path, 0777)
 	}
 }
 
