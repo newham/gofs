@@ -277,6 +277,9 @@ func HttpController(w http.ResponseWriter, r *http.Request, username string) {
 func DownloadController(w http.ResponseWriter, r *http.Request) {
 	fileName := r.FormValue("name")
 	fileType := r.FormValue("type")
+	if !checkPermission(w, r, fileName) {
+		return
+	}
 	if fileType == "file" {
 		w.Header().Set(HEADER_CONTENT_DISPOSITION, fmt.Sprintf("attachment; filename=%s", getFileName(fileName)))
 		http.ServeFile(w, r, ROOT_PATH+fileName)
@@ -539,8 +542,9 @@ func checkPermission(w http.ResponseWriter, r *http.Request, path string) bool {
 	}
 	res := strings.HasPrefix(path, getHome(username))
 	if !res {
+		w.WriteHeader(http.StatusUnauthorized)
 		getHtml("").Execute(w, CommonResponse{getMsg("open failed , permission denied"), getFolder(getHome(getUsername(r)))})
-		log(403, "folder", path)
+		log(http.StatusUnauthorized, "folder", path)
 	}
 	return res
 }
