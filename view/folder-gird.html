@@ -7,7 +7,7 @@
 
     <div class="row" style="padding: 10px 20px 0px 20px;">
         {{if ne .Folder.Path "/"}}
-            <div class="col-lg-1 col-md-2 col-xs-2 grid-box">
+            <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
                 <a href="/folder?name={{.Folder.Up}}">
                     <div class="grid-bg">
                         <img src="/public/img/folder.png" class="grid-img-folder">
@@ -19,7 +19,7 @@
             </div>
         {{end}}
         {{range $k, $v := .Folder.Folders}}
-            <div class="col-lg-1 col-md-2 col-xs-2 grid-box">
+            <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
                 <div class="grid-bg">
                     <a href="/folder?name={{$.Folder.Path}}{{$v}}">
                         <img src="/public/img/folder.png" class="grid-img-folder">
@@ -38,7 +38,7 @@
             </div>
         {{end}}
         {{range $k, $v := .Folder.Files}}
-            <div class="col-lg-1 col-md-2 col-xs-2 grid-box">
+            <div class="col-lg-1 col-md-2 col-xs-3 grid-box">
                 <div class="grid-bg">
                     <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}">
                         <img src="/public/img/file.png" class="grid-img-file">
