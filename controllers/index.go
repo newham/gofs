@@ -319,7 +319,7 @@ func HttpController(w http.ResponseWriter, r *http.Request, username string) {
 		username = getUsername(r)
 	}
 	//1.
-	err := getHtml("", "").Execute(w, CommonResponse{getMsg(""), getFolder(getHome(username)), username})
+	err := getHtml("", getSession(r).GetView()).Execute(w, CommonResponse{getMsg(""), getFolder(getHome(username)), username})
 	//2.
 	// err = t.Execute(w, &CommonResponse{"Hello World"})
 	if err != nil {
