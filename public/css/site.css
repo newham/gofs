@@ -164,9 +164,9 @@ body {
 }
 
 .input-group {
-    -moz-box-shadow: 0px 1px 15px #bbb;
-    -webkit-box-shadow: 0px 1px 15px #bbb;
-    box-shadow: 0px 1px 15px #bbb;
+    /*-moz-box-shadow: 0px 1px 15px #bbb;*/
+    /*-webkit-box-shadow: 0px 1px 15px #bbb;*/
+    /*box-shadow: 0px 1px 15px #bbb;*/
 }
 
 .input-group input {
@@ -300,7 +300,7 @@ tbody {
 
 .action-bar {
     padding: 5px;
-    text-align: center;
+    /*text-align: center;*/
     background: #eee;
     border-radius: 0px !important;
     border-bottom: 1px solid #dedede;

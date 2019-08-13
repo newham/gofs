@@ -10,20 +10,35 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            {{template "SearchBar"}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
             {{template "MsgTemp" .}}
-            {{template "FolderTemp" .}}
+            <!--pannle-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <!--bread-->
+                    <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a> {{.Folder.Path}}
+                    <div class="pull-right">
+                        <a href="/folder?t=grid&name={{$.Folder.Path}}">
+                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                        </a>
+                        /
+                        <a href="/folder?t=table&name={{$.Folder.Path}}">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                {{template "SearchBar"}}
+                <div class="panel-body">
+                    {{template "FolderTemp" .}}
+                </div>
+            </div>
             {{if .Folder.Readme.Text}}
                 {{template "MarkdownTemp" .}}
             {{end}}
         </div>
     </div>
 </div>
-
+{{/*script*/}}
+<script src="public/js/folder.js"></script>
 </body>
 
 </html>
