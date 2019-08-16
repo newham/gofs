@@ -6,39 +6,42 @@
 </head>
 
 <body>
-{{template "NavTemp" .}}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            {{template "MsgTemp" .}}
-            <!--pannle-->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!--bread-->
-                    <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a> {{.Folder.Path}}
-                    <div class="pull-right">
-                        <a href="/folder?t=grid&name={{$.Folder.Path}}">
-                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                        </a>
-                        /
-                        <a href="/folder?t=table&name={{$.Folder.Path}}">
-                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                        </a>
+    {{template "NavTemp" .}}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {{template "MsgTemp" .}}
+                <!--pannle-->
+                <div class="panel panel-default">
+                    <div class="panel-heading action-box">
+                        {{template "SearchBar"}}
+                    </div>
+                    <div class="path-bar">
+                        <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+                        {{.Folder.Path}}
+                        <div class="pull-right">
+                            <a href="/folder?t=grid&name={{$.Folder.Path}}">
+                                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                            </a>
+                            /
+                            <a href="/folder?t=table&name={{$.Folder.Path}}">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        {{template "FolderTemp" .}}
                     </div>
                 </div>
-                {{template "SearchBar"}}
-                <div class="panel-body">
-                    {{template "FolderTemp" .}}
-                </div>
-            </div>
-            {{if .Folder.Readme.Text}}
+
+                {{if .Folder.Readme.Text}}
                 {{template "MarkdownTemp" .}}
-            {{end}}
+                {{end}}
+            </div>
         </div>
     </div>
-</div>
-{{/*script*/}}
-<script src="public/js/folder.js"></script>
+    {{/*script*/}}
+    <script src="public/js/folder.js"></script>
 </body>
 
 </html>

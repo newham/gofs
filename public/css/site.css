@@ -61,12 +61,6 @@
     background: white !important;
 }
 
-.md-preview {
-
-    border-top: 0px !important;
-    border-bottom: 0px !important;
-}
-
 pre {
     background-color: white !important;
     border: 0px !important;
@@ -124,9 +118,9 @@ div {
     /*padding-left: 5px;*/
 }
 
-.panel-heading {
-    background: white !important;
-}
+/* .panel-default .panel-heading {
+    background: #f5f5f5 !important;
+} */
 
 .panel-body {
     padding: 0px !important;
@@ -139,7 +133,7 @@ div {
 }
 
 body {
-    background: #eee;
+    background: #efefef;
 }
 
 .form-control {
@@ -158,9 +152,9 @@ body {
 }
 
 .panel {
-    -moz-box-shadow: 0px 10px 30px #bbb;
-    -webkit-box-shadow: 0px 10px 30px #bbb;
-    box-shadow: 0px 10px 30px #bbb;
+    -moz-box-shadow: 0px 1px 10px #bbb;
+    -webkit-box-shadow: 0px 1px 10px #bbb;
+    box-shadow: 0px 1px 10px #bbb;
 }
 
 .input-group {
@@ -250,9 +244,9 @@ tbody {
 .grid-bg:hover {
     background: #eee;
     border-radius: 5px !important;
-    -moz-box-shadow: 0px 1px 10px #bbb;
+    /* -moz-box-shadow: 0px 1px 10px #bbb;
     -webkit-box-shadow: 0px 1px 10px #bbb;
-    box-shadow: 0px 1px 10px #bbb;
+    box-shadow: 0px 1px 10px #bbb; */
 }
 
 .grid-bg:hover a {
@@ -296,19 +290,33 @@ tbody {
 .md-preview {
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
+    border-top: 0px !important;
+    border-bottom: 0px !important;
+    padding: 10px;
+}
+
+.action-box{
+    padding: 0px;
+    background: #f5f5f5 !important;
 }
 
 .action-bar {
     padding: 5px;
     /*text-align: center;*/
-    background: #efefef;
-    border-radius: 0px !important;
-    border-bottom: 1px solid #dedede;
+    /* background: #f5f5f5; */
+    /* border-radius: 0px !important; */
+    /* border-bottom: 1px solid #dedede; */
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
 }
 
 .path-bar {
     /*text-align: center;*/
     /*margin-left: 5px;*/
+    padding: 5px 10px;
+    background: #f5f5f5;
+    border-radius: 0px !important;
+    border-bottom: 1px solid #dedede;
 }
 
 .btn-left{
@@ -319,4 +327,20 @@ tbody {
 .btn-right{
     border-bottom-right-radius: 15px !important;
     border-top-right-radius: 15px !important;
+}
+
+.btn-lg-left{
+    border-bottom-left-radius: 22px !important;
+    border-top-left-radius: 22px !important;
+}
+
+.btn-lg-right{
+    border-bottom-right-radius: 22px !important;
+    border-top-right-radius: 22px !important;
+}
+
+.panel-login{
+    padding: 10px;
+    margin-top:10%;
+    /* background: #4169E1; */
 }

@@ -373,7 +373,7 @@ func UploadController(w http.ResponseWriter, r *http.Request) {
 	defer f.Close()
 	//3.copy uploadfile to localfile
 	io.Copy(f, file)
-	log(200, "upload", handle.Filename)
+	log(200, "upload", path+handle.Filename)
 	// getHtml("").Execute(w, CommonResponse{"success", getFolder(path)})
 	w.WriteHeader(http.StatusOK)
 	// w.Write([]byte("{\"status\":\"success\"}"))
@@ -399,7 +399,7 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 		}
 		//getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + "array" + "] Success"), getFolder(currentPath)})
 		redirectPath(w, r, currentPath)
-		log(200, "del", "array")
+		log(200, "rm", strings.Join(array,","))
 	} else {
 		fileName := r.FormValue("name")
 		var currentPath string
@@ -416,7 +416,7 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 		}
 		//getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + fileName + "] Success"), getFolder(currentPath)})
 		redirectPath(w, r, currentPath)
-		log(200, "del", fileName)
+		log(200, "rm", fileName)
 	}
 }
 
@@ -434,25 +434,13 @@ func FileController(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		msg := " created success"
-		code := 200
+		cmd:="touch"
 
-		if api.IsFileExist(filePath) {
-			msg = " created failed : file existed"
-			code = 400
-		} else {
-			_, err := os.Create(filePath)
+		code,msg:=fileBash(cmd,filePath)
 
-			if err != nil {
-				msg = " created failed :" + err.Error()
-				code = 400
-			}
-		}
-
-		//getHtml("").Execute(w, CommonResponse{getMsg(fileName + msg), getFolder(path)})
 		redirectPath(w, r, path)
 
-		log(code, "file", fileName+msg)
+		log(code, cmd, msg)
 	}
 }
 
@@ -493,26 +481,48 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		msg := " created success"
-		code := 200
+		cmd:="mkdir"
 
-		if api.IsFileExist(filePath) {
-			msg = " created failed : folder existed"
-			code = 400
-		} else {
-			err := os.MkdirAll(filePath, 0777)
-
-			if err != nil {
-				msg = " created failed :" + err.Error()
-				code = 400
-			}
-		}
+		code,msg:=fileBash(cmd,filePath)
 
 		redirectPath(w, r, path)
 
-		log(code, "folder", folderName+msg)
+		log(code, cmd, msg)
 	}
 
+}
+
+func fileBash(cmd string,filePath string)(int,string){
+	var msg string
+	var code int
+	var err error
+	switch cmd {
+	case "mkdir":
+		err = os.MkdirAll(filePath, 0777)
+	case "touch":
+		if checkFileIsExist(filePath) {
+			err = errors.New("")
+		} else {
+			_, err = os.Create(filePath)
+		}
+
+	case "rm":
+		if !checkFileIsExist(filePath) {
+			err = errors.New("")
+		} else {
+			err = os.RemoveAll(filePath)
+		}
+	default:
+		err = errors.New("")
+	}
+	if err != nil {
+		msg = " error:"+err.Error()
+		code = 400
+	} else {
+		msg = ""
+		code = 200
+	}
+	return code,filePath+msg
 }
 
 func BashController(w http.ResponseWriter, r *http.Request) {

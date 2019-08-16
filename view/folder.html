@@ -4,93 +4,87 @@
 
 
 
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
             <tr class="tbl-thead">
-                <th class="td-do">Action</th>
                 <th>File</th>
                 <th class="td-size">Type</th>
                 <th class="td-size">Size</th>
-                <th class="td-time">ModTime</th>
+                <th class="td-time">Last Modified</th>
+                <th class="td-do">Action</th>
             </tr>
-            </thead>
-            <tbody id="folder-list">
+        </thead>
+        <tbody id="folder-list">
             {{if ne .Folder.Path "/"}}
-                <tr>
-                    <td></td>
-                    <td colspan="4">
-                        <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open"
-                                                                    aria-hidden="true"></span> ../</a>
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="5">
+                    <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open"
+                            aria-hidden="true"></span> ../</a>
+                </td>
+            </tr>
             {{end}}
             {{if or .Folder.Folders .Folder.Files}}
-                {{range $k, $v := .Folder.Folders}}
-                    <tr>
-                        <td class="td-do">
-                            <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v}}"> |
-                            <a
-                                    href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
-                                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            {{range $k, $v := .Folder.Folders}}
+            <tr>
+                <td colspan="4">
+                    <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span class="glyphicon glyphicon-folder-close"
+                            aria-hidden="true"></span>
+                        &nbsp{{$v}}</a>
+                </td>
+                <td class="td-do">
+                    <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v}}"> |
+                    <a
+                        href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
+                            class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 
-                        </td>
-                        <td colspan="4">
-                            <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span
-                                        class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
-                                &nbsp{{$v}}</a>
-                        </td>
-
-                    </tr>
-                {{end}}
-                {{range $k, $v := .Folder.Files}}
-                    <tr>
-                        <td class="td-do">
-                            <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}"> |
-                            <a
-                                    href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
-                                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> |
-                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file"
-                               download="{{$v.Name}}"><span
-                                        class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
-                            |
-                            {{if $v.Editable}}
-                                <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span
-                                            class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            {{end}}
-
-                        </td>
-                        <td>
-                            <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file"
-                               download="{{$v.Name}}"><span class="glyphicon glyphicon-file"
-                                                            aria-hidden="true"></span>
-                                &nbsp{{$v.Name}}</a>
-                        </td>
-                        <td class="td-size">&nbsp{{$v.Type}}</td>
-                        <td class="td-size">&nbsp{{$v.Size}}</td>
-                        <td class="td-time">&nbsp{{$v.ModTime}}</td>
-
-                    </tr>
-                {{end}}
-            {{else}}
-                <tr>
-                    <td colspan="5">
-                        <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal"
-                                                                                    data-target="#uploadModal">[<span
-                                        class="glyphicon glyphicon-cloud-upload"
-                                        aria-hidden="true"></span> upload]</a> files!</h4>
-                    </td>
-                </tr>
+                </td>
+            </tr>
             {{end}}
-            </tbody>
-        </table>
-    </div>
+            {{range $k, $v := .Folder.Files}}
+            <tr>
+                <td>
+                    <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file"
+                        download="{{$v.Name}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                        &nbsp{{$v.Name}}</a>
+                </td>
+                <td class="td-size">&nbsp{{$v.Type}}</td>
+                <td class="td-size">&nbsp{{$v.Size}}</td>
+                <td class="td-time">&nbsp{{$v.ModTime}}</td>
+                <td class="td-do">
+                    <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}"> |
+                    <a
+                        href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
+                            class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> |
+                    <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}"><span
+                            class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
+                    |
+                    {{if $v.Editable}}
+                    <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span class="glyphicon glyphicon-edit"
+                            aria-hidden="true"></span></a>
+                    {{end}}
+
+                </td>
+            </tr>
+            {{end}}
+            {{else}}
+            <tr>
+                <td colspan="5">
+                    <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal"
+                            data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload"
+                                aria-hidden="true"></span> upload]</a> files!</h4>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
 
 
-    <!--end pannel-->
+<!--end pannel-->
 
-    <!--shell-->
-    <!--js-->
+<!--shell-->
+<!--js-->
 
 
 {{end}}

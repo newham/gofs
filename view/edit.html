@@ -34,21 +34,12 @@
                 <!--pannle-->
                 <div class="panel panel-default" style="margin-top: 30px;">
                     <div class="panel-heading">
-                        <ol class="breadcrumb my-breadcrumb" style="padding: 0px !important;">
-                            <li>
-                                <a href="history.back()" class="btn btn-xs btn-primary">
-                                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/">
-                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                                </a>
-                            </li>
-                            <li>
-                                {{.FileName}}
-                            </li>
-                        </ol>
+                        <a href="history.back()" class="btn btn-xs btn-primary">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                        </a>
+
+                        {{.FileName}}
+
                     </div>
                     <div class="panel-body" style="padding:0px;">
                         <form action="/edit?type=save" method="POST" id="editForm">
