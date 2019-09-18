@@ -768,45 +768,15 @@ func checkErr(err error) {
 }
 
 func formatSize(size int64) string {
-	const len = 1024
-	var b, kb, mb, gb, tb, n int64
-	var result string
-
-	if size < len {
-		b = size
-		n = 1
-	} else if size/len < len {
-		kb = size / len
-		n = 2
-	} else if kb/len < len {
-		mb = size / (len * len)
-		n = 3
-	} else if mb/len < len {
-		gb = size / (len * len * len)
-		n = 4
-	} else {
-		tb = size / (len * len * len * len)
-		n = 5
+	var K int64 = 1024
+	uMap:=map[string]int64{"B":1,"KB":K,"MB":K*K,"GB":K*K*K,"TB":K*K*K*K}
+	for k,v:=range(uMap){
+		r := size/v
+		if r<K && r>0{
+			return fmt.Sprintf("%d%s",r,k)
+		}
 	}
-
-	switch n {
-	case 1:
-		result = strconv.FormatInt(b, 10) + "B"
-		break
-	case 2:
-		result = strconv.FormatInt(kb, 10) + "KB"
-		break
-	case 3:
-		result = strconv.FormatInt(mb, 10) + "MB"
-		break
-	case 4:
-		result = strconv.FormatInt(gb, 10) + "GB"
-		break
-	case 5:
-		result = strconv.FormatInt(tb, 10) + "TB"
-		break
-	}
-	return result
+	return "0B"
 }
 
 func getType(fileName string) string {
