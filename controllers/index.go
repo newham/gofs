@@ -239,7 +239,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	//check pwd
 	if checkUserPwd(username, password) {
-		setSession(NewSession(username, VIEW_GRID), w)
+		setSession(NewSession(username, VIEW_TBL), w)
 		mkhome(username)
 		//HttpController(w, r, username)
 		redirectPath(w, r, getHome(username))
@@ -331,17 +331,27 @@ func HttpController(w http.ResponseWriter, r *http.Request, username string) {
 func DownloadController(w http.ResponseWriter, r *http.Request) {
 	fileName := r.FormValue("name")
 	fileType := r.FormValue("type")
+	shareKey := r.FormValue("shareKey")
+
+	if shareKey != "" && shareMap[shareKey] != "" {
+		serveFile(w, r, shareMap[shareKey])
+		log(200, "shareKey", shareKey+":"+shareMap[shareKey])
+		return
+	}
 	if !checkPermission(w, r, fileName) {
 		return
 	}
 	if fileType == "file" {
-		w.Header().Set(HEADER_CONTENT_DISPOSITION, fmt.Sprintf("attachment; filename=%s", getFileName(fileName)))
-		http.ServeFile(w, r, ROOT_PATH+fileName)
+		serveFile(w, r, fileName)
 		log(200, "file", fileName)
 	} else if fileType == "folder" {
 
 	}
+}
 
+func serveFile(w http.ResponseWriter, r *http.Request, fileName string) {
+	w.Header().Set(HEADER_CONTENT_DISPOSITION, fmt.Sprintf("attachment; filename=%s", getFileName(fileName)))
+	http.ServeFile(w, r, ROOT_PATH+fileName)
 }
 
 func UploadController(w http.ResponseWriter, r *http.Request) {
@@ -398,7 +408,7 @@ func DelController(w http.ResponseWriter, r *http.Request) {
 		}
 		//getHtml("").Execute(w, CommonResponse{getMsg("Delete [" + "array" + "] Success"), getFolder(currentPath)})
 		redirectPath(w, r, currentPath)
-		log(200, "rm", strings.Join(array,","))
+		log(200, "rm", strings.Join(array, ","))
 	} else {
 		fileName := r.FormValue("name")
 		var currentPath string
@@ -433,9 +443,9 @@ func FileController(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		cmd:="touch"
+		cmd := "touch"
 
-		code,msg:=fileBash(cmd,filePath)
+		code, msg := fileBash(cmd, filePath)
 
 		redirectPath(w, r, path)
 
@@ -480,9 +490,9 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		cmd:="mkdir"
+		cmd := "mkdir"
 
-		code,msg:=fileBash(cmd,filePath)
+		code, msg := fileBash(cmd, filePath)
 
 		redirectPath(w, r, path)
 
@@ -491,7 +501,7 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func fileBash(cmd string,filePath string)(int,string){
+func fileBash(cmd string, filePath string) (int, string) {
 	var msg string
 	var code int
 	var err error
@@ -515,13 +525,13 @@ func fileBash(cmd string,filePath string)(int,string){
 		err = errors.New("")
 	}
 	if err != nil {
-		msg = " error:"+err.Error()
+		msg = " error:" + err.Error()
 		code = 400
 	} else {
 		msg = ""
 		code = 200
 	}
-	return code,filePath+msg
+	return code, filePath + msg
 }
 
 func BashController(w http.ResponseWriter, r *http.Request) {
@@ -604,6 +614,34 @@ func EditController(w http.ResponseWriter, r *http.Request) {
 			msg = "Edit [" + fileName + "] Failed"
 		}
 		getHtml("", "").Execute(w, CommonResponse{getMsg(msg), getFolder(getCurrentDirectory(fileName)), getUsername(r)})
+	}
+}
+
+var shareMap = map[string]string{}
+var shareIndexMap = map[string]string{}
+
+func ShareController(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		fileName := r.FormValue("name")
+
+		if !checkPermission(w, r, fileName) {
+			return
+		}
+		shareKey := shareIndexMap[fileName]
+		if shareKey == "" {
+			shareKey = api.GetUUID()
+			shareMap[shareKey] = fileName
+			shareIndexMap[fileName] = shareKey
+		}
+
+		w.Header().Set("content-type", "application/json")
+		b, _ := json.Marshal(map[string]string{
+			"file":     fileName,
+			"shareKey": shareKey,
+		})
+		w.Write(b)
+
+		log(200, "share", fileName)
 	}
 }
 
@@ -696,7 +734,7 @@ func getHtml(name string, t string) *template.Template {
 		return t
 	default:
 		v := "view/folder.html"
-		if t == "" || t == VIEW_GRID {
+		if t == VIEW_GRID {
 			v = "view/folder-gird.html"
 		}
 		t, err := template.ParseFiles("view/index.html", "view/head.html", "view/nav.html", v, "view/msg.html", "view/markdown.html", "view/bar.html")
@@ -768,11 +806,11 @@ func checkErr(err error) {
 
 func formatSize(size int64) string {
 	var K int64 = 1024
-	uMap:=map[string]int64{"B":1,"KB":K,"MB":K*K,"GB":K*K*K,"TB":K*K*K*K}
-	for k,v:=range(uMap){
-		r := size/v
-		if r<K && r>0{
-			return fmt.Sprintf("%d%s",r,k)
+	uMap := map[string]int64{"B": 1, "KB": K, "MB": K * K, "GB": K * K * K, "TB": K * K * K * K}
+	for k, v := range uMap {
+		r := size / v
+		if r < K && r > 0 {
+			return fmt.Sprintf("%d%s", r, k)
 		}
 	}
 	return "0B"

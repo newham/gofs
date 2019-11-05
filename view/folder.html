@@ -18,9 +18,14 @@
         <tbody id="folder-list">
             {{if ne .Folder.Path "/"}}
             <tr>
-                <td colspan="5">
+                <td colspan="4">
                     <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open"
                             aria-hidden="true"></span> ../</a>
+                </td>
+                <td>
+                        <a href="#" onclick="selectAll()" id="btn-all">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </a>
                 </td>
             </tr>
             {{end}}
@@ -62,7 +67,11 @@
                     {{if $v.Editable}}
                     <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span class="glyphicon glyphicon-edit"
                             aria-hidden="true"></span></a>
+                    |
                     {{end}}
+                    
+                    <a onclick="share('{{$.Folder.Path}}{{$v.Name}}')" href="#"><span
+                        class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
 
                 </td>
             </tr>

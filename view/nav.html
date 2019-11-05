@@ -1,37 +1,37 @@
 {{define "NavTemp"}}
 
-    <!--nav-->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">GoFS</a>
-            </div>
+<!--nav-->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">GoFS</a>
+        </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#uploadModal">
-                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload
-                            <span id="upload-info" class="badge bg-success"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/about">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- <li>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#uploadModal">
+                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload
+                        <span id="upload-info" class="badge bg-success"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/about">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li>
                         <form class="navbar-form navbar-left" method="POST" action="/search">
                             <div class="input-group">
                                 <input type="text" class="form-control input-search" placeholder="keywords" name="key">
@@ -41,122 +41,144 @@
                             </div>
                         </form>
                     </li> -->
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                            View
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/folder?t=grid&name={{$.Folder.Path}}">
-                                    <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                                    grid
-                                </a></li>
-                            <li><a href="/folder?t=table&name={{$.Folder.Path}}"><span
-                                            class="glyphicon glyphicon-th-list" aria-hidden="true"></span> table</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            {{$.Username}}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                                    logout</a></li>
-                        </ul>
-                    </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                        View
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/folder?t=grid&name={{$.Folder.Path}}">
+                                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                                grid
+                            </a></li>
+                        <li><a href="/folder?t=table&name={{$.Folder.Path}}"><span class="glyphicon glyphicon-th-list"
+                                    aria-hidden="true"></span> table</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        {{$.Username}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                logout</a></li>
+                    </ul>
+                </li>
 
 
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+            </ul>
         </div>
-        <!-- /.container-fluid -->
-    </nav>
-    <!--end-->
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<!--end-->
 
-    <!--moda-->
-    <!-- 按钮触发模态框 -->
+<!--moda-->
+<!-- 按钮触发模态框 -->
 
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="uploadModalLabel">Upload</h4>
+            </div>
+            <div class="modal-body">
+                <div id="fine-uploader">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="mkdirModal" tabindex="-1" role="dialog" aria-labelledby="mkdirModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/folder" method="POST">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="uploadModalLabel">Upload</h4>
+                    <h4 class="modal-title" id="mkdirModalLabel">New Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="fine-uploader">
-                    </div>
-                </div>
 
+                    <input name="name" type="text" class="form-control" placeholder="folder name"
+                        aria-describedby="basic-addon1" required>
+                    <input name="path" type="hidden" value="{{$.Folder.Path}}">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
             </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal -->
+        </form>
+        <!-- /.modal-content -->
     </div>
-
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="mkdirModal" tabindex="-1" role="dialog" aria-labelledby="mkdirModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="/folder" method="POST">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="mkdirModalLabel">New Folder</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <input name="name" type="text" class="form-control" placeholder="folder name"
-                               aria-describedby="basic-addon1" required>
-                        <input name="path" type="hidden" value="{{$.Folder.Path}}">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
+    <!-- /.modal -->
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="touchModal" tabindex="-1" role="dialog" aria-labelledby="touchModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/file" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="touchModalLabel">New File</h4>
                 </div>
-            </form>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal -->
-    </div>
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="touchModal" tabindex="-1" role="dialog" aria-labelledby="touchModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="/file" method="POST">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="touchModalLabel">New File</h4>
-                    </div>
-                    <div class="modal-body">
+                <div class="modal-body">
 
-                        <input name="name" type="text" class="form-control" placeholder="file name"
-                               aria-describedby="basic-addon1" required checked>
-                        <input name="path" type="hidden" value="{{$.Folder.Path}}">
+                    <input name="name" type="text" class="form-control" placeholder="file name"
+                        aria-describedby="basic-addon1" required checked>
+                    <input name="path" type="hidden" value="{{$.Folder.Path}}">
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
                 </div>
-            </form>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
     </div>
-    <!--js-->
+    <!-- /.modal -->
+</div>
+<!--js-->
+<!-- 模态框（Modal）share -->
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-title" id="shareModalLabel">
+                    【Share File】:
+                    <span id="shareFileName"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input id="shareFileUrl" class="form-control" target="blank" type="text">
+            </div>
 
-    <script src="public/js/fine-uploader.min.js"></script>
-    <script type="text/template" id="qq-template">
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+
+<script src="public/js/fine-uploader.min.js"></script>
+<script type="text/template" id="qq-template">
         <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
             <!--<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
                     <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
@@ -228,52 +250,52 @@
             </dialog>
         </div>
     </script>
-    <script>
-        var fileCount = 0;
-        var uploader = new qq.FineUploader({
-            autoUpload: false,
-            debug: false,
-            element: document.getElementById('fine-uploader'),
-            request: {
-                endpoint: '/upload',
-                inputName: 'file',
-                params: {filePath: "{{$.Folder.Path}}"}
-            },
-            // validation: {
-            //     itemLimit: 5
-            // },
-            deleteFile: {
-                enabled: false,
-                endpoint: ''
-            },
-            retry: {
-                enableAuto: false
-            },
-            callbacks: {
-                onAllComplete: function (succeeded, failed) {
-                    if (failed.length == 0) {
-                        alert("Upload Success");
-                    } else {
-                        alert("Upload Failed");
-                    }
-                    window.location.href = "/folder?name={{$.Folder.Path}}";
-                },
-                onSubmitted: function (id, name) {
-                    $('#upload-info').text(++fileCount);
-                    $('#upload-info').show();
-                },
-                onCancel: function (id, name) {
-                    $('#upload-info').text(--fileCount);
-                    if (fileCount == 0) {
-                        $('#upload-info').hide();
-                    }
-
+<script>
+    var fileCount = 0;
+    var uploader = new qq.FineUploader({
+        autoUpload: false,
+        debug: false,
+        element: document.getElementById('fine-uploader'),
+        request: {
+            endpoint: '/upload',
+            inputName: 'file',
+            params: { filePath: "{{$.Folder.Path}}" }
+        },
+        // validation: {
+        //     itemLimit: 5
+        // },
+        deleteFile: {
+            enabled: false,
+            endpoint: ''
+        },
+        retry: {
+            enableAuto: false
+        },
+        callbacks: {
+            onAllComplete: function (succeeded, failed) {
+                if (failed.length == 0) {
+                    alert("Upload Success");
+                } else {
+                    alert("Upload Failed");
                 }
+                window.location.href = "/folder?name={{$.Folder.Path}}";
+            },
+            onSubmitted: function (id, name) {
+                $('#upload-info').text(++fileCount);
+                $('#upload-info').show();
+            },
+            onCancel: function (id, name) {
+                $('#upload-info').text(--fileCount);
+                if (fileCount == 0) {
+                    $('#upload-info').hide();
+                }
+
             }
-        });
-
-        function doUpload() {
-            uploader.uploadStoredFiles();
         }
+    });
 
-    </script> {{end}}
+    function doUpload() {
+        uploader.uploadStoredFiles();
+    }
+
+</script> {{end}}

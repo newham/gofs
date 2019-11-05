@@ -70,3 +70,19 @@ function setBtn(isChecked) {
 }
 
 var isGird = true;
+
+function share(filename) {
+    $.get(
+        "/share?name="+filename,
+        function (data) {
+            // alert();
+            url ="http://"+window.location.host +"/download?shareKey="+ data.shareKey;
+
+            // $('#shareFileUrl').attr("href",url); 
+            $('#shareFileName').html(data.file);
+            $('#shareFileUrl').val(url);
+            $('#shareModal').modal("show");
+            
+        }
+    )
+}
