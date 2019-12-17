@@ -183,10 +183,15 @@ func CheckSession(w http.ResponseWriter, r *http.Request) bool {
 	if !api.AppConfig.DefaultBool("need_login", false) {
 		return true
 	}
+	//auth by token
+	if checkToken(r) {
+		return true
+	}
 	//check session
 	if hasSession(r) {
 		return true
 	} else {
+		w.WriteHeader(401)
 		err := getHtml("login", "").Execute(w, map[string]string{"Msg": "ERROR:Login first!", "Type": "text-danger"})
 		if err != nil {
 			panic(err)

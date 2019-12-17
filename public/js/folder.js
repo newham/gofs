@@ -34,7 +34,7 @@ function deleteAll() {
     if (confirm("Ensure to delete[" + files + "]?")) {
         $.post(
             "/del?type=array",
-            {array: files},
+            { array: files },
             function (data) {
                 $('body').html(data);
             }
@@ -72,17 +72,30 @@ function setBtn(isChecked) {
 var isGird = true;
 
 function share(filename) {
-    $.get(
-        "/share?name="+filename,
-        function (data) {
+    $.get("/share?name=" + filename)
+        .done(function (data) {
             // alert();
-            url ="http://"+window.location.host +"/download/share?shareKey="+ data.shareKey;
+            url = "http://" + window.location.host + "/download/share?shareKey=" + data.shareKey;
 
             // $('#shareFileUrl').attr("href",url); 
             $('#shareFileName').html(data.file);
             $('#shareFileUrl').val(url);
             $('#shareModal').modal("show");
-            
-        }
-    )
+        })
+        .fail(function () {
+            window.location.href = "/";
+        });
+}
+
+function auth(f) {
+    $.get("/auth?f=" + f)
+        .done(function (data) {
+            // alert();
+            token = data;
+            $('#authToken').val(token);
+            $('#authModal').modal("show");
+        })
+        .fail(function () {
+            window.location.href = "/";
+        });
 }

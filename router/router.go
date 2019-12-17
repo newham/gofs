@@ -56,6 +56,10 @@ func BaseController(w http.ResponseWriter, r *http.Request) {
 		controllers.LogoutController(w, r)
 	} else if strings.HasPrefix(uri, "/share") {
 		controllers.ShareController(w, r)
+	} else if strings.HasPrefix(uri, "/auth") {
+		controllers.AuthController(w, r)
+	} else if strings.HasPrefix(uri, "/put") {
+		controllers.PutController(w, r)
 	} else {
 		controllers.HttpController(w, r, "")
 	}

@@ -62,6 +62,8 @@
                         {{$.Username}}
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a href="#" onclick="auth()"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                auth</a></li>
                         <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                                 logout</a></li>
                     </ul>
@@ -170,6 +172,28 @@
                 <input id="shareFileUrl" class="form-control" target="blank" type="text">
             </div>
 
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+<!-- 模态框（Modal）auth -->
+<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-title" id="authModalLabel">
+                    【Token】:
+                </div>
+            </div>
+            <div class="modal-body">
+                <input id="authToken" class="form-control" target="blank" type="text">
+            </div>
+            <div class="modal-footer">
+                <button onclick="auth('true')" type="button" class="btn btn-warning">New Token</button>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
