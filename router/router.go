@@ -27,6 +27,10 @@ func BaseController(w http.ResponseWriter, r *http.Request) {
 		controllers.RegisterController(w, r)
 		return
 	}
+	if strings.HasPrefix(uri, "/download/share") {
+		controllers.DownloadShareController(w, r)
+		return
+	}
 	//filter
 	if !controllers.CheckSession(w, r) {
 		return

@@ -76,7 +76,7 @@ function share(filename) {
         "/share?name="+filename,
         function (data) {
             // alert();
-            url ="http://"+window.location.host +"/download?shareKey="+ data.shareKey;
+            url ="http://"+window.location.host +"/download/share?shareKey="+ data.shareKey;
 
             // $('#shareFileUrl').attr("href",url); 
             $('#shareFileName').html(data.file);

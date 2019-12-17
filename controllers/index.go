@@ -328,16 +328,22 @@ func HttpController(w http.ResponseWriter, r *http.Request, username string) {
 	log(200, "folder", "/")
 }
 
-func DownloadController(w http.ResponseWriter, r *http.Request) {
-	fileName := r.FormValue("name")
-	fileType := r.FormValue("type")
+func DownloadShareController(w http.ResponseWriter, r *http.Request) {
 	shareKey := r.FormValue("shareKey")
-
 	if shareKey != "" && shareMap[shareKey] != "" {
 		serveFile(w, r, shareMap[shareKey])
 		log(200, "shareKey", shareKey+":"+shareMap[shareKey])
 		return
 	}
+	w.WriteHeader(404)
+	w.Write([]byte("404 Not Found"))
+	log(404, "shareKey", shareKey+":"+shareMap[shareKey])
+}
+
+func DownloadController(w http.ResponseWriter, r *http.Request) {
+	fileName := r.FormValue("name")
+	fileType := r.FormValue("type")
+
 	if !checkPermission(w, r, fileName) {
 		return
 	}
