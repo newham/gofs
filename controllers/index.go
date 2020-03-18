@@ -14,7 +14,9 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/newham/gofs/api"
 )
@@ -66,12 +68,13 @@ type Folder struct {
 	Readme  Readme
 }
 type File struct {
-	Name     string
-	Size     string
-	Path     string
-	ModTime  string
-	Type     string
-	Editable bool
+	Name              string
+	Size              string
+	Path              string
+	ModTime           string
+	Type              string
+	Editable          bool
+	DownloadFrequency int
 }
 type EditResponse struct {
 	FileName string
@@ -361,6 +364,7 @@ func DownloadController(w http.ResponseWriter, r *http.Request) {
 }
 
 func serveFile(w http.ResponseWriter, r *http.Request, fileName string) {
+	addDownloadFrequency(fileName)
 	w.Header().Set(HEADER_CONTENT_DISPOSITION, fmt.Sprintf("attachment; filename=%s", getFileName(fileName)))
 	http.ServeFile(w, r, ROOT_PATH+fileName)
 }
@@ -697,13 +701,14 @@ func getFolder(path string) Folder {
 			folders = append(folders, fi.Name()+"/")
 		} else {
 			if strings.ToLower(fi.Name()) == "readme.md" {
-				f, _ := os.OpenFile(ROOT_PATH+path+fi.Name(), os.O_RDONLY, 0777)
+				fullFileName := ROOT_PATH + path + fi.Name()
+				f, _ := os.OpenFile(fullFileName, os.O_RDONLY, 0777)
 				defer f.Close()
 				b, _ := ioutil.ReadAll(f)
 				readme = Readme{string(b), fi.Name()}
 			}
 			fileType := getType(fi.Name())
-			files = append(files, File{fi.Name(), formatSize(fi.Size()), path, fi.ModTime().String()[:16], fileType, isEditable(fileType)})
+			files = append(files, File{fi.Name(), formatSize(fi.Size()), path, fi.ModTime().String()[:16], fileType, isEditable(fileType), getDownloadFrequency(path + fi.Name())})
 		}
 
 	}
@@ -934,7 +939,7 @@ func search(path string, key string) []File {
 		if strings.Contains(strings.ToLower(fi.Name()), strings.ToLower(key)) {
 			filename := strings.Replace(filename, "\\", "/", -1)
 			fileType := getType(filename)
-			result = append(result, File{getFileName(filename), formatSize(fi.Size()), getFileDirectory(filename), fi.ModTime().String()[:16], fileType, isEditable(fileType)})
+			result = append(result, File{getFileName(filename), formatSize(fi.Size()), getFileDirectory(filename), fi.ModTime().String()[:16], fileType, isEditable(fileType), getDownloadFrequency(filename)})
 			return nil
 		}
 
@@ -942,4 +947,42 @@ func search(path string, key string) []File {
 	})
 
 	return result
+}
+
+var downloadFrequencyPath = "download_frequency.csv"
+
+var mu sync.Mutex
+
+func getDownloadFrequencyCsv() *api.CSV {
+	err := api.Mkfile(downloadFrequencyPath)
+	if err != nil {
+		println(err.Error())
+		return nil
+	}
+	return api.NewCSV(downloadFrequencyPath)
+}
+
+func getDownloadFrequency(name string) int {
+	name = api.GetMd5String(name)
+	csv := getDownloadFrequencyCsv()
+	frequencyStrs := csv.Get(name)
+	if len(frequencyStrs) < 2 {
+		return 0
+	}
+	frequency, err := strconv.Atoi(frequencyStrs[1])
+	if err != nil {
+		return 0
+	}
+	return frequency
+}
+
+func addDownloadFrequency(name string) {
+	name = api.GetMd5String(name)
+	mu.Lock()
+	defer mu.Unlock()
+	frequency := getDownloadFrequency(name)
+	frequency++
+	csv := getDownloadFrequencyCsv()
+	csv.Put([]string{name, strconv.Itoa(frequency)})
+	csv.Save(downloadFrequencyPath)
 }

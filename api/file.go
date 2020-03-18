@@ -40,15 +40,34 @@ func OverwriteBytes(filename string, content []byte) error {
 	return writeString(filename, string(content), -1)
 }
 
-func writeString(filename string, content string, mode int) error {
-	var f *os.File
-	var err error
+func Mkdir(filename string) error {
 	if !IsFileExist(filename) {
-		err = os.MkdirAll(filepath.Dir(filename), 0755)
+		err := os.MkdirAll(filepath.Dir(filename), 0777)
 		if err != nil {
 			println("mk dir failed ", filename, " failed,", err)
 			return err
 		}
+	}
+	return nil
+}
+
+func Mkfile(filename string) error {
+	if IsFileExist(filename) {
+		return nil
+	}
+	err := Mkdir(filename)
+	if err != nil {
+		return err
+	}
+	_, err = os.Create(filename)
+	return err
+}
+
+func writeString(filename string, content string, mode int) error {
+	var f *os.File
+	var err error
+	if err = Mkdir(filename); err != nil {
+		return err
 	}
 	if mode == 1 {
 		f, err = os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)

@@ -4,3 +4,4 @@ files/
 *.swp
 *.conf
 /.*
+download_frequency.csv

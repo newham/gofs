@@ -12,13 +12,14 @@
                 <th class="td-size">Type</th>
                 <th class="td-size">Size</th>
                 <th class="td-time">Last Modified</th>
+                <th class="td-time">Downloaded</th>
                 <th class="td-do">Action</th>
             </tr>
         </thead>
         <tbody id="folder-list">
             {{if ne .Folder.Path "/"}}
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     <a href="/folder?name={{.Folder.Up}}"><span class="glyphicon glyphicon-folder-open"
                             aria-hidden="true"></span> ../</a>
                 </td>
@@ -56,6 +57,7 @@
                 <td class="td-size">&nbsp{{$v.Type}}</td>
                 <td class="td-size">&nbsp{{$v.Size}}</td>
                 <td class="td-time">&nbsp{{$v.ModTime}}</td>
+                <td class="td-time">&nbsp{{$v.DownloadFrequency}}</td>
                 <td class="td-do">
                     <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}"> |
                     <a
