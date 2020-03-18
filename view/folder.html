@@ -33,7 +33,7 @@
             {{if or .Folder.Folders .Folder.Files}}
             {{range $k, $v := .Folder.Folders}}
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span class="glyphicon glyphicon-folder-close"
                             aria-hidden="true"></span>
                         &nbsp{{$v}}</a>
@@ -80,7 +80,7 @@
             {{end}}
             {{else}}
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal"
                             data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload"
                                 aria-hidden="true"></span> upload]</a> files!</h4>
