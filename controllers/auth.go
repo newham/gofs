@@ -6,13 +6,15 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/newham/gofs/api"
 )
 
 var TOKEN_MAP = map[string]string{}
 var TOKEN_INDEX_MAP = map[string]string{}
 
 func AuthController(w http.ResponseWriter, r *http.Request) {
-	userName := getSession(r).GetUsername()
+	userName := api.GetSession(r).GetUsername()
 	token := TOKEN_MAP[userName]
 	if token == "" || r.FormValue("f") == "true" {
 		token = fmt.Sprintf("%x", sha256.Sum256([]byte(userName+strconv.FormatInt(time.Now().UnixNano(), 10))))

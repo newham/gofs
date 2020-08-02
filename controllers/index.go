@@ -33,8 +33,6 @@ const (
 
 var ROOT_PATH = api.AppConfig.String("http_file_path")
 
-var SESSION_MAP = map[string]Session{}
-
 var SESSION_FILE api.Config
 
 var EDITABLE_TYPE = []string{"txt", "md", "markdown", "h", "c", "cpp", "c++", "go", "xml", "json", "java", "conf", "ini", "css", "js", "sh", "py", "log"}
@@ -96,91 +94,6 @@ func initRoot() {
 	}
 }
 
-func LogoutController(w http.ResponseWriter, r *http.Request) {
-	deleteSession(w, r)
-	err := getHtml("login", "").Execute(w, nil)
-	if err != nil {
-		panic(err)
-	}
-}
-
-//func ViewController(w http.ResponseWriter, r *http.Request) {
-//	t := r.FormValue("t")
-//	println(t)
-//	session := getSession(r)
-//	session.SetView(t)
-//	session.Update()
-//	log(200, "view", t)
-//	redirectPath(w, r, getHome(session.GetUsername()))
-//}
-
-type Session map[string]string
-
-func (s Session) GetUsername() string {
-	return s[USERNAME]
-}
-
-func (s Session) SetView(view string) {
-	s[VIEW] = view
-}
-
-func (s Session) GetView() string {
-	return s[VIEW]
-}
-
-func (s Session) SetId(uuid string) {
-	s[ID] = uuid
-}
-
-func (s Session) GetId() string {
-	return s[ID]
-}
-
-func (s Session) Update() {
-	SESSION_MAP[s.GetId()] = s
-}
-
-func deleteSession(w http.ResponseWriter, r *http.Request) {
-	session, err := r.Cookie("SESSION")
-	if err == nil && session != nil {
-		delete(SESSION_MAP, session.Value)
-	}
-	//init a new session,(not login)
-	w.Header().Set("Set-Cookie", fmt.Sprintf("SESSION=%s", api.GetUUID()))
-}
-
-func getSession(r *http.Request) Session {
-	session, err := r.Cookie("SESSION")
-	if err != nil || session == nil {
-		return nil
-	}
-	return SESSION_MAP[session.Value]
-}
-
-func getUsername(r *http.Request) string {
-
-	session := getSession(r)
-	if session == nil || session.GetUsername() == "" {
-		return ""
-	}
-	return session.GetUsername()
-}
-
-func setSession(session Session, w http.ResponseWriter) {
-	uuid := api.GetUUID()
-	session.SetId(uuid)
-	SESSION_MAP[uuid] = session
-	// b,_:=json.Marshal(SESSION_MAP)
-	// if !checkFileIsExist("session"){
-	// 	os.Create("session")
-	// }
-	w.Header().Set("Set-Cookie", fmt.Sprintf("SESSION=%s", uuid))
-}
-
-func hasSession(r *http.Request) bool {
-	return getUsername(r) != ""
-}
-
 func CheckSession(w http.ResponseWriter, r *http.Request) bool {
 	//read config,need_login if false,do not check session
 	if !api.AppConfig.DefaultBool("need_login", false) {
@@ -191,7 +104,7 @@ func CheckSession(w http.ResponseWriter, r *http.Request) bool {
 		return true
 	}
 	//check session
-	if hasSession(r) {
+	if api.HasSession(r) {
 		return true
 	} else {
 		w.WriteHeader(401)
@@ -204,6 +117,24 @@ func CheckSession(w http.ResponseWriter, r *http.Request) bool {
 		return false
 	}
 }
+
+func LogoutController(w http.ResponseWriter, r *http.Request) {
+	api.DeleteSession(w, r)
+	err := getHtml("login", "").Execute(w, nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+//func ViewController(w http.ResponseWriter, r *http.Request) {
+//	t := r.FormValue("t")
+//	println(t)
+//	session := api.GetSession(r)
+//	session.SetView(t)
+//	session.Update()
+//	log(200, "view", t)
+//	redirectPath(w, r, getHome(session.GetUsername()))
+//}
 
 func RegisterController(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
@@ -236,18 +167,17 @@ func toLogin(w http.ResponseWriter, code int, msg interface{}) {
 	log(code, "login", "login.html")
 }
 
-const USERNAME = "username"
-const VIEW = "view"
-const VIEW_GRID = "grid"
-const VIEW_TBL = "table"
-const ID = "id"
+const (
+	VIEW_GRID = "grid"
+	VIEW_TBL  = "table"
+)
 
 func LoginController(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	//check pwd
 	if checkUserPwd(username, password) {
-		setSession(NewSession(username, VIEW_TBL), w)
+		api.SetSession(api.NewSession(username, VIEW_TBL), w)
 		mkhome(username)
 		//HttpController(w, r, username)
 		redirectPath(w, r, getHome(username))
@@ -266,10 +196,6 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	}
 	//return html
 	toLogin(w, code, msg)
-}
-
-func NewSession(username string, view string) Session {
-	return map[string]string{USERNAME: username, VIEW: view}
 }
 
 func mkhome(username string) {
@@ -323,10 +249,10 @@ func AboutController(w http.ResponseWriter, r *http.Request) {
 
 func HttpController(w http.ResponseWriter, r *http.Request, username string) {
 	if username == "" {
-		username = getUsername(r)
+		username = api.GetUsername(r)
 	}
 	//1.
-	err := getHtml("", getSession(r).GetView()).Execute(w, CommonResponse{getMsg(""), getFolder(getHome(username)), username})
+	err := getHtml("", api.GetSession(r).GetView()).Execute(w, CommonResponse{getMsg(""), getFolder(getHome(username)), username})
 	//2.
 	// err = t.Execute(w, &CommonResponse{"Hello World"})
 	if err != nil {
@@ -474,7 +400,7 @@ func FolderController(w http.ResponseWriter, r *http.Request) {
 		folderName := r.FormValue("name")
 		format := r.FormValue("format")
 		t := r.FormValue("t")
-		session := getSession(r)
+		session := api.GetSession(r)
 		if t == "" {
 			t = session.GetView()
 		} else {
@@ -593,15 +519,15 @@ func BashController(w http.ResponseWriter, r *http.Request) {
 		code = 200
 	}
 
-	getHtml("", "").Execute(w, CommonResponse{getMsg(shell + msg), getFolder(path), getUsername(r)})
+	getHtml("", "").Execute(w, CommonResponse{getMsg(shell + msg), getFolder(path), api.GetUsername(r)})
 
 	log(code, "bash", shell+msg)
 }
 
 func SearchController(w http.ResponseWriter, r *http.Request) {
 	fileName := r.FormValue("key")
-	path := getHome(getUsername(r))
-	if getUsername(r) == "admin" {
+	path := getHome(api.GetUsername(r))
+	if api.GetUsername(r) == "admin" {
 		path = ""
 	}
 	result := search(path, fileName)
@@ -628,7 +554,7 @@ func EditController(w http.ResponseWriter, r *http.Request) {
 		} else {
 			msg = "Edit [" + fileName + "] Failed"
 		}
-		getHtml("", "").Execute(w, CommonResponse{getMsg(msg), getFolder(getCurrentDirectory(fileName)), getUsername(r)})
+		getHtml("", "").Execute(w, CommonResponse{getMsg(msg), getFolder(getCurrentDirectory(fileName)), api.GetUsername(r)})
 	}
 }
 
@@ -661,14 +587,14 @@ func ShareController(w http.ResponseWriter, r *http.Request) {
 }
 
 func checkPermission(w http.ResponseWriter, r *http.Request, path string) bool {
-	username := getUsername(r)
+	username := api.GetUsername(r)
 	if username == "admin" || !api.AppConfig.DefaultBool("need_login", false) {
 		return true
 	}
 	res := strings.HasPrefix(path, getHome(username))
 	if !res {
 		w.WriteHeader(http.StatusUnauthorized)
-		getHtml("", getSession(r).GetView()).Execute(w, CommonResponse{getMsg("open failed , permission denied"), getFolder(getHome(getUsername(r))), username})
+		getHtml("", api.GetSession(r).GetView()).Execute(w, CommonResponse{getMsg("open failed , permission denied"), getFolder(getHome(api.GetUsername(r))), username})
 		log(http.StatusUnauthorized, "folder", path)
 	}
 	return res
