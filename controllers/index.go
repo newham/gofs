@@ -662,7 +662,7 @@ func ShareController(w http.ResponseWriter, r *http.Request) {
 
 func checkPermission(w http.ResponseWriter, r *http.Request, path string) bool {
 	username := getUsername(r)
-	if username == "admin" {
+	if username == "admin" || !api.AppConfig.DefaultBool("need_login", false) {
 		return true
 	}
 	res := strings.HasPrefix(path, getHome(username))
