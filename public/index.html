@@ -156,6 +156,7 @@
                         <div class="layout-toolbar">
                             <div class="layout-toolbar-inner">
                                 <div class="mod-nav clearfix">
+                                    <div id="btn-group-1">
                                     <div title="" class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix" style="">
                                         <div id="formFileInputCt" class="action-item">
                                             <div class="action-item-con"><i class="icon icon-upload-s"></i> <span class="act-txt">上传</span>
@@ -177,7 +178,7 @@
                                                     <div class="menu-item">
                                                         <div class="menu-item-bd">
                                                             <ul class="menu-list">
-                                                                <li class="menu-item"><span class="txt"><i class="icon icon-create-s"></i>新建文件夹</span>
+                                                                <li class="menu-item" id="btn-new-folder"><span class="txt"><i class="icon icon-create-s"></i>新建文件夹</span>
                                                                     <div class="spliter"></div>
                                                                 </li>
                                                             </ul>
@@ -219,6 +220,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div title="" class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix" style="display: none;">
@@ -252,7 +254,7 @@
                                         </div>
                                     </div>
                                     <div id="_mod_act_bar4">
-                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
+                                        <div id="btn-group-2" class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
                                             <div class="action-item">
                                                 <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
                                             </div>
@@ -649,15 +651,14 @@
                                             <div tabindex="0" class="list-group-bd" selectbox-id="5" dragdrop-id="3" scroll-bottom-id="4">
                                                 <div class="list-group-wrapper">
                                                     <ul class="list-group" id="file-list">
-                                                        <li class="list-group-item checked">
+                                                        <li class="list-group-item checked" id="new-folder" style="display: none;">
                                                             <div class="item-inner">
                                                                 <div class="item-tit">
                                                                     <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
                                                                     <div class="thumb">
-                                                                        <!---->
-                                                                        <!----><i class="icon icon-m icon-file-m"></i></div>
-                                                                    <div class="info"><a href="javascript:void(0)" title="新建文件夹1" class="tit" style="display: none;">新建文件夹1</a><br>
-                                                                        <!----><span class="fileedit"><input type="text" class="ui-input"></span></div>
+                                                                        <i class="icon icon-m icon-file-m"></i></div>
+                                                                    <div class="info"><a href="javascript:void(0)" title="新建文件夹1" class="tit" style="display: none;">新建文件夹1</a>
+                                                                        <span class="fileedit"><input type="text" class="ui-input" id="input-new-folder"></span></div>
                                                                 </div>
                                                                 <div class="item-info"><span class="item-info-list"><span class="txt txt-time">今天 20:47</span></span> <span class="item-info-list"><span class="txt txt-size">-</span></span>
                                                                     <!---->
@@ -1200,8 +1201,19 @@
         }
 
         function set_file_list(file_list) {
+            // var icon ="file"
+            // var index = 0
+            // 当存在上级目录时，显示上级目录
+            if(data.PathArray.length>1){
+                index = data.PathArray.length-2
+                $("#file-list").append(getFileLi(-1,'file',`href="/folder/${data.PathArray[index][1]}"`,"../","",""))
+            }
+            // var action = `href="/folder/${data.PathArray[index][1]}"`
+            // var f = {Name:data.PathArray[index][0],ModTime:"",Size:""}
+            
+            // $("#file-list").append(file_li)
             // $("#file-list").html('')
-            for (i = 0; i < file_list.length; i++) {
+            for ( i = 0; i < file_list.length; i++) {
                 var f = data.Files[i]
                 var icon = f.Type
                 var action = `href="/file/${f.Path}" target="blank"`
@@ -1211,27 +1223,68 @@
                 } else if (f.Type == 'pic') {
                     action = `href="javascript:void(0)" onclick="preview(${i})"`
                 }
+                $("#file-list").append( getFileLi(i,icon,action,f.Name,f.ModTime,f.Size))
+            }
+            $("#count").html(file_list.length)
+        }
 
-                var file_li = `<li class="list-group-item checked ">
+        function getFileLi(i,icon,action,name,mod_time,size){
+            var check = `<i class="icon icon-check-s icon-checkbox" onclick="check_file(${i})"></i>`
+            if(i ==-1){
+                check= '<i class="icon"></i>'
+            }
+            var file_li = `<li class="list-group-item checked" id="check-${i}">
                                 <div class="item-inner">
                                     <div class="item-tit">
-                                        <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
+                                        <div class="label">
+                                            ${check}
+                                        </div>
                                         <div class="thumb">
-                                            <!---->
-                                            <!----><i class="icon icon-m icon-${icon}-m"></i></div>
-                                        <div class="info"><a ${action} title="${f.Name}" class="tit">${f.Name}</a><br>
-                                            <!---->
-                                            <!---->
+                                            <i class="icon icon-m icon-${icon}-m"></i></div>
+                                        <div class="info">
+                                            <a ${action} title="${name}" class="tit">${name}</a><br>
                                         </div>
                                     </div>
-                                    <div class="item-info"><span class="item-info-list"><span class="txt txt-time">${f.ModTime}</span></span> <span class="item-info-list"><span class="txt txt-size">${f.Size}</span></span>
-                                        <!---->
+                                    <div class="item-info"><span class="item-info-list">
+                                        <span class="txt txt-time">${mod_time}</span></span> 
+                                        <span class="item-info-list"><span class="txt txt-size">${size}</span></span>
                                     </div>
                                 </div>
                             </li>`
-                $("#file-list").append(file_li)
+            return file_li
+        }
+
+        var btn_group_show = 1
+
+        var checked_map = new Map()
+
+        var checked_count = 0
+
+        function check_file(i){
+            console.log('check:',i)
+            switch_class(`check-${i}`,'act')
+            if($(`#check-${i}`).hasClass('act')){
+                // console.log(data.Files[i].Path)
+                checked_map.set(i,data.Files[i].Path)
+                checked_count++
+            }else{
+                // console.log('delete',checked_map.get(i))
+                checked_map.delete(i)
+                checked_count--
             }
-            $("#count").html(file_list.length)
+            // console.log(btn_group_show)
+            if(btn_group_show == 1){
+                $('#btn-group-1').hide()
+                $('#btn-group-2').show()
+                btn_group_show = 2
+            }else{
+                console.log('checked_map')
+                if(checked_count==0){
+                    $('#btn-group-2').hide()
+                    $('#btn-group-1').show()
+                    btn_group_show = 1
+                }
+            }
         }
 
         $(document).ready(() => {
@@ -1301,6 +1354,31 @@
         $('#btn-img-pre').click((e) => {
             img_to(-1)
         })
+
+        $("#btn-new-folder").click((e) => {
+            $("#new-folder").show()
+            $("#input-new-folder").focus()
+        })
+
+        $("#input-new-folder").blur(function(){
+            $("#new-folder").hide()
+        });
+
+        function new_folder(){
+            $("#new-folder").hide()
+            console.log('new folder')
+        }
+
+        
+
+        $('#input-new-folder').keydown(function(e){
+            if(e.keyCode==13){ //inter
+                new_folder()
+                return false
+            }else if(e.keyCode==27){ //esc
+                $("#new-folder").hide()
+            }
+        });
     </script>
 
 
