@@ -6,8 +6,8 @@
 </head>
 
 <body>
-    {{template "NavTemp" .}}
-    <div class="container">
+
+    <div class="main">
         <div class="row">
             <div class="col-xs-12">
                 {{template "MsgTemp" .}}
@@ -17,8 +17,7 @@
                         {{template "SearchBar"}}
                     </div>
                     <div class="path-bar">
-                        <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
-                        {{.Folder.Path}}
+                        <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a> {{.Folder.Path}}
                         <div class="pull-right">
                             <a href="/folder?t=grid&name={{$.Folder.Path}}">
                                 <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
@@ -34,9 +33,7 @@
                     </div>
                 </div>
 
-                {{if .Folder.Readme.Text}}
-                {{template "MarkdownTemp" .}}
-                {{end}}
+                {{if .Folder.Readme.Text}} {{template "MarkdownTemp" .}} {{end}}
             </div>
         </div>
     </div>

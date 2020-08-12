@@ -24,14 +24,12 @@
                             aria-hidden="true"></span> ../</a>
                 </td>
                 <td>
-                        <a href="#" onclick="selectAll()" id="btn-all">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </a>
+                    <a href="#" onclick="selectAll()" id="btn-all">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
                 </td>
             </tr>
-            {{end}}
-            {{if or .Folder.Folders .Folder.Files}}
-            {{range $k, $v := .Folder.Folders}}
+            {{end}} {{if or .Folder.Folders .Folder.Files}} {{range $k, $v := .Folder.Folders}}
             <tr>
                 <td colspan="5">
                     <a href="/folder?name={{$.Folder.Path}}{{$v}}"><span class="glyphicon glyphicon-folder-close"
@@ -40,18 +38,15 @@
                 </td>
                 <td class="td-do">
                     <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v}}"> |
-                    <a
-                        href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
+                    <a href="javascript:if(confirm('Ensure Delete  [{{$v}}]?'))location='/del?name={{$.Folder.Path}}{{$v}}'"><span
                             class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 
                 </td>
             </tr>
-            {{end}}
-            {{range $k, $v := .Folder.Files}}
+            {{end}} {{range $k, $v := .Folder.Files}}
             <tr>
                 <td>
-                    <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file"
-                        download="{{$v.Name}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                    <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" class="a-file" download="{{$v.Name}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                         &nbsp{{$v.Name}}</a>
                 </td>
                 <td class="td-size">&nbsp{{$v.Type}}</td>
@@ -60,29 +55,22 @@
                 <td class="td-size">&nbsp{{$v.DownloadFrequency}}</td>
                 <td class="td-do">
                     <input type="checkbox" name="check-delete" value="{{$.Folder.Path}}{{$v.Name}}"> |
-                    <a
-                        href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
+                    <a href="javascript:if(confirm('Ensure Delete [{{$v.Name}}]?'))location='/del?name={{$.Folder.Path}}{{$v.Name}}'"><span
                             class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> |
                     <a href="/download?name={{$.Folder.Path}}{{$v.Name}}&type=file" download="{{$v.Name}}"><span
-                            class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
-                    |
-                    {{if $v.Editable}}
+                            class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a> | {{if $v.Editable}}
                     <a href="/edit?name={{$.Folder.Path}}{{$v.Name}}&type=open"><span class="glyphicon glyphicon-edit"
-                            aria-hidden="true"></span></a>
-                    |
-                    {{end}}
-                    
+                            aria-hidden="true"></span></a> | {{end}}
+
                     <a onclick="share('{{$.Folder.Path}}{{$v.Name}}')" href="#"><span
                         class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
 
                 </td>
             </tr>
-            {{end}}
-            {{else}}
+            {{end}} {{else}}
             <tr>
                 <td colspan="6">
-                    <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal"
-                            data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload"
+                    <h4 style="padding-left: 10px;">There's no files, please <a href="#" data-toggle="modal" data-target="#uploadModal">[<span class="glyphicon glyphicon-cloud-upload"
                                 aria-hidden="true"></span> upload]</a> files!</h4>
                 </td>
             </tr>

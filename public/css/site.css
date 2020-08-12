@@ -3,20 +3,30 @@
 }
 
 .td-do {
-    width: 130px;
+    width: 140px;
     text-align: left;
 }
 
 .td-size {
     width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .td-time {
     width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .a-file {
     color: black;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .file-preview-frame {
@@ -84,14 +94,14 @@ pre {
 }
 
 .input-search {
-    border-top-left-radius: 20px !important;
-    border-bottom-left-radius: 20px !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
 }
 
 div {
-    border-radius: 15px !important;
+    border-radius: 0px !important;
 }
 
 .btn {
@@ -101,8 +111,8 @@ div {
 .btn-search {
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
-    border-top-right-radius: 15px !important;
-    border-bottom-right-radius: 15px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 
 .tbl-thead {
@@ -118,9 +128,13 @@ div {
     /*padding-left: 5px;*/
 }
 
-/* .panel-default .panel-heading {
-    background: #f5f5f5 !important;
-} */
+.panel-default .panel-heading {
+    background: #fff !important;
+}
+
+.panel {
+    /* border: none !important; */
+}
 
 .panel-body {
     padding: 0px !important;
@@ -133,11 +147,11 @@ div {
 }
 
 body {
-    background: #efefef;
+    /* background: #efefef; */
 }
 
 .form-control {
-    border-radius: 15px !important;
+    border-radius: 2px !important;
 }
 
 .panel-body-login {
@@ -204,8 +218,8 @@ body {
 }
 
 tbody {
-    border-bottom-right-radius: 15px !important;
-    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
 }
 
 .fade {
@@ -295,9 +309,9 @@ tbody {
     padding: 10px;
 }
 
-.action-box{
+.action-box {
     padding: 0px;
-    background: #f5f5f5 !important;
+    /* background: #f5f5f5 !important; */
 }
 
 .action-bar {
@@ -308,39 +322,41 @@ tbody {
     /* border-bottom: 1px solid #dedede; */
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
+    /* background: #2B4DB4; */
+    background: #4169E1;
 }
 
 .path-bar {
     /*text-align: center;*/
     /*margin-left: 5px;*/
     padding: 5px 10px;
-    background: #f5f5f5;
+    /* background: #f5f5f5; */
     border-radius: 0px !important;
     border-bottom: 1px solid #dedede;
 }
 
-.btn-left{
-    border-bottom-left-radius: 15px !important;
-    border-top-left-radius: 15px !important;
+.btn-left {
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
 }
 
-.btn-right{
-    border-bottom-right-radius: 15px !important;
-    border-top-right-radius: 15px !important;
+.btn-right {
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
-.btn-lg-left{
-    border-bottom-left-radius: 22px !important;
-    border-top-left-radius: 22px !important;
+.btn-lg-left {
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
 }
 
-.btn-lg-right{
-    border-bottom-right-radius: 22px !important;
-    border-top-right-radius: 22px !important;
+.btn-lg-right {
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
-.panel-login{
+.panel-login {
     padding: 10px;
-    margin-top:10%;
+    margin-top: 10%;
     /* background: #4169E1; */
 }

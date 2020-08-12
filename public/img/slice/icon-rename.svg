@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>图标</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-Copy-20" transform="translate(-490.000000, -81.000000)">
+            <g id="Group-4-Copy-2">
+                <g id="Group-4" transform="translate(0.000000, 60.000000)">
+                    <g id="Action-Bar" transform="translate(284.000000, 0.000000)">
+                        <g id="Group-26" transform="translate(50.000000, 13.000000)">
+                            <g id="创建按钮-copy" transform="translate(137.000000, 0.000000)">
+                                <g id="Bar/Action-Bar/↳Elements/icons/edit" transform="translate(16.000000, 7.000000)">
+                                    <g id="ic_edit_nor">
+                                        <rect id="Rectangle-50" x="0" y="0" width="20" height="20"></rect>
+                                        <path d="M12.7573593,3 L10.7573593,5 L5,5 L5,15 L15,15 L15,9.24264069 L17,7.24264069 L17,16 C17,16.5522847 16.5522847,17 16,17 L4,17 C3.44771525,17 3,16.5522847 3,16 L3,4 C3,3.44771525 3.44771525,3 4,3 L12.7573593,3 Z M16.7002165,1.88556997 L18.11443,3.29978353 L10.6561346,10.758079 L8.96204349,11.2909387 C8.86012779,11.3229953 8.7480283,11.2651988 8.71166226,11.1618466 C8.69741503,11.121356 8.69650237,11.0778843 8.70906127,11.0379565 L9.24192105,9.34386539 L16.7002165,1.88556997 Z" id="Combined-Shape" fill="#60686D"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

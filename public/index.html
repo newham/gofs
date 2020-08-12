@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://www.weiyun.com/disk/folder/101262188385cca72fb099ade51a2f4b -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <title>GOFS 2.0</title>
+    <meta name="Keywords" content="QQ, 腾讯,微云, 分享, 网盘, 网络硬盘, U盘, 云存储, 传输, 存储, 同步, 备份, 拍照, 上传, 下载, 中转, 文件, 照片, 相册, 离线, 传文件, wifi, cloud, 微云网页版, weiyun, weiyun web">
+    <meta name="Description" content="微云是腾讯公司为用户精心打造的一项智能云服务, 您可以通过微云方便地在手机和电脑之间同步文件、推送照片和传输数据。">
+    <link rel="shortcut icon" href="https://img.weiyun.com/vipstyle/nr/box/img/favicon.ico?max_age=31536000" type="image/x-icon">
+    <!-- <script src="./腾讯微云_files/stats.js" name="MTAH5" sid="500461463" cid="500462644"></script> -->
+    <!-- <script type="text/javascript">
+        window.g_start_time = +new Date()
+    </script> -->
+    <link rel="stylesheet" href="/public/css/page-home.css">
+    <!-- <script>
+        window.g_css_time = +new Date()
+        document.domain = location.hostname.indexOf('weiyun.com') > -1 ? 'weiyun.com' : location.hostname.split('.').slice(1).join('.')
+    </script> -->
+
+
+    <!-- <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/common-lazy.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/disk.min.js"></script> -->
+    <link rel="stylesheet" href="/public/css/page-home-delay.css">
+    <link rel="stylesheet" href="/public/css/page-team-delay.css">
+    <!-- <style type="text/css"></style>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/operator.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/manager.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/search.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/teamSearch.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/teamOperator.min.js"></script> -->
+    <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script>
+    <style>
+        .act-txt,
+        .action-item-con {
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body class="page-home">
+    <div id="app">
+        <div class="layout-wrapper">
+            <!---->
+            <div class="layout-body">
+                <div class="layout-body-inner">
+                    <div class="layout-aside">
+                        <div class="layout-aside-hd">
+                            <div class="mod-logo"><a href="/" title="GOFS">GOFS</a></div>
+                            <div id="_search_bar" class="mod-search">
+                                <div class="search-panel">
+                                    <div class="search-input"><input placeholder="搜索全部" autocomplete="off" type="text" aria-label="输入文件名并按下回车进行搜索" tabindex="0" class="mod-input"></div>
+                                    <div class="search-placeholder"><i class="icon icon-search"></i></div>
+                                </div>
+                                <div class="lazy_person-search-pannel" style="display: none;">
+                                    <div class="mod-menu-group" style="display: none;">
+                                        <div class="menu-group" style="display: none;">
+                                            <div class="menu-group-hd">
+                                                <p class="tit">搜搜看</p>
+                                            </div>
+                                            <div class="menu-group-bd">
+                                                <ul class="menu-list"></ul>
+                                            </div>
+                                        </div>
+                                        <div class="menu-group" style="display: none;">
+                                            <div class="menu-group-hd">
+                                                <p class="tit">历史记录</p>
+                                                <div class="hd-act"><a href="javascript:void(0)" class="btn-clear">清除记录</a></div>
+                                            </div>
+                                            <div class="menu-group-bd">
+                                                <ul class="menu-list"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lazy_team-search-pannel" style="display: none;">
+                                    <div class="mod-menu-group" style="display: none;">
+                                        <div class="menu-group" style="display: none;">
+                                            <div class="menu-group-hd">
+                                                <p class="tit">历史记录</p>
+                                                <div class="hd-act"><a href="javascript:void(0)" class="btn-clear">清除记录</a></div>
+                                            </div>
+                                            <div class="menu-group-bd">
+                                                <ul class="menu-list"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layout-aside-bd">
+                            <div class="mod-menu">
+                                <!-- <div class="menu-item">
+                                    <div class="menu-item-bd">
+                                        <ul class="menu-list">
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-ren"></i><span class="menu-tit">最近</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                                <div class="menu-item">
+                                    <div class="menu-item-bd">
+                                        <ul class="menu-list">
+                                            <li class="cur"><a href="javascript:void(0)"><i class="icon icon-all"></i><span class="menu-tit">全部</span></a></li>
+                                            <!-- <li class=""><a href="javascript:void(0)"><i class="icon icon-doc"></i><span class="menu-tit">文档</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-pic"></i><span class="menu-tit">图片</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-video"></i><span class="menu-tit">视频</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-music"></i><span class="menu-tit">音乐</span></a></li> -->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-bd">
+                                        <ul class="menu-list">
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-pho"></i><span class="menu-tit">照片</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-note"></i><span class="menu-tit">笔记</span></a></li>
+                                            <!-- <li class=""><a href="javascript:void(0)"><i class="icon icon-group"></i><span class="menu-tit">共享组</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-add-safebox"></i><span class="menu-tit">保险箱</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-share"></i><span class="menu-tit">分享链接</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-trash"></i><span class="menu-tit">回收站</span></a></li> -->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- <div class="menu-item">
+                                    <div class="menu-item-bd">
+                                        <ul class="menu-list">
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-clean"></i><span class="menu-tit">存储空间管理</span>></a></li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="layout-aside-ft">
+                            <div class="mod-progress-info">
+                                <div class="progress-info-bd">
+                                    <div class="progress-info-detail">
+                                        <div class="info-detail-hd">
+                                            <p class="tit"><span class="info-txt">已用</span> <span class="info-used">7.22 GB/10 GB</span></p>
+                                            <div class="hd-act"><a href="javascript:void(0)" class="act-link">扩容</a> <span class="mod-arrow mod-arrow-right"></span></div>
+                                        </div>
+                                        <div class="info-detail-bd">
+                                            <div class="info-bar">
+                                                <div class="info-bar-cur" style="width: 72.1641%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            <!---->
+                        </div>
+                    </div>
+                    <div class="layout-main-wrap">
+                        <div class="layout-toolbar">
+                            <div class="layout-toolbar-inner">
+                                <div class="mod-nav clearfix">
+                                    <div title="" class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix" style="">
+                                        <div id="formFileInputCt" class="action-item">
+                                            <div class="action-item-con"><i class="icon icon-upload-s"></i> <span class="act-txt">上传</span>
+                                                <div class="mod-bubble-menu with-border">
+                                                    <ul class="menu-list">
+                                                        <li class="menu-item"><span class="txt"><i class="icon icon-doc-s"></i>文件</span></li>
+                                                        <li class="menu-item"><span class="txt"><i class="icon icon-file-s"></i>文件夹</span></li>
+                                                        <!---->
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <div title="" class="mod-action-wrap mod-action-wrap-create clearfix" style="">
+                                        <div class="action-item" id="menu-new">
+                                            <div class="action-item-con" id="btn-new"><i class="icon icon-add"></i> <span class="act-txt">新建</span>
+                                                <div class="mod-bubble-menu with-border">
+                                                    <div class="menu-item">
+                                                        <div class="menu-item-bd">
+                                                            <ul class="menu-list">
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-create-s"></i>新建文件夹</span>
+                                                                    <div class="spliter"></div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="menu-item">
+                                                        <div class="menu-item-hd">
+                                                            <p class="menu-item-hd-tit">腾讯文档</p>
+                                                        </div>
+                                                        <div class="menu-item-bd">
+                                                            <ul class="menu-list">
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-tdoc-s"></i>在线文档</span></li>
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-txls-s"></i>在线表格</span>
+                                                                    <div class="spliter"></div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="menu-item">
+                                                        <div class="menu-item-hd">
+                                                            <p class="menu-item-hd-tit">Office文档</p>
+                                                        </div>
+                                                        <div class="menu-item-bd">
+                                                            <ul class="menu-list">
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-word-s"></i>Word 文档</span></li>
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-xls-s"></i>Excel 表格</span></li>
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-ppt-s"></i>PPT 幻灯片</span>
+                                                                    <div class="spliter"></div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="menu-item">
+                                                        <div class="menu-item-bd">
+                                                            <ul class="menu-list">
+                                                                <li class="menu-item"><span class="txt"><i class="icon icon-bt-s"></i>离线下载</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div title="" class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix" style="display: none;">
+                                        <div class="action-item">
+                                            <div class="action-item-con"><span class="act-txt">新建文件夹</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="mod-action-container" style="display: none;">
+                                        <div class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix">
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-add-light"></i> <span class="act-txt">新建笔记</span> <span class="btn-trig"><i class="icon icon-trig-light-s"></i></span>
+                                                    <div class="mod-bubble-menu with-border">
+                                                        <ul class="menu-list">
+                                                            <li class="menu-item"><span class="txt">笔记</span></li>
+                                                            <li class="menu-item"><span class="txt">Markdown</span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: none;">
+                                        <div class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix">
+                                            <div class="action-item">
+                                                <div class="action-item-con"><span class="act-txt">新建共享组</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cleardir-delete" style="display: none;">
+                                        <div class="cleardir-delete-btn disabled"><i></i>删除
+                                        </div>
+                                    </div>
+                                    <div id="_mod_act_bar4">
+                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
+                                                <div class="mod-bubble-menu with-border">
+                                                    <ul class="menu-list">
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        收集文件
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移动到
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        重命名
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        添加到共享组
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移入保险箱
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
+                                                <div class="mod-bubble-menu with-border">
+                                                    <ul class="menu-list">
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移动到
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        添加到共享组
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移入保险箱
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
+                                            </div>
+                                            <div class="action-item">
+                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
+                                                <div class="mod-bubble-menu with-border">
+                                                    <ul class="menu-list">
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移动到
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        添加到共享组
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                        <li class="menu-item"><span class="txt"><!----> <!---->
+        移入保险箱
+        <!----> <!----></span>
+                                                            <!---->
+                                                            <!---->
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mod-act-group">
+                                        <!-- <div class="act-item act-item-act">
+                                            <div class="act-item-txt"><a href="javascript:void(0)" class="act-item-link">@所有人 年卡促销 多送2个月
+		</a></div>
+                                        </div>
+                                        <div class="act-item act-item-info">
+                                            <div class="act-item act-item-info">
+                                                <div class="act-item-txt"><a href="javascript:void(0)" class="btn btn-s">开通会员</a></div>
+                                            </div>
+                                        </div> -->
+                                        <div class="act-item act-item-acc" id="menu-user">
+                                            <div class="act-item-txt">
+                                                <div class="mod-user">
+                                                    <div class="user-info" id="btn-user">
+                                                        <span title="柳寒" class="name">柳寒</span>
+                                                        <!-- <i class="icon icon-vip" style="background-image: url(&quot;//qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_XM.png&quot;);"></i> -->
+                                                        <i class="icon icon-trig"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mod-bubble-menu mod-bubble-menu-info with-border novip">
+                                                <div class="mod-info-box">
+                                                    <div class="info-box-bd">
+                                                        <div class="info-box-pic">
+                                                            <a href="javascript:void(0)"><img alt="柳寒" src="/public/img/icon/animal/bear2.png" class="pic"></a>
+                                                        </div>
+                                                        <div class="info-box-con">
+                                                            <p class="tit"><span class="name"><a href="javascript:void(0)">柳寒</a></span></p>
+                                                            <p class="txt">
+                                                                <!-- <span class="info-txt">未开通会员</span> <a href="javascript:void(0)" class="info-link">开通</a> -->
+                                                                今天心情如何？
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul>
+                                                    <li class="menu-item"><span class="txt">开启每日极速上传</span>
+                                                        <!---->
+                                                        <div class="spliter"></div>
+                                                    </li>
+                                                    <li class="menu-item"><span class="txt">下载客户端</span>
+                                                        <div class="spliter"></div>
+                                                    </li>
+                                                    <li class="menu-item"><span class="txt">帮助与反馈</span></li>
+                                                    <li class="menu-item"><span class="txt">安全与隐私</span> <i class="icon icon-trig"></i>
+                                                        <div class="mod-bubble-menu mod-bubble-menu-sec with-border">
+                                                            <ul class="menu-list">
+                                                                <li class="menu-item"><span class="txt">开启保险箱</span></li>
+                                                                <li class="menu-item"><span class="txt">开启独立密码</span></li>
+                                                                <!---->
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                    <li class="menu-item"><span class="txt">我的申诉</span></li>
+                                                    <li class="menu-item"><span class="txt">退出登录</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="_layout_main" class="layout-main">
+                            <div class="lazy_person-search-list" style="display: none;">
+                                <div style="display: none;">
+                                    <div class="layout-main-hd">
+                                        <div class="mod-act-panel">
+                                            <div class="act-panel-inner clearfix">
+                                                <p class="tit">搜索结果</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layout-main-bd">
+                                        <div class="mod-list-group">
+                                            <div>
+                                                <div class="list-group-hd">
+                                                    <div class="list-group-tit-wrap">
+                                                        <div class="list-group-tit name dis"><span class="tit-con">名称<i class="icon icon-sort"></i></span></div>
+                                                        <div class="list-group-tit time dis"><span class="tit-con">上次修改时间<i class="icon icon-sort"></i></span></div>
+                                                        <div class="list-group-tit size dis"><span class="tit-con">大小<i class="icon icon-sort"></i></span></div>
+                                                    </div>
+                                                </div>
+                                                <div tabindex="0" class="list-group-bd" selectbox-id="2" scroll-bottom-id="2">
+                                                    <div class="list-group-wrapper">
+                                                        <ul class="list-group">
+                                                            <!---->
+                                                            <!---->
+                                                        </ul>
+                                                    </div>
+                                                    <div class="load-more-main">
+                                                        <!---->
+                                                        <div class="mod-loadmore load"><i class="icon icon-load-bullet-left"></i> <i class="icon icon-load-bullet"></i> <i class="icon icon-load-bullet-right"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lazy_team-search-list" style="display: none;">
+                                <div style="display: none;">
+                                    <div class="layout-main-hd">
+                                        <div class="team-search-filter">
+                                            <div class="team-search-left">
+                                                <div class="team-search-title">
+                                                    搜索：
+                                                </div>
+                                                <div class="team-search-all team-search-dir-active">
+                                                    全部文件
+                                                </div>
+                                                <!---->
+                                            </div>
+                                            <div class="team-search-right">
+                                                <div class="team-search-item">
+                                                    <div class="drop-down">
+                                                        <div class="drop-down-external">
+                                                            <div class="drop-down-external-text">智能排序</div>
+                                                            <div class="drop-down-external-icon icon-trig"></div>
+                                                        </div>
+                                                        <div class="drop-down-inner" style="display: none;">
+                                                            <div class="drop-down-list drop-down-list-left">
+                                                                <div class="drop-down-item drop-down-item-selected">
+                                                                    智能排序
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    按创建时间
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    按修改时间
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="team-search-item">
+                                                    <div class="drop-down">
+                                                        <div class="drop-down-external">
+                                                            <div class="drop-down-external-text">搜索全部</div>
+                                                            <div class="drop-down-external-icon icon-trig"></div>
+                                                        </div>
+                                                        <div class="drop-down-inner" style="display: none;">
+                                                            <div class="drop-down-list drop-down-list-left">
+                                                                <div class="drop-down-item drop-down-item-selected">
+                                                                    搜索全部
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    搜索文件名
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    搜索文件内容
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    搜索创建人
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="team-search-item">
+                                                    <div class="drop-down">
+                                                        <div class="drop-down-external">
+                                                            <div class="drop-down-external-text">全部类型</div>
+                                                            <div class="drop-down-external-icon icon-trig"></div>
+                                                        </div>
+                                                        <div class="drop-down-inner" style="display: none;">
+                                                            <div class="drop-down-list drop-down-list-left">
+                                                                <div class="drop-down-item drop-down-item-selected">
+                                                                    全部类型
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    文件夹
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    XLS
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    DOC
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    PPT
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    PDF
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    图片
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    视频
+                                                                </div>
+                                                                <div class="drop-down-item">
+                                                                    音频
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="team-search-item">
+                                                    <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange"><i class="el-input__icon el-range__icon el-icon-date"></i> <input placeholder="开始日期" id="" readonly="readonly" name="" class="el-range-input"> <span class="el-range-separator">-</span> <input placeholder="结束日期"
+                                                            id="" readonly="readonly" name="" class="el-range-input"> <i class="el-input__icon el-range__close-icon"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layout-main-bd">
+                                        <div class="mod-list-group mod-team-search-list-group">
+                                            <div>
+                                                <div class="team-list-group-hd">
+                                                    <div class="team-list-group-tit-wrap">
+                                                        <div class="team-list-group-tit name dis"><span class="tit-con">名称</span></div>
+                                                        <div class="team-list-group-tit time dis"><span class="tit-con">上次修改时间</span></div>
+                                                        <div class="team-list-group-tit size dis"><span class="tit-con">大小</span></div>
+                                                        <div class="team-list-group-tit owner dis"><span class="tit-con">创建人</span></div>
+                                                    </div>
+                                                </div>
+                                                <div tabindex="0" class="list-group-bd" selectbox-id="3">
+                                                    <div class="list-group-wrapper">
+                                                        <ul class="list-group">
+                                                            <!---->
+                                                            <!---->
+                                                            <!---->
+                                                            <!---->
+                                                        </ul>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="layout-main-hd">
+                                    <!---->
+                                    <!---->
+                                    <div class="mod-act-panel">
+                                        <div class="act-panel-inner clearfix">
+                                            <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-d  mod-action-wrap-mode clearfix">
+                                                <div class="action-item act">
+                                                    <div class="action-item-con"><i class="icon icon-mode-list"></i> <span class="act-txt">列表</span></div>
+                                                </div>
+                                                <div class="action-item">
+                                                    <div class="action-item-con"><i class="icon icon-mode-thumb"></i> <span class="act-txt">缩略图</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="mod-breadcrumb">
+                                                <ul class="breadcrumb clearfix" id="path-array">
+                                                    <!-- <li class="item all"><a href="javascript:void(0)"><i class="icon"></i>全部</a></li>
+                                                    <li class="item cur"><i class="icon icon-bread-next"></i> <a href="javascript:void(0)" title="文档">文档</a></li> -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layout-main-bd">
+                                    <div>
+                                        <div class="mod-list-group mod-list-group-files">
+                                            <div class="list-group-hd">
+                                                <div class="list-group-tit-wrap">
+                                                    <div class="list-group-tit name up"><span class="mod-check"><i class="icon icon-check-s icon-checkbox"></i> <span class="check-info">已选择
+                        <b class="check-info-num">0</b>项</span></span> <span class="tit-con">名称<i class="icon"></i></span>
+                                                        <!---->
+                                                    </div>
+                                                    <div class="list-group-tit time cur">
+                                                        <!----><span class="tit-con">上次修改时间<i class="icon icon-sort"></i></span>
+                                                        <!---->
+                                                    </div>
+                                                    <div class="list-group-tit size dis">
+                                                        <!----><span class="tit-con">大小<i class="icon"></i></span>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div tabindex="0" class="list-group-bd" selectbox-id="5" dragdrop-id="3" scroll-bottom-id="4">
+                                                <div class="list-group-wrapper">
+                                                    <ul class="list-group" id="file-list">
+                                                        <li class="list-group-item checked">
+                                                            <div class="item-inner">
+                                                                <div class="item-tit">
+                                                                    <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
+                                                                    <div class="thumb">
+                                                                        <!---->
+                                                                        <!----><i class="icon icon-m icon-file-m"></i></div>
+                                                                    <div class="info"><a href="javascript:void(0)" title="新建文件夹1" class="tit" style="display: none;">新建文件夹1</a><br>
+                                                                        <!----><span class="fileedit"><input type="text" class="ui-input"></span></div>
+                                                                </div>
+                                                                <div class="item-info"><span class="item-info-list"><span class="txt txt-time">今天 20:47</span></span> <span class="item-info-list"><span class="txt txt-size">-</span></span>
+                                                                    <!---->
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <!-- <li class="list-group-item checked">
+                                                            <div class="item-inner">
+                                                                <div class="item-tit">
+                                                                    <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
+                                                                    <div class="thumb">
+                                                                        <i class="icon icon-m icon-pdf-m"></i></div>
+                                                                    <div class="info"><a href="javascript:void(0)" title="欢迎使用微云.pdf" class="tit">欢迎使用微云.pdf</a><br>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="item-info"><span class="item-info-list"><span class="txt txt-time">2016年09月06日</span></span> <span class="item-info-list"><span class="txt txt-size">799.52 KB</span></span>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </li> -->
+                                                    </ul>
+                                                </div>
+                                                <div class="load-more-main" style="display: none;">
+                                                    <!---->
+                                                    <div class="mod-loadmore"><i class="icon icon-load-bullet-left"></i> <i class="icon icon-load-bullet"></i> <i class="icon icon-load-bullet-right"></i></div>
+                                                </div>
+                                                <div class="list-group-info">
+                                                    <p class="info-con">共<b class="count" id="count"></b>项 </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mod-tasks expand show-guide" style="visibility: visible; display: none;">
+                <div class="operation"><button aria-hidden="true" class="btn btn-icon"><i class="icon icon-window-fold"></i></button> <button aria-label="关闭" class="btn btn-icon"><i class="icon icon-close"></i></button></div>
+                <div class="tasks-header">
+                    <div class="summary-wrapper"><b class="before"></b> <i class="icon icon-status"></i>
+                        <!---->
+                        <p class="txt"></p>
+                        <!---->
+                        <div class="tasks-vip-guide">
+                            <div>
+                                超级会员尊享极速上传 <span class="tasks-open-vip">开通超级会员</span>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title-wrapper">
+                        <div class="info">
+                            <p class="txt txt-sub"></p>
+                            <!---->
+                        </div>
+                        <h2 class="title"></h2>
+                    </div>
+                </div>
+                <div class="tasks-body">
+                    <div class="tasks-cont">
+                        <div class="tasks-op-wrapper">
+                            <!---->
+                            <ul class="op-list">
+                                <!---->
+                                <!---->
+                                <li class="op-list-item"><button class="btn btn-link txt txt-sub">取消全部</button></li>
+                                <!---->
+                            </ul>
+                        </div>
+                        <div class="tasks-vip-guide">
+                            <div>
+                                超级会员尊享极速上传 <span class="tasks-open-vip">开通超级会员</span>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="tasks-group-wrapper">
+                            <div class="tasks-group-viewport">
+                                <div class="tasks-list-wrapper" style="display: none;">
+                                    <ul class="task-list-cont"></ul>
+                                </div>
+                                <div class="tasks-list-wrapper" style="display: none;">
+                                    <ul class="task-list-cont"></ul>
+                                    <!---->
+                                </div>
+                                <div class="status-wrapper" style="display: none;">
+                                    <div class="status-blank"><i class="icon icon-list-blank"></i>
+                                        <p class="txt txt-sub txt-block">会员专享极速传输<a href="https://www.weiyun.com/disk/folder/101262188385cca72fb099ade51a2f4b" class="txt txt-link">开通会员</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框 -->
+    <div class="modal"><b class="modal-mask"></b>
+        <div class="modal-dialog modal-dialog-400 modal-dialog-confirm">
+            <div class="modal-dialog-hd clearfix">
+                <h4 class="modal-dialog-title">删除文件</h4> <button class="btn-icon icon icon-pop-close"></button></div>
+            <div class="modal-dialog-bd">
+                <div class="modal-bd-cont clearfix"><i class="icon icon-pop-confirm-info"></i>
+                    <p class="title">确定要删除这个文件？</p>
+                    <p class="txt">删除后可在回站站保留7天&nbsp;&nbsp;<a href="javascript:void(0)" class="mod-btn link">延长至90天</a></p>
+                </div>
+            </div>
+            <div class="modal-dialog-ft clearfix btn-group"><button class="btn">取消</button> <button class="btn btn-active">确定</button></div>
+        </div>
+    </div>
+    <!-- 相册 -->
+    <div class="mod-template" style="display: none;" id="img-preview">
+        <div class="mod-preview">
+            <div id="_wy_image_previewer" class="mod-preview-image">
+                <div class="preview-hd">
+                    <div class="hd-tit">
+                        <div class="tit-info"><i class="icon icon-m icon-pic-m"></i> <span class="txt" id="img-title"></span></div>
+                        <div class="mod-info" style="display: none;">
+                            <div class="info-btn"><i title="查看详情" class="icon icon-info"></i></div>
+                        </div>
+                    </div>
+                    <!-- <div class="mod-action-wrap clearfix">
+                        <div class="action-item">
+                            <div class="action-item-con"><i class="icon icon-view"></i><i class="icon icon-trig"></i></div>
+                            <div class="mod-bubble-menu with-border">
+                                <ul>
+                                    <li class="menu-item"><span class="txt"><i class="icon icon-sel"></i>显示缩略图</span></li>
+                                    <li class="menu-item act"><span class="txt"><i class="icon icon-sel"></i>隐藏缩略图</span>
+                                        <div class="spliter"></div>
+                                    </li>
+                                    <li class="menu-item"><span class="txt"><i class="icon icon-full"></i>全屏模式</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-menu clearfix">
+                        <div class="action-item">
+                            <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
+                        </div>
+                    </div>
+                    <div title="关闭" class="hd-close" id="btn-close-preview">
+                        <div class="btn"><i class="icon icon-close-m"></i></div>
+                    </div>
+                </div>
+                <div class="preview-bd">
+                    <div class="mod-pic-preview">
+                        <div class="mod-msg above-pop">
+                            <div class="msg-inner active show clearfix" style="display: none;">
+                                <p class="txt"><i aria-hidden="true" class="icon icon-msg"></i> <span data-id="label"></span></p>
+                            </div>
+                            <div class="msg-inner active show clearfix" style="display: none;">
+                                <p class="txt"><i aria-hidden="true" class="icon icon-msg"></i> <span data-id="label"></span></p>
+                            </div>
+                        </div>
+                        <div class="inner">
+                            <div class="pic-preview-bd">
+                                <div id="_wy_preview_pic" class="pic" style="transform: scale(0.51) translate3d(-50%, -50%, 0px); transform-origin: 0px 0px;">
+                                    <img class="is-loaded" id="img" src="" style="transform: rotate(0deg);"></div> <a class="btn btn-close"><i class="icon icon-close"></i></a> <a class="pre" id="btn-img-pre"><i class="icon icon-pre"></i></a>
+                                <a class="next" id="btn-img-next"><i class="icon icon-next"></i></a>
+                            </div>
+                            <div class="pic-preview-ft">
+                                <!-- <div class="operate-list-wrap">
+                                    <ul class="operate-list clearfix">
+                                        <li class="item rotate"><i class="icon icon-rotate"></i>
+                                            <p class="tip">旋转</p>
+                                        </li>
+                                        <li class="item zoom-out"><i class="icon icon-narrow"></i>
+                                            <p class="tip">缩小</p>
+                                        </li>
+                                        <li class="item zoom-in"><i class="icon icon-enlarge"></i>
+                                            <p class="tip">放大</p>
+                                        </li>
+                                        <li class="item word"><span class="text">查看原图</span></li>
+                                    </ul>
+                                </div> -->
+                                <!-- <div class="small-pic-list-wrap">
+                                    <div class="small-pic-list-toggle"><i class="icon icon-trig-s"></i></div>
+                                    <div class="small-pic-list-con">
+                                        <div class="wrap">
+                                            <ul class="small-pic-list clearfix" style="transform: translateX(-486px); max-width: 756px; transition: all 0.2s ease 0s;">
+                                                <li title="dog-illustration-132773-7814464.png" alt="dog-illustration-132773-7814464.png" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/e4a1a32943156510272452ef650ea862e532e8029f85200960f2287cb0ba6a362f2ca80ab86e6918809cc88a58e6a1ca?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=dog-illustration-132773-7814464.png&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="请假截图.PNG" alt="请假截图.PNG" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/3f9fbedc5e282c7b9fac1133e7352e40fa109f8cb3d66c4a73bd141c5c1801424efeff12d536351f9719eade643bb96e?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=%E8%AF%B7%E5%81%87%E6%88%AA%E5%9B%BE.PNG&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190657_1.jpg" alt="IMG_20180518_190657_1.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/3e82dccc5d739c496dbdb294f76f28c825115f2d75f5cf7368aeae67901bf541d0fea3d7e9ddc09e40caa51406d8d4f7?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190657_1.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190659.jpg" alt="IMG_20180518_190659.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/3067b3dda2ef71c1bf1da35293832a29a3325ed179cc966dcf1f15e3f64eaf8b34395d9ea21d0d3fbc5f36e6aa649fc8?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190659.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190653.jpg" alt="IMG_20180518_190653.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8d26baab2960e99274967bc4ac50d2336b05f5bfc9ff306de997836c92ae5fbebf7b357db3004dabf037061631973170?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190653.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190655.jpg" alt="IMG_20180518_190655.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/85d7d958bfd19b1c07de420935a0d56b6754e060b72e3d6923aceb5d6c060352a716533d7d6fe48567346b634661c66f?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190655.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190758.jpg" alt="IMG_20180518_190758.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/7ea0e1f8a41e802dff0e8db1d114ff8f627074ce19b5026a16921fb8f47d23ee8abdde3ab7a055409341d57f692c6849?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190758.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180518_190842.jpg" alt="IMG_20180518_190842.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/65cc4bd2a1c9f90450953daa457614dd6902e4d21392cb882bc7f8bc6f8cdaa9dcd4da6b10598ce52f7bac8027749ae6?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180518_190842.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_154132.jpg" alt="IMG_20180617_154132.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/f837b0d8e1705c754a826d1a01df4473bfcf0b11b5212abafc7a83734a9aa295da8fda1eb6ba523b970c4b5c688ee795?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_154132.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_154124.jpg" alt="IMG_20180617_154124.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8ae455ce635fbf529cc4aa48b693706a079d463c02b6c79806dc46e760807812f2c0c2bc46af262ec2826d2cbbe34a17?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_154124.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_092158.jpg" alt="IMG_20180617_092158.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/b945c77d59a9b985686e08f8b9974c48792d28038df5034b0d7890ade8a1d308132d6cbc5c3397a198a73f59f3e3049e?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_092158.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_092132.jpg" alt="IMG_20180617_092132.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/e01082cda526a8191b53090fe8f98375730eb84c8ca0bd14da4e004118ef029adf5335b713d7b70bcfba5650f29a6b94?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_092132.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_094214.jpg" alt="IMG_20180617_094214.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8219e318d835be0096e7cb352073067be0b7948512da6c6d20d5a22174253f07aceb1d222498abcd1569a839c2a58150?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_094214.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_094240.jpg" alt="IMG_20180617_094240.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/0b5a5e576d127ca68ddbf46fdce0d5864f90bc5be0ea6ba15aa2c3f96ce497bb609e3c94a1e27e4c05301018d749704c?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_094240.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_094340_1.jpg" alt="IMG_20180617_094340_1.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/deb25549d5bf4ddc9971eca77b6f67bb4bf9c71a62669ab6614b02d6cc4e8eb00daaa0817e5428ced662e8190a9fa06c?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_094340_1.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180617_094320.jpg" alt="IMG_20180617_094320.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/32e0be62b93d2981c4aa66c8f966d68bdb1f1826bfa3015fd6011df2d6a7a46cda5890462c408bd12275514c7555411f?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180617_094320.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180421_101359.jpg" alt="IMG_20180421_101359.jpg" class="small-pic-item cur">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/0ff7e57b3dcefd2aea6b299d61e9ef7fd0bad9a1e204f550716fe2f60889590c4ea397c09666eac0f3cc5cea694abb41?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180421_101359.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180421_101356.jpg" alt="IMG_20180421_101356.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/189da3c7b965fd757134b2d74dc28742f2bd6a98877376e258532bfa73b26df9b21b9a0fb5a6f696bc09fbc30054c9ef?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180421_101356.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180414_192533.jpg" alt="IMG_20180414_192533.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/0416616c57e531af48df1136ec2cb3faac7cceea5f64860191f77c29c0e4fe4d7816ea9a7cae17413965a1690b1d830e?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180414_192533.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180618_135134.jpg" alt="IMG_20180618_135134.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/524978480d85477d5b9d3ada15c4e485baac87c4a252b2a696584c1806ead54e274b1fa0cb5e561649f0dba8f2996453?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180618_135134.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180618_174930.jpg" alt="IMG_20180618_174930.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/f45202d8149f656536b75b12402ca8c925b012a87fc00cefbd8714d656ad143f910f162028dbd0837df5ede5c9f3ed0e?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180618_174930.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180618_174801.jpg" alt="IMG_20180618_174801.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/60c5ea165e1a44612fc75bd16a64a7bfb8879dd4f216d8faad6fac809183725cbbbb5e1750c5c633c5276cc25095b615?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180618_174801.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                                <li title="IMG_20180618_174937.jpg" alt="IMG_20180618_174937.jpg" class="small-pic-item">
+                                                    <div class="pic is-loaded" style="background-image: url(&quot;https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/5ef1b037c31bf9f21e6b18e0f7475314335d631078f4a6dc9c8204a8ec1eddfcdc3e51d046ae2beb0a63744e13406342?pictype=scale&amp;from=30013&amp;version=3.3.3.3&amp;uin=409080336&amp;fname=IMG_20180618_174937.jpg&amp;size=64&quot;);"></div>
+                                                    <div class="pic-mask"></div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="pre" style=""><i class="icon icon-pre-s"></i></div>
+                                        <div class="next"><i class="icon icon-next-s"></i></div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn btn-esc"><span class="btn-txt">退出全屏模式</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-mask"></div>
+    </div>
+    <!-- <script>
+        window.syncData = {
+            "needLogin": false,
+            "needIndep": false,
+            "error": {},
+            "userInfo": {
+                "max_dir_layer_number": 25,
+                "max_index_number": 50000000,
+                "max_single_file_size": 107374182400,
+                "max_index_number_per_level": 30000,
+                "server_time": 1596608577000,
+                "max_tiny_file_size": 0,
+                "max_filename_length": 128,
+                "max_dir_name_length": 128,
+                "change_st_interval": 7200000,
+                "plugin_switch_flag": 3,
+                "user_ctime": 1366585380682,
+                "user_mtime": 1590199067512,
+                "index_number": 3513,
+                "used_space": 7748557701,
+                "root_dir_key": "10126218f338fdcb41c5dfa52b9ed888",
+                "main_dir_key": "10126218f0a739ae12b58dcd423dce4a",
+                "total_space": 10737418240,
+                "dir_total": 89,
+                "file_total": 3424,
+                "page_size": 200,
+                "nick_name": "柳寒",
+                "checksum": 1525913707,
+                "uin": 409080336,
+                "head_img_url": "http://thirdqq.qlogo.cn/g?b=sdk&k=D3RpQiagjpcxczN2wknmMNw&s=640&t=1556319206",
+                "https_head_img_url": "https://thirdqq.qlogo.cn/g?b=sdk&k=D3RpQiagjpcxczN2wknmMNw&s=640&t=1556319206",
+                "max_batch_dir_delete_number": 10,
+                "max_batch_file_delete_number": 50,
+                "max_batch_dir_move_number": 10,
+                "max_batch_file_move_number": 50,
+                "max_batch_dir_outer_linker_number": 10,
+                "max_batch_file_outer_linker_number": 10,
+                "max_batch_dir_restore_number": 10,
+                "max_batch_file_restore_number": 10,
+                "max_batch_dir_package_download_number": 50,
+                "max_batch_file_package_download_number": 50,
+                "max_batch_dir_list_number": 10,
+                "max_batch_file_download_number": 50,
+                "max_batch_file_copy_number": 10,
+                "max_batch_file_copy_to_offline_number": 10,
+                "max_batch_file_copy_to_other_bid_number": 10,
+                "max_batch_file_copy_from_other_bid_number": 10,
+                "max_batch_file_attr_modify_number": 10,
+                "max_batch_file_query_number": 100,
+                "max_batch_dir_attr_modify_number": 10,
+                "max_batch_file_upload_number": 10,
+                "max_batch_dir_clear_number": 100,
+                "max_batch_file_clear_number": 100,
+                "is_pwd_open": false,
+                "is_new_user": false,
+                "is_favorites_user": false,
+                "is_weixin_weiyun_collection_user": false,
+                "is_show_qqdisk_migrate_user": false,
+                "is_show_migrate_favorites": false,
+                "is_weiyun_mobile_user": true,
+                "is_weiyun_qqdisk_user": false,
+                "is_qqdisk_pwd_open": false,
+                "is_qqdisk_pwd_entry_visible": true,
+                "flash_start_time": 1477152000000,
+                "flash_end_time": 1477843199000,
+                "flash_image_url": null,
+                "flash_enable_click": null,
+                "flash_click_url": null,
+                "flash_show_duration": null,
+                "recommend_apps_url": null,
+                "faq_url": null,
+                "offline_faq_url": null,
+                "agreement_url": null,
+                "pwd_forget_url": "http://www.weiyun.com/mobile/2.0/forget-password.html",
+                "https_faq_url": null,
+                "https_pwd_forget_url": "https://www.weiyun.com/mobile/2.0/forget-password.html",
+                "has_photo_trans": false,
+                "photo_key": "",
+                "has_photo_file_cnt": 0,
+                "app_data": null,
+                "max_pic_num_of_note": 10,
+                "max_pic_width_of_note": 1024,
+                "max_pic_high_of_note": 960,
+                "enabled_upload_video_file": 34359738368,
+                "owa_supported_ext": "",
+                "owa_max_file_size": 52428800,
+                "qzone_info": {},
+                "lib3_trans_flag": true,
+                "temporary_file_max_valid_time": null,
+                "qdisk_flow_info": {
+                    "flow_every_day_max_upload_size": 1073741824,
+                    "flow_has_upload_size": 0
+                },
+                "high_speed_flow_info": {
+                    "total_flow_size": 0,
+                    "used_flow_size": 0,
+                    "vip_high_speed_flow_info": {
+                        "extra_id": "",
+                        "add_time": 0,
+                        "end_time": null,
+                        "total_flow_size": 0,
+                        "used_flow_size": 0,
+                        "flow_status": 1,
+                        "source": 0
+                    },
+                    "coupon_high_speed_flow_info": []
+                },
+                "qdisk_tag_flag_info": {},
+                "weiyun_vip_info": {
+                    "weiyun_vip": false,
+                    "old_weiyun_vip": false,
+                    "weiyun_begin_time": 0,
+                    "weiyun_end_time": 0,
+                    "weiyun_vip_img_url": "http://qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_.png",
+                    "https_weiyun_vip_img_url": "https://qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_.png",
+                    "weiyun_vip_level_info": {
+                        "level": 0,
+                        "current_score": 0,
+                        "max_score": 0,
+                        "grow_speed": 0
+                    },
+                    "is_post_pay": false,
+                    "year_vip": false,
+                    "super_vip": false,
+                    "old_super_vip": false,
+                    "super_vip_begin_time": 0,
+                    "super_vip_end_time": 0,
+                    "vip_iap_auto_pay": false,
+                    "super_vip_iap_auto_pay": false,
+                    "vip_non_iap_auto_pay": false,
+                    "super_vip_non_iap_auto_pay": false
+                },
+                "vip_terminal_info": {
+                    "max_task_number": 3,
+                    "max_linker_number": 5,
+                    "max_download_speed": 0,
+                    "recycle_valid_period": 7,
+                    "max_upload_task_number": null
+                },
+                "terminal_info": {
+                    "max_task_number": 1,
+                    "max_linker_number": 1,
+                    "max_download_speed": 2097152,
+                    "recycle_valid_period": 7,
+                    "max_upload_task_number": null
+                },
+                "member_root_dir_key": null,
+                "member_main_dir_key": null,
+                "pwd_token_info": {},
+                "user_reward_info": {},
+                "space_clean_info": {
+                    "user_status": 0,
+                    "left_cleaning_days": 0,
+                    "apply_delay_count": 0,
+                    "cleaning_start_time": 0
+                },
+                "is_login_back": false
+            },
+            "teamList": [],
+            "hasSetStrategy": false,
+            "isSafeboxOpen": false,
+            "isAlphaUser": false
+        };
+    </script> -->
+    <!-- <script>
+        window.g_domready_time = +new Date()
+    </script>
+    <script src="./腾讯微云_files/manifest.min.js" crossorigin="anonymous"></script>
+    <script src="./腾讯微云_files/vendor.min.js" crossorigin="anonymous"></script>
+    <script src="./腾讯微云_files/app.min.js" crossorigin="anonymous"></script>
+    <script>
+        window.g_js_time = +new Date()
+    </script> -->
+
+    <div id="_dnd" class="ui-dnd" style="position: fixed; z-index: 9999; background-color: rgb(249, 245, 245); opacity: 0.2; border: 5px dashed; top: 0px; left: 0px; display: none;">
+        <div style="top: 50%; left: 50%; margin-left: -50px; margin-top: -50px; font-size: 24px; opacity: 1; position: absolute;">文件拖放到此处</div>
+    </div>
+    <script>
+        var data
+
+        function get_data(path = '') {
+            return new Promise(function(resolve, reject) {
+                // 通过API
+                // 
+                // $.ajax({
+                //     url: '/folder/' + path,
+                //     type: 'get',
+                //     dataType: 'json',
+                //     // data: {
+                //     //     q: query,
+                //     //     appid: appid,
+                //     //     salt: salt,
+                //     //     from: from,
+                //     //     to: to,
+                //     //     sign: sign
+                //     // },
+                //     success: function(data) {
+                //         f(data)
+                //     },
+                //     error: function(data) {
+                //         console.log(data);
+                //     }
+                // });
+                // f()
+
+                //后台传过来的
+                try {
+                    data = JSON.parse('{{.}}')
+                    resolve(data);
+                } catch (e) {
+                    reject(e);
+                }
+            })
+        }
+
+        function set_data(data) {
+            set_file_list(data.Files)
+            set_path(data.PathArray)
+        }
+
+
+        function set_path(pathArray) {
+
+            // <li class="item all"><a href="javascript:void(0)"><i class="icon"></i>全部</a></li>
+            // <li class="item"><i class="icon icon-bread-next"></i> <a href="javascript:void(0)" title="软件">软件</a></li>
+            // <li class="item cur"><i class="icon icon-bread-next"></i> <a href="javascript:void(0)" title="字体">字体</a></li>
+            // console.log(pathArray.length, pathArray)
+            if (pathArray.length == 1) {
+                var item = pathArray[0]
+                $("#path-array").append(`<li class="item all cur"><a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+                return
+            }
+            for (i = 0; i < pathArray.length; i++) {
+                var item = pathArray[i]
+                if (i == 0) {
+                    $("#path-array").append(`<li class="item all"><a href="/folder/${item[1]}"><i class="icon"></i>${item[0]}</a></li>`)
+                } else if (i == pathArray.length - 1) {
+                    $("#path-array").append(`<li class="item cur"><i class="icon icon-bread-next"></i> <a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+                } else {
+                    $("#path-array").append(`<li class="item"><i class="icon icon-bread-next"></i> <a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+                }
+            }
+        }
+
+        function set_file_list(file_list) {
+            // $("#file-list").html('')
+            for (i = 0; i < file_list.length; i++) {
+                var f = data.Files[i]
+                var icon = f.Type
+                var action = `href="/file/${f.Path}" target="blank"`
+                if (f.Type == 'folder') {
+                    icon = "file"
+                    action = `href="/folder/${f.Path}"`
+                } else if (f.Type == 'pic') {
+                    action = `href="javascript:void(0)" onclick="preview(${i})"`
+                }
+
+                var file_li = `<li class="list-group-item checked ">
+                                <div class="item-inner">
+                                    <div class="item-tit">
+                                        <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
+                                        <div class="thumb">
+                                            <!---->
+                                            <!----><i class="icon icon-m icon-${icon}-m"></i></div>
+                                        <div class="info"><a ${action} title="${f.Name}" class="tit">${f.Name}</a><br>
+                                            <!---->
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <div class="item-info"><span class="item-info-list"><span class="txt txt-time">${f.ModTime}</span></span> <span class="item-info-list"><span class="txt txt-size">${f.Size}</span></span>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </li>`
+                $("#file-list").append(file_li)
+            }
+            $("#count").html(file_list.length)
+        }
+
+        $(document).ready(() => {
+            get_data('').then((data) => {
+                set_data(data)
+            })
+        });
+
+        $('#btn-new').click((e) => {
+            switch_class('menu-new', 'act')
+        })
+
+        $('#btn-user').click((e) => {
+            switch_class('menu-user', 'act')
+        })
+
+        function switch_class(id, c) {
+            var item = $(`#${id}`)
+            if (item.hasClass(c)) {
+                item.removeClass(c)
+            } else {
+                item.addClass(c)
+            }
+        }
+
+        var current = 0
+
+        function preview(id) {
+            current = id
+            set_img(id)
+            $("#img-preview").show()
+        }
+
+        function set_img(id) {
+            var img = data.Files[id]
+            $("#img-title").html(img.Name)
+            $("#img").attr('src', '/file/' + img.Path)
+            console.log(img.Path)
+        }
+
+        $('#btn-close-preview').click((e) => {
+            $("#img-preview").hide()
+        })
+
+        function img_to(step) {
+            while (current < data.Files.length) {
+                if (step > 0 && current == data.Files.length - 1) {
+                    // 从头开始
+                    current = -1
+                }
+                if (step < 0 && current == 0) {
+                    current = data.Files.length
+                }
+                current += step
+                if (data.Files[current].Type == 'pic') {
+                    set_img(current)
+                    break
+                }
+
+            }
+        }
+
+        $('#btn-img-next').click((e) => {
+            img_to(+1)
+        })
+
+        $('#btn-img-pre').click((e) => {
+            img_to(-1)
+        })
+    </script>
+
+
+</body>
+
+
+</html>
