@@ -172,22 +172,36 @@ func getType(fileName string) string {
 	}
 	fileType := "nor"
 	switch extStr {
-	case "txt", "md":
+	case "txt", "md", "log", "conf", "ini", "plist", "sh", "json", "in", "xml", "css":
 		fileType = "txt"
 	case "ai":
 		fileType = "ai"
+	case "psd":
+		fileType = "ps"
 	case "c", "cpp", "go", "py", "java", "php", "c++":
 		fileType = "code"
 	case "pdf":
 		fileType = "pdf"
-	case "png", "jpg", "jpeg", "gif":
+	case "png", "jpg", "jpeg", "gif", "bmp", "svg":
 		fileType = "pic"
 	case "mp4", "mkv", "avi", "rmvb":
 		fileType = "video"
+	case "dmg":
+		fileType = "ipa"
+	case "mp3", "wma":
+		fileType = "audio"
+	case "apk":
+		fileType = "apk"
 	case "flv":
 		fileType = "flv"
 	case "doc", "docx":
 		fileType = "doc"
+	case "xls", "xlsx", "csv":
+		fileType = "xls"
+	case "ppt", "pptx":
+		fileType = "ppt"
+	case "tar", "zip", "xz", "gz", "rar", "7z":
+		fileType = "zip"
 	}
 	return fileType
 }

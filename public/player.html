@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{.video}}</title>
+    <link rel="shortcut icon" href="/public/img/icon/icon-video.png" type="image/x-icon">
+    <style>
+         :root {
+            --side-with: 300px;
+        }
+        
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+            /* width: 100%; */
+            height: 100%;
+        }
+        
+        video {
+            width: 100%;
+        }
+        
+        .main {
+            width: calc(100% - var(--side-with) - 10px);
+            float: left;
+        }
+        
+        .side {
+            width: var(--side-with);
+            float: left;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 5px;
+            margin: 0px;
+        }
+        
+        li {
+            padding: 5px;
+        }
+        
+        li:hover {
+            background: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+        <video id="videoElement" controls autoplay></video>
+    </div>
+    <div class="side">
+        <div style="text-align: center;padding-top: 5px;">播放列表</div>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript" charset="utf-8" src="/public/js/flv.min.js"></script>
+    <script>
+        if (flvjs.isSupported()) {
+            var videoElement = document.getElementById('videoElement');
+            var flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                url: '/file/{{.video}}'
+            });
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load();
+            flvPlayer.play();
+        }
+    </script>
+</body>
+
+</html>

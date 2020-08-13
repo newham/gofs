@@ -26,3 +26,9 @@ func FileController(ctx hamgo.Context) {
 func IndexController(ctx hamgo.Context) {
 	ctx.Redirect("/folder/")
 }
+
+func VideoController(ctx hamgo.Context) {
+	video := getPath(ctx, "/video/")
+	ctx.PutData("video", video)
+	ctx.HTML("public/player.html")
+}

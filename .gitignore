@@ -5,3 +5,4 @@ files/
 *.conf
 /.*
 download_frequency.csv
+.*

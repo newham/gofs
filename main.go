@@ -14,6 +14,7 @@ func main() {
 	server.Static("public")
 	server.Get("/folder/", controllers.FolderController)
 	server.Get("/file/", controllers.FileController)
+	server.Get("/video/", controllers.VideoController)
 	server.Get("/", controllers.IndexController)
 
 	server.Run()
