@@ -38,6 +38,25 @@
         .action-item-con {
             user-select: none;
         }
+        
+        .audio-box {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            /* top: 0px; */
+            display: none;
+            background: rgb(241, 243, 244);
+            padding-top: 5px;
+            padding-left: 10px;
+            padding-right: 5px;
+            /* border-radius: 10px; */
+            color: #0071e3;
+            /* border-left: 4px solid #0071e3; */
+            /* border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px; */
+            border: 1px solid #ccc;
+            /* box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); */
+        }
     </style>
 </head>
 
@@ -104,25 +123,25 @@
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
                                             <li class="cur"><a href="/folder/"><i class="icon icon-all"></i><span class="menu-tit">全部</span></a></li>
-                                            <!-- <li class=""><a href="javascript:void(0)"><i class="icon icon-doc"></i><span class="menu-tit">文档</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-doc"></i><span class="menu-tit">文档</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-pic"></i><span class="menu-tit">图片</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-video"></i><span class="menu-tit">视频</span></a></li>
-                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-music"></i><span class="menu-tit">音乐</span></a></li> -->
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-music"></i><span class="menu-tit">音乐</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="menu-item">
+                                <!-- <div class="menu-item">
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-pho"></i><span class="menu-tit">照片</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-note"></i><span class="menu-tit">笔记</span></a></li>
-                                            <!-- <li class=""><a href="javascript:void(0)"><i class="icon icon-group"></i><span class="menu-tit">共享组</span></a></li>
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-group"></i><span class="menu-tit">共享组</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-add-safebox"></i><span class="menu-tit">保险箱</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-share"></i><span class="menu-tit">分享链接</span></a></li>
-                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-trash"></i><span class="menu-tit">回收站</span></a></li> -->
+                                            <li class=""><a href="javascript:void(0)"><i class="icon icon-trash"></i><span class="menu-tit">回收站</span></a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- <div class="menu-item">
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
@@ -385,7 +404,7 @@
                                                 <div class="act-item-txt"><a href="javascript:void(0)" class="btn btn-s">开通会员</a></div>
                                             </div>
                                         </div> -->
-                                        <div class="act-item act-item-acc" id="menu-user">
+                                        <div class="act-item act-item-acc" id="menu-user" style="position: fixed;right: 15px;">
                                             <div class="act-item-txt">
                                                 <div class="mod-user">
                                                     <div class="user-info" id="btn-user">
@@ -612,14 +631,14 @@
                                     <!---->
                                     <div class="mod-act-panel">
                                         <div class="act-panel-inner clearfix">
-                                            <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-d  mod-action-wrap-mode clearfix">
+                                            <!-- <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-d  mod-action-wrap-mode clearfix">
                                                 <div class="action-item act">
                                                     <div class="action-item-con"><i class="icon icon-mode-list"></i> <span class="act-txt">列表</span></div>
                                                 </div>
                                                 <div class="action-item">
                                                     <div class="action-item-con"><i class="icon icon-mode-thumb"></i> <span class="act-txt">缩略图</span></div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="mod-breadcrumb">
                                                 <ul class="breadcrumb clearfix" id="path-array">
                                                     <!-- <li class="item all"><a href="javascript:void(0)"><i class="icon"></i>全部</a></li>
@@ -962,170 +981,7 @@
         </div>
         <div class="ui-mask"></div>
     </div>
-    <!-- <script>
-        window.syncData = {
-            "needLogin": false,
-            "needIndep": false,
-            "error": {},
-            "userInfo": {
-                "max_dir_layer_number": 25,
-                "max_index_number": 50000000,
-                "max_single_file_size": 107374182400,
-                "max_index_number_per_level": 30000,
-                "server_time": 1596608577000,
-                "max_tiny_file_size": 0,
-                "max_filename_length": 128,
-                "max_dir_name_length": 128,
-                "change_st_interval": 7200000,
-                "plugin_switch_flag": 3,
-                "user_ctime": 1366585380682,
-                "user_mtime": 1590199067512,
-                "index_number": 3513,
-                "used_space": 7748557701,
-                "root_dir_key": "10126218f338fdcb41c5dfa52b9ed888",
-                "main_dir_key": "10126218f0a739ae12b58dcd423dce4a",
-                "total_space": 10737418240,
-                "dir_total": 89,
-                "file_total": 3424,
-                "page_size": 200,
-                "nick_name": "柳寒",
-                "checksum": 1525913707,
-                "uin": 409080336,
-                "head_img_url": "http://thirdqq.qlogo.cn/g?b=sdk&k=D3RpQiagjpcxczN2wknmMNw&s=640&t=1556319206",
-                "https_head_img_url": "https://thirdqq.qlogo.cn/g?b=sdk&k=D3RpQiagjpcxczN2wknmMNw&s=640&t=1556319206",
-                "max_batch_dir_delete_number": 10,
-                "max_batch_file_delete_number": 50,
-                "max_batch_dir_move_number": 10,
-                "max_batch_file_move_number": 50,
-                "max_batch_dir_outer_linker_number": 10,
-                "max_batch_file_outer_linker_number": 10,
-                "max_batch_dir_restore_number": 10,
-                "max_batch_file_restore_number": 10,
-                "max_batch_dir_package_download_number": 50,
-                "max_batch_file_package_download_number": 50,
-                "max_batch_dir_list_number": 10,
-                "max_batch_file_download_number": 50,
-                "max_batch_file_copy_number": 10,
-                "max_batch_file_copy_to_offline_number": 10,
-                "max_batch_file_copy_to_other_bid_number": 10,
-                "max_batch_file_copy_from_other_bid_number": 10,
-                "max_batch_file_attr_modify_number": 10,
-                "max_batch_file_query_number": 100,
-                "max_batch_dir_attr_modify_number": 10,
-                "max_batch_file_upload_number": 10,
-                "max_batch_dir_clear_number": 100,
-                "max_batch_file_clear_number": 100,
-                "is_pwd_open": false,
-                "is_new_user": false,
-                "is_favorites_user": false,
-                "is_weixin_weiyun_collection_user": false,
-                "is_show_qqdisk_migrate_user": false,
-                "is_show_migrate_favorites": false,
-                "is_weiyun_mobile_user": true,
-                "is_weiyun_qqdisk_user": false,
-                "is_qqdisk_pwd_open": false,
-                "is_qqdisk_pwd_entry_visible": true,
-                "flash_start_time": 1477152000000,
-                "flash_end_time": 1477843199000,
-                "flash_image_url": null,
-                "flash_enable_click": null,
-                "flash_click_url": null,
-                "flash_show_duration": null,
-                "recommend_apps_url": null,
-                "faq_url": null,
-                "offline_faq_url": null,
-                "agreement_url": null,
-                "pwd_forget_url": "http://www.weiyun.com/mobile/2.0/forget-password.html",
-                "https_faq_url": null,
-                "https_pwd_forget_url": "https://www.weiyun.com/mobile/2.0/forget-password.html",
-                "has_photo_trans": false,
-                "photo_key": "",
-                "has_photo_file_cnt": 0,
-                "app_data": null,
-                "max_pic_num_of_note": 10,
-                "max_pic_width_of_note": 1024,
-                "max_pic_high_of_note": 960,
-                "enabled_upload_video_file": 34359738368,
-                "owa_supported_ext": "",
-                "owa_max_file_size": 52428800,
-                "qzone_info": {},
-                "lib3_trans_flag": true,
-                "temporary_file_max_valid_time": null,
-                "qdisk_flow_info": {
-                    "flow_every_day_max_upload_size": 1073741824,
-                    "flow_has_upload_size": 0
-                },
-                "high_speed_flow_info": {
-                    "total_flow_size": 0,
-                    "used_flow_size": 0,
-                    "vip_high_speed_flow_info": {
-                        "extra_id": "",
-                        "add_time": 0,
-                        "end_time": null,
-                        "total_flow_size": 0,
-                        "used_flow_size": 0,
-                        "flow_status": 1,
-                        "source": 0
-                    },
-                    "coupon_high_speed_flow_info": []
-                },
-                "qdisk_tag_flag_info": {},
-                "weiyun_vip_info": {
-                    "weiyun_vip": false,
-                    "old_weiyun_vip": false,
-                    "weiyun_begin_time": 0,
-                    "weiyun_end_time": 0,
-                    "weiyun_vip_img_url": "http://qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_.png",
-                    "https_weiyun_vip_img_url": "https://qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_.png",
-                    "weiyun_vip_level_info": {
-                        "level": 0,
-                        "current_score": 0,
-                        "max_score": 0,
-                        "grow_speed": 0
-                    },
-                    "is_post_pay": false,
-                    "year_vip": false,
-                    "super_vip": false,
-                    "old_super_vip": false,
-                    "super_vip_begin_time": 0,
-                    "super_vip_end_time": 0,
-                    "vip_iap_auto_pay": false,
-                    "super_vip_iap_auto_pay": false,
-                    "vip_non_iap_auto_pay": false,
-                    "super_vip_non_iap_auto_pay": false
-                },
-                "vip_terminal_info": {
-                    "max_task_number": 3,
-                    "max_linker_number": 5,
-                    "max_download_speed": 0,
-                    "recycle_valid_period": 7,
-                    "max_upload_task_number": null
-                },
-                "terminal_info": {
-                    "max_task_number": 1,
-                    "max_linker_number": 1,
-                    "max_download_speed": 2097152,
-                    "recycle_valid_period": 7,
-                    "max_upload_task_number": null
-                },
-                "member_root_dir_key": null,
-                "member_main_dir_key": null,
-                "pwd_token_info": {},
-                "user_reward_info": {},
-                "space_clean_info": {
-                    "user_status": 0,
-                    "left_cleaning_days": 0,
-                    "apply_delay_count": 0,
-                    "cleaning_start_time": 0
-                },
-                "is_login_back": false
-            },
-            "teamList": [],
-            "hasSetStrategy": false,
-            "isSafeboxOpen": false,
-            "isAlphaUser": false
-        };
-    </script> -->
+
     <!-- <script>
         window.g_domready_time = +new Date()
     </script>
@@ -1135,10 +991,27 @@
     <script>
         window.g_js_time = +new Date()
     </script> -->
+    <div class="audio-box" id="player-audio">
+        <table>
+            <tr>
+                <td id="audio-title" style="padding-right: 5px;padding-bottom: 5px;max-width: 250px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 
-    <div id="_dnd" class="ui-dnd" style="position: fixed; z-index: 9999; background-color: rgb(249, 245, 245); opacity: 0.2; border: 5px dashed; top: 0px; left: 0px; display: none;">
-        <div style="top: 50%; left: 50%; margin-left: -50px; margin-top: -50px; font-size: 24px; opacity: 1; position: absolute;">文件拖放到此处</div>
+                </td>
+                <td>
+                    <audio id="audio" controls="controls" autoplay="autoplay" style="outline: none;">
+                    </audio>
+                </td>
+                <td style="padding-bottom: 5px;padding-left: 5px;">
+                    <i id="btn-close-audio" class="icon icon-pop-close" style="cursor: pointer !important;"></i>
+                </td>
+            </tr>
+        </table>
     </div>
+
+
+    <!-- <div id="_dnd" class="ui-dnd" style="position: fixed; z-index: 9999; background-color: rgb(249, 245, 245); opacity: 0.2; border: 5px dashed; top: 0px; left: 0px; display: none;">
+        <div style="top: 50%; left: 50%; margin-left: -50px; margin-top: -50px; font-size: 24px; opacity: 1; position: absolute;">文件拖放到此处</div>
+    </div> -->
     <script>
         var data
 
@@ -1212,7 +1085,7 @@
             // 当存在上级目录时，显示上级目录
             if (data.PathArray.length > 1) {
                 index = data.PathArray.length - 2
-                $("#file-list").append(getFileLi(-1, 'file', `href="/folder/${data.PathArray[index][1]}"`, "../", "", ""))
+                $("#file-list").append(getFileLi(-1, 'file', `href="/folder/${data.PathArray[index][1]}"`, "../上级目录", "", ""))
             }
             // var action = `href="/folder/${data.PathArray[index][1]}"`
             // var f = {Name:data.PathArray[index][0],ModTime:"",Size:""}
@@ -1228,8 +1101,10 @@
                     action = `href="/folder/${f.Path}"`
                 } else if (f.Type == 'pic') {
                     action = `href="javascript:void(0)" onclick="preview(${i})"`
-                } else if (f.Type == 'flv') {
+                } else if (f.Type == 'flv' || f.Type == 'video') {
                     action = `href="/video/${f.Path}" target="blank"`
+                } else if (f.Type == 'audio') {
+                    action = `href="javascript:void(0)" onclick="play_audio('${f.Path}')"`
                 }
                 $("#file-list").append(getFileLi(i, icon, action, f.Name, f.ModTime, f.Size))
             }
@@ -1329,7 +1204,7 @@
         function set_img(id) {
             var img = data.Files[id]
             $("#img-title").html(img.Name)
-            $("#img").attr('src', '/file/' + img.Path)
+            $("#img").attr('src', encodeURI('/file/' + img.Path))
             console.log(img.Path)
         }
 
@@ -1377,7 +1252,18 @@
             console.log('new folder')
         }
 
+        $("#btn-close-audio").click((e) => {
+            $("#audio").attr('src', '')
+            $("#player-audio").hide()
+        })
 
+        function play_audio(path) {
+            console.log(encodeURI(`/file/${path}`))
+            $("#audio").attr('src', encodeURI(`/file/${path}`))
+            $("#audio-title").html(getFileName(path))
+            $("#player-audio").show()
+                // $("#audio").play()
+        }
 
         $('#input-new-folder').keydown(function(e) {
             if (e.keyCode == 13) { //inter
@@ -1387,6 +1273,11 @@
                 $("#new-folder").hide()
             }
         });
+
+        function getFileName(file) {
+            var pos = file.lastIndexOf('/')
+            return file.substring(pos + 1)
+        }
     </script>
 
 

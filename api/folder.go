@@ -7,6 +7,8 @@ import (
 	"path"
 	"strconv"
 	"strings"
+
+	"github.com/newham/hamgo"
 )
 
 type Readme struct {
@@ -18,8 +20,8 @@ type Folder struct {
 	Up   string
 	Path string
 	// Folders [][]string
-	Files     []File
-	Readme    Readme
+	Files []File
+	// Readme    Readme
 	PathArray [][]string
 }
 
@@ -64,7 +66,7 @@ func SetRoot(path string) {
 	os.MkdirAll(ROOT_PATH, 0777)
 }
 
-func GetFolder(path string) Folder {
+func GetFolder(path string, typeFilter []string) Folder {
 	path = getPath(path)
 	dir, err := ioutil.ReadDir(ROOT_PATH + path)
 	if err != nil {
@@ -72,23 +74,27 @@ func GetFolder(path string) Folder {
 	}
 	// folders := make([][]string, 0, 10)
 	files := make([]File, 0, 10)
-	readme := Readme{"", ""}
+	// readme := Readme{"", ""} // 这里不要直接读取readme，应该异步请求
 	for _, fi := range dir {
+		fileType := GetType(fi.Name())
+		//过滤不符合typeFilter
+		if typeFilter != nil && !strings.Contains(strings.Join(typeFilter, ","), fileType) {
+			continue
+		}
 		//不显示隐藏文件
-		if strings.HasPrefix(fi.Name(), ".") {
+		if !hamgo.Conf.DefaultBool("show_hidden", false) && strings.HasPrefix(fi.Name(), ".") {
 			continue
 		}
 		// if fi.IsDir() {
 		// folders = append(folders, []string{fi.Name(), getPath(path + fi.Name())})
 		// } else {
-		if strings.ToLower(fi.Name()) == "readme.md" {
-			fullFileName := path + fi.Name()
-			f, _ := os.OpenFile(fullFileName, os.O_RDONLY, 0444)
-			defer f.Close()
-			b, _ := ioutil.ReadAll(f)
-			readme = Readme{string(b), fi.Name()}
-		}
-		fileType := getType(fi.Name())
+		// if strings.ToLower(fi.Name()) == "readme.md" {
+		// 	fullFileName := path + fi.Name()
+		// 	f, _ := os.OpenFile(fullFileName, os.O_RDONLY, 0444)
+		// 	defer f.Close()
+		// 	b, _ := ioutil.ReadAll(f)
+		// 	readme = Readme{string(b), fi.Name()}
+		// }
 		filePath := getFile(path + fi.Name())
 		if fi.IsDir() {
 			fileType = "folder"
@@ -98,7 +104,7 @@ func GetFolder(path string) Folder {
 		// }
 
 	}
-	return Folder{getParentDirectory(path), path, files, readme, getPathArray(path)}
+	return Folder{GetParentDirectory(path), path, files, getPathArray(path)}
 }
 
 func getPathArray(path string) [][]string {
@@ -139,7 +145,7 @@ func isEditable(fileType string) bool {
 	return false
 }
 
-func getParentDirectory(dirctory string) string {
+func GetParentDirectory(dirctory string) string {
 	return getPath(path.Dir(path.Dir(dirctory)))
 }
 
@@ -162,7 +168,7 @@ func getFile(p string) string {
 	return p
 }
 
-func getType(fileName string) string {
+func GetType(fileName string) string {
 	ext := path.Ext(fileName)
 	extStr := ""
 	if len(ext) < 2 {

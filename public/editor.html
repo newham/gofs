@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/public/js/marked.js"></script>
+    <script type="text/javascript" src="/public/js/editor.js"></script>
+    <link rel="stylesheet" href="/public/css/editor.css" />
+    <title>Editor</title>
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #f9f9f7;
+        }
+        
+        .editor-wrapper {
+            max-width: 680px;
+            padding: 10px;
+            margin: 60px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="editor-wrapper">
+        <input class="title" type="text" placeholder="Title" />
+        <textarea id="editor" placeholder="Content here ...."></textarea>
+    </div>
+
+    <script type="text/javascript" src="/public/js/zepto.min.js"></script>
+    <script type="text/javascript">
+        (function($) {
+            $('#editor').load('/file/home/README.md',
+                function(data) {
+                    var editor = new Editor();
+                    editor.render();
+                }
+            );
+        })(Zepto);
+    </script>
+</body>
+
+</html>

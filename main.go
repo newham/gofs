@@ -15,6 +15,7 @@ func main() {
 	server.Get("/folder/", controllers.FolderController)
 	server.Get("/file/", controllers.FileController)
 	server.Get("/video/", controllers.VideoController)
+	server.Post("/upload", controllers.UploadController)
 	server.Get("/", controllers.IndexController)
 
 	server.Run()

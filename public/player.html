@@ -4,9 +4,11 @@
 <head>
     <title>{{.video}}</title>
     <link rel="shortcut icon" href="/public/img/icon/icon-video.png" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/page-home.css">
     <style>
          :root {
             --side-with: 300px;
+            --side-height: 30%;
         }
         
         body,
@@ -15,6 +17,7 @@
             margin: 0;
             /* width: 100%; */
             height: 100%;
+            background: #222;
         }
         
         video {
@@ -22,56 +25,148 @@
         }
         
         .main {
-            width: calc(100% - var(--side-with) - 10px);
+            /* width: 100%;
+            height: calc(100% - var(--side-height)); */
+            height: 100%;
+            width: calc(100% - var(--side-with));
             float: left;
         }
         
+        .main .title {
+            color: floralwhite;
+        }
+        
         .side {
-            width: var(--side-with);
+            /* width: 100%;
+            height: var(--side-height); */
+            width: calc(var(--side-with) - 1px);
+            height: 100%;
             float: left;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border-left: 1px solid #333;
+            /* background: #111;
+            color: #fff; */
+            background: #fff;
+            padding-top: 50px;
         }
         
         ul {
             list-style: none;
-            padding: 5px;
+            padding: 0px 0px;
             margin: 0px;
         }
         
         li {
-            padding: 5px;
+            /* margin-bottom: 5px; */
+            padding: 5px 10px;
+            /* background: #eee; */
+            /* border-radius: 2px; */
+            /* display: inline-block; */
+            /* max-width: 50%; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            cursor: pointer;
         }
         
         li:hover {
             background: #ccc;
         }
+        
+        .act {
+            background: dodgerblue;
+            color: #fff;
+        }
+        
+        video {
+            max-width: 100%;
+            max-height: calc(100% - 50px);
+            outline: none;
+        }
+        
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 15px 5px;
+            text-align: center;
+        }
+        
+        .title-list {
+            z-index: 2;
+            position: fixed;
+            top: 0;
+            background: white;
+            text-align: center;
+            padding-bottom: 14px;
+            padding-top: 15px;
+            border-bottom: 1px solid #ededed;
+            width: calc(var(--side-with) - 1px);
+            /* width: 100%; */
+        }
     </style>
 </head>
 
 <body>
-
     <div class="main">
+        <div class="title">
+            <label style="color:dodgerblue;">正在播放:</label> <label id="title"></label>
+        </div>
         <video id="videoElement" controls autoplay></video>
     </div>
     <div class="side">
-        <div style="text-align: center;padding-top: 5px;">播放列表</div>
-        <ul>
-            <li>1</li>
-            <li>2</li>
+        <div class="title-list"><label>播放列表</label></div>
+        <ul id="play-list">
         </ul>
     </div>
 
+    <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/public/js/flv.min.js"></script>
     <script>
-        if (flvjs.isSupported()) {
-            var videoElement = document.getElementById('videoElement');
-            var flvPlayer = flvjs.createPlayer({
-                type: 'flv',
-                url: '/file/{{.video}}'
-            });
-            flvPlayer.attachMediaElement(videoElement);
-            flvPlayer.load();
-            flvPlayer.play();
+        function play(url, type, name, i) {
+            if (flvjs.isSupported()) {
+                var videoElement = document.getElementById('videoElement');
+                var flvPlayer = flvjs.createPlayer({
+                    type: type,
+                    url: encodeURI(`/file/${url}`)
+                });
+                flvPlayer.attachMediaElement(videoElement);
+                flvPlayer.load();
+                flvPlayer.play();
+                $("#title").html(name)
+                    //set act li
+                set_act_li(i)
+            }
         }
+
+        var current = -1
+
+        function set_play_list() {
+            var player_list = JSON.parse('{{.playList}}')
+            for (i = 0; i < player_list.Files.length; i++) {
+                var video = player_list.Files[i]
+                if (video.Path == decodeURI('{{.video}}')) {
+                    current = i
+                    console.log('current:', i)
+                }
+                $("#play-list").append(`<li id="li-${i}" onclick="play('${video.Path}','${video.Type}','${video.Name}',${i})"><i class="icon icon-m icon-video-m"></i>  ${video.Name} </li>`)
+            }
+        }
+
+        function set_act_li(i) {
+            if (current > -1) {
+                $(`#li-${current}`).removeClass('act')
+            }
+            $(`#li-${i}`).addClass('act')
+            current = i
+        }
+
+        $(document).ready(() => {
+            set_play_list()
+            play('{{.video}}', '{{.type}}', decodeURI('{{.video}}'), current)
+        })
     </script>
 </body>
 
