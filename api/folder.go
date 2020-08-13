@@ -194,7 +194,7 @@ func GetType(fileName string) string {
 		fileType = "video"
 	case "dmg":
 		fileType = "ipa"
-	case "mp3", "wma":
+	case "mp3", "wma", "flac":
 		fileType = "audio"
 	case "apk":
 		fileType = "apk"
