@@ -101,7 +101,7 @@ func GetFolder(path string, typeFilter []string) Folder {
 			fileType = "folder"
 			filePath = getPath(filePath)
 		}
-		files = append(files, File{fi.Name(), formatSize(fi.Size()), filePath, fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())})
+		files = append(files, File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())})
 		// }
 
 	}
@@ -120,7 +120,7 @@ func getPathArray(path string) [][]string {
 	temp := ""
 	for _, item := range paths {
 		temp += item + "/"
-		pathArray = append(pathArray, []string{item, temp})
+		pathArray = append(pathArray, []string{item, URLToBase64(temp)})
 	}
 	return pathArray
 }

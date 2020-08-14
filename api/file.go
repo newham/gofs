@@ -107,8 +107,8 @@ func DeleteFile(filename string) bool {
 }
 
 func DeleteFiles(array map[string]string) error {
-	for _, v := range array {
-		if err := os.RemoveAll(ROOT_PATH + v); err != nil {
+	for _, path := range array {
+		if err := os.RemoveAll(ROOT_PATH + Base64ToURL(path)); err != nil {
 			return err
 		}
 	}

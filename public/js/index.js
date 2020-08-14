@@ -78,7 +78,7 @@ function set_file_list(file_list) {
         } else if (f.Type == 'flv' || f.Type == 'video') {
             action = `href="/video/${f.Path}" target="blank"`
         } else if (f.Type == 'audio') {
-            action = `href="javascript:void(0)" onclick="play_audio('${f.Path}')"`
+            action = `href="javascript:void(0)" onclick="play_audio('${f.Path}','${f.Name}')"`
         }
         $("#file-list").append(getFileLi(i, icon, action, f.Name, f.ModTime, f.Size))
     }
@@ -293,15 +293,16 @@ function new_folder() {
             return
         }
     }
+    console.log("new folder:", data.Path + new_folder_name)
 
     //2.开始创建
     $.ajax({
         url: '/folder/',
         type: 'put',
         dataType: 'json',
-        contentType: "application/json", //form 格式作为提交
+        contentType: "application/json",
         data: JSON.stringify({
-            "dir": data.Path + new_folder_name //千万别掉了data.Path
+            "dir": data.Path + new_folder_name,
         }),
         success: function(d) {
             console.log('new folder success')
@@ -318,10 +319,10 @@ $("#btn-close-audio").click((e) => {
     $("#player-audio").hide()
 })
 
-function play_audio(path) {
+function play_audio(path, name) {
     console.log(encodeURI(`/file/${path}`))
     $("#audio").attr('src', encodeURI(`/file/${path}`))
-    $("#audio-title").html(getFileName(path))
+    $("#audio-title").html(name)
     $("#player-audio").show()
         // $("#audio").play()
 }

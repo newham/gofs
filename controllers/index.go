@@ -3,7 +3,6 @@ package controllers
 import (
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"path"
 	"strings"
@@ -13,13 +12,18 @@ import (
 )
 
 func FolderController(ctx hamgo.Context) {
-	path := getPath(ctx, "/folder/", true)
-	folders := api.GetFolder(path, nil)
-	hamgo.Log.Info("%d %-10s %s", 200, "folder", path)
 	ctx.OnGET(func(ctx hamgo.Context) { //get请求页面
+		path := getPath(ctx, "/folder/")
+		folders := api.GetFolder(path, nil)
+		hamgo.Log.Info("%d %-10s %s", 200, "folder", path)
 		ctx.JSONHTML(folders, "public/index.html")
 		return
 	}).OnPOST(func(ctx hamgo.Context) { //post请求json
+		m, err := ctx.BindMap()
+		if err != nil {
+			ctx.JSONMsg(500, "error", err.Error())
+		}
+		folders := api.GetFolder(m["dir"].(string), nil)
 		ctx.JSONFrom(200, folders)
 		return
 	}).OnPUT(func(ctx hamgo.Context) { //put请求json新建
@@ -28,9 +32,10 @@ func FolderController(ctx hamgo.Context) {
 			ctx.JSONMsg(500, "msg", err.Error())
 			return
 		}
-		path = m["dir"].(string)
-		// println("path", api.ROOT_PATH+path)
-		err = os.MkdirAll(api.ROOT_PATH+path, 0777)
+		path := m["dir"].(string) //这是由用户输入的，不用转base64
+		filePath := api.ROOT_PATH + path
+		// println("path", filePath)
+		err = os.MkdirAll(filePath, 0777)
 		if err != nil {
 			ctx.JSONMsg(500, "msg", err.Error())
 		} else {
@@ -39,11 +44,12 @@ func FolderController(ctx hamgo.Context) {
 	})
 }
 
-func getPath(ctx hamgo.Context, prefix string, isUnicode bool) string {
+func getPath(ctx hamgo.Context, prefix string) string {
 	path := strings.TrimPrefix(ctx.R().URL.String(), prefix)
-	if isUnicode {
-		path, _ = url.QueryUnescape(strings.TrimPrefix(ctx.R().URL.String(), prefix))
-	}
+	// if isUnicode {
+	// 	path, _ = url.QueryUnescape(strings.TrimPrefix(ctx.R().URL.String(), prefix))
+	// }
+	path = api.Base64ToURL(path)
 	if path == "" {
 		path = "/"
 	}
@@ -52,7 +58,7 @@ func getPath(ctx hamgo.Context, prefix string, isUnicode bool) string {
 
 func FileController(ctx hamgo.Context) {
 	ctx.OnGET(func(ctx hamgo.Context) {
-		path := getPath(ctx, "/file/", true)
+		path := getPath(ctx, "/file/")
 		hamgo.Log.Info("%d %-10s %s", 200, "file", path)
 		ctx.File(api.ROOT_PATH + path)
 		return
@@ -72,7 +78,7 @@ func FileController(ctx hamgo.Context) {
 		ctx.JSONOk()
 		return
 	}).OnPUT(func(ctx hamgo.Context) {
-		path := getPath(ctx, "/file/", true)
+		path := getPath(ctx, "/file/")
 		hamgo.Log.Info("%d %-10s %s", 200, "put file", path)
 		_, err := os.Create(api.ROOT_PATH + path)
 		if err != nil {
@@ -88,9 +94,9 @@ func IndexController(ctx hamgo.Context) {
 }
 
 func VideoController(ctx hamgo.Context) {
-	video := getPath(ctx, "/video/", true)
+	video := getPath(ctx, "/video/")
 	hamgo.Log.Info("%d %-10s %s", 200, "video", video)
-	ctx.PutData("video", video)
+	ctx.PutData("video", api.URLToBase64(video))
 	ctx.PutData("type", api.GetType(video))
 	ctx.PutData("playList", hamgo.JSONToString(api.GetFolder(path.Dir(video), []string{"flv", "video"})))
 	ctx.HTML("public/player.html")
