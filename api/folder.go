@@ -30,8 +30,9 @@ type File struct {
 	Size              string
 	Path              string
 	ModTime           string
-	Type              string
-	Editable          bool
+	Type              string //文件类型
+	Suffix            string //后缀名
+	Editable          bool   //是否可编辑
 	DownloadFrequency int
 }
 
@@ -100,7 +101,7 @@ func GetFolder(path string, typeFilter []string) Folder {
 			fileType = "folder"
 			filePath = getPath(filePath)
 		}
-		files = append(files, File{fi.Name(), formatSize(fi.Size()), filePath, fi.ModTime().String()[:16], fileType, isEditable(fileType), getDownloadFrequency(path + fi.Name())})
+		files = append(files, File{fi.Name(), formatSize(fi.Size()), filePath, fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())})
 		// }
 
 	}
@@ -166,6 +167,15 @@ func getFile(p string) string {
 	}
 	p = strings.ReplaceAll(p, "//", "/")
 	return p
+}
+
+func getSuffix(fileName string) string {
+	ext := path.Ext(fileName)
+	extStr := ""
+	if len(ext) >= 2 {
+		extStr = strings.ToLower(ext[1:])
+	}
+	return extStr
 }
 
 func GetType(fileName string) string {

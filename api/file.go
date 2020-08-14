@@ -42,6 +42,7 @@ func OverwriteBytes(filename string, content []byte) error {
 
 func Mkdir(filename string) error {
 	if !IsFileExist(filename) {
+		println("start to mkdir:", filename)
 		err := os.MkdirAll(filepath.Dir(filename), 0777)
 		if err != nil {
 			println("mk dir failed ", filename, " failed,", err)
@@ -88,6 +89,7 @@ func writeString(filename string, content string, mode int) error {
 
 	return nil
 }
+
 func IsFileExist(filename string) bool {
 	var exist = true
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
@@ -95,10 +97,20 @@ func IsFileExist(filename string) bool {
 	}
 	return exist
 }
+
 func DeleteFile(filename string) bool {
 	err := os.RemoveAll(filename)
 	if err != nil {
 		return false
 	}
 	return true
+}
+
+func DeleteFiles(array map[string]string) error {
+	for _, v := range array {
+		if err := os.RemoveAll(ROOT_PATH + v); err != nil {
+			return err
+		}
+	}
+	return nil
 }

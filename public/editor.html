@@ -3,42 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" src="/public/js/marked.js"></script>
-    <script type="text/javascript" src="/public/js/editor.js"></script>
-    <link rel="stylesheet" href="/public/css/editor.css" />
-    <title>Editor</title>
-    <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-            background-color: #f9f9f7;
-        }
-        
-        .editor-wrapper {
-            max-width: 680px;
-            padding: 10px;
-            margin: 60px auto;
-        }
-    </style>
+
 </head>
 
 <body>
-    <div class="editor-wrapper">
-        <input class="title" type="text" placeholder="Title" />
-        <textarea id="editor" placeholder="Content here ...."></textarea>
+    <div style="width: 100% !important; cursor: pointer !important; box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 5px !important; border-radius: 10px !important; position: relative !important; animation: 0.3s ease 0s 1 normal none running show !important; transition: all 0.3s ease 0s !important; background: rgba(248, 248, 248, 0.95) !important; margin-bottom: 15px !important;">
+        <div style="display: flex !important;">
+            <div style="padding: 10px 10px 10px 15px !important;"><img src="https://offerimage.com/www/images/e23eb2451c5c2d8384448f6126d101b5.jpeg" style="width: 50px !important; height: 50px !important;"></div>
+            <div style="padding-right: 7px !important; word-break: break-word !important; flex-grow: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important;">
+                <p style="margin: 0px !important; font-size: 14px !important; line-height: 16px !important; max-height: 16px !important; overflow: hidden !important; font-weight: bold !important; direction: ltr !important;"><span>Ad&nbsp;·&nbsp;</span><span>TRAGIC ACCIDENT:</span></p>
+                <p style="margin: 0px !important; font-size: 14px !important; line-height: 16px !important; max-height: 32px !important; overflow: hidden !important; direction: ltr !important;">Tharman Loses It All...</p>
+                <div style="margin: 0px !important; padding: 2px 5px !important; font-size: 12px !important; line-height: 12px !important; background: rgb(171, 202, 56) !important; color: rgb(255, 255, 255) !important; border-radius: 2px !important; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px !important; position: absolute !important; left: -5px !important; top: 14px !important; display: none !important;">Ad</div>
+            </div>
+            <div style="padding: 0px 12px !important; font-size: 20px !important; background: rgba(0, 0, 0, 0) !important; border-radius: 0px 10px 10px 0px !important; transition: all 0.3s ease 0s !important; display: flex !important; flex-direction: column !important; justify-content: center !important; opacity: 0 !important;"><span>×</span></div>
+        </div>
     </div>
-
-    <script type="text/javascript" src="/public/js/zepto.min.js"></script>
-    <script type="text/javascript">
-        (function($) {
-            $('#editor').load('/file/home/README.md',
-                function(data) {
-                    var editor = new Editor();
-                    editor.render();
-                }
-            );
-        })(Zepto);
-    </script>
 </body>
 
 </html>

@@ -16,25 +16,71 @@ func FolderController(ctx hamgo.Context) {
 	path := getPath(ctx, "/folder/", true)
 	folders := api.GetFolder(path, nil)
 	hamgo.Log.Info("%d %-10s %s", 200, "folder", path)
-	if ctx.Method() == "GET" {
+	ctx.OnGET(func(ctx hamgo.Context) { //get请求页面
 		ctx.JSONHTML(folders, "public/index.html")
-	} else {
+		return
+	}).OnPOST(func(ctx hamgo.Context) { //post请求json
 		ctx.JSONFrom(200, folders)
-	}
+		return
+	}).OnPUT(func(ctx hamgo.Context) { //put请求json新建
+		m, err := ctx.BindMap()
+		if err != nil {
+			ctx.JSONMsg(500, "msg", err.Error())
+			return
+		}
+		path = m["dir"].(string)
+		// println("path", api.ROOT_PATH+path)
+		err = os.MkdirAll(api.ROOT_PATH+path, 0777)
+		if err != nil {
+			ctx.JSONMsg(500, "msg", err.Error())
+		} else {
+			ctx.JSONOk()
+		}
+	})
 }
 
 func getPath(ctx hamgo.Context, prefix string, isUnicode bool) string {
+	path := strings.TrimPrefix(ctx.R().URL.String(), prefix)
 	if isUnicode {
-		path, _ := url.QueryUnescape(strings.TrimPrefix(ctx.R().URL.String(), prefix))
-		return path
+		path, _ = url.QueryUnescape(strings.TrimPrefix(ctx.R().URL.String(), prefix))
 	}
-	return strings.TrimPrefix(ctx.R().URL.String(), prefix)
+	if path == "" {
+		path = "/"
+	}
+	return path
 }
 
 func FileController(ctx hamgo.Context) {
-	path := getPath(ctx, "/file/", true)
-	hamgo.Log.Info("%d %-10s %s", 200, "file", path)
-	ctx.File(api.ROOT_PATH + path)
+	ctx.OnGET(func(ctx hamgo.Context) {
+		path := getPath(ctx, "/file/", true)
+		hamgo.Log.Info("%d %-10s %s", 200, "file", path)
+		ctx.File(api.ROOT_PATH + path)
+		return
+	}).OnDELETE(func(ctx hamgo.Context) {
+		deleteMap := map[string]string{}
+		err := ctx.BindJSON(&deleteMap)
+		if err != nil {
+			ctx.JSONMsg(400, "error", err.Error())
+			return
+		}
+		err = api.DeleteFiles(deleteMap)
+		if err != nil {
+			hamgo.Log.Error("%d %-10s %s", 500, "delete ", "failed:"+err.Error())
+			ctx.JSONMsg(500, "error", err.Error())
+			return
+		}
+		ctx.JSONOk()
+		return
+	}).OnPUT(func(ctx hamgo.Context) {
+		path := getPath(ctx, "/file/", true)
+		hamgo.Log.Info("%d %-10s %s", 200, "put file", path)
+		_, err := os.Create(api.ROOT_PATH + path)
+		if err != nil {
+			ctx.JSONMsg(500, "error", err.Error())
+			return
+		}
+		ctx.JSONOk()
+	})
 }
 
 func IndexController(ctx hamgo.Context) {
@@ -59,8 +105,7 @@ func UploadController(ctx hamgo.Context) {
 	if err != nil {
 		// getHtml("").Execute(w, CommonResponse{getMsg("Upload Failed!"), getFolder(path)})
 		hamgo.Log.Error("%d %-10s %s", 500, "upload ", "failed:"+err.Error())
-		ctx.PutData("error", err.Error())
-		ctx.JSON(http.StatusInternalServerError, nil)
+		ctx.JSONMsg(http.StatusInternalServerError, "error", err.Error())
 		return
 	}
 	defer file.Close()
@@ -69,8 +114,7 @@ func UploadController(ctx hamgo.Context) {
 	if err != nil {
 		// getHtml("").Execute(w, CommonResponse{getMsg("Upload Failed!"), getFolder(path)})
 		hamgo.Log.Error("%d %-10s %s", 500, "upload ", handle.Filename+" failed:"+err.Error())
-		ctx.PutData("error", err.Error())
-		ctx.JSON(http.StatusInternalServerError, nil)
+		ctx.JSONMsg(http.StatusInternalServerError, "error", err.Error())
 		return
 	}
 	defer f.Close()
@@ -78,6 +122,5 @@ func UploadController(ctx hamgo.Context) {
 	io.Copy(f, file)
 	hamgo.Log.Info("%d %-10s %s", 200, "upload", path+handle.Filename)
 	// getHtml("").Execute(w, CommonResponse{"success", getFolder(path)})
-	ctx.PutData("success", true)
-	ctx.JSON(http.StatusOK, nil)
+	ctx.JSONMsg(http.StatusOK, "success", true)
 }

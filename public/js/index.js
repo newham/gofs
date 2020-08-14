@@ -1,6 +1,12 @@
 function set_data(data) {
+    btn_group_show = 1
+    checked_map = new Map()
+    checked_count = 0
+    is_drag_show = false
     set_file_list(data.Files)
     set_path(data.PathArray)
+    show_btn_group(1)
+    show_select_info()
 }
 
 function set_path(pathArray) {
@@ -28,6 +34,26 @@ function set_path(pathArray) {
 function set_file_list(file_list) {
     // 先清空原来的
     $("#file-list").html('')
+
+    var new_folder_li = `<li class="list-group-item checked" id="new-folder" style="display: none;">
+                            <div class="item-inner">
+                                <div class="item-tit">
+                                    <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
+                                    <div class="thumb">
+                                        <i class="icon icon-m icon-file-m"></i>
+                                    </div>
+                                    <div class="info"><a href="javascript:void(0)" title="新建文件夹" class="tit" style="display: none;">新建文件夹</a>
+                                        <span class="fileedit"><input type="text" class="ui-input" id="input-new-folder" onkeydown="new_folder_keydown()" onblur="hide_new_folder()"></span>
+                                    </div>
+                                </div>
+                                <div class="item-info"><span class="item-info-list"><span class="txt txt-time"></span></span> <span class="item-info-list"><span class="txt txt-size">-</span></span>
+                                    <!---->
+                                </div>
+                            </div>
+                        </li>`
+
+    // 新建文件夹li
+    $("#file-list").append(new_folder_li)
 
     // var icon ="file"
     // var index = 0
@@ -103,13 +129,30 @@ function check_file(i) {
         checked_map.delete(i)
         checked_count--
     }
-    // console.log(btn_group_show)
+    show_select_info()
+        // console.log(btn_group_show)
+    show_btn_group()
+
+}
+
+function show_btn_group(id) {
+    if (id != null) {
+        if (id == 1) {
+            btn_group_show = 2
+            checked_count = 0
+        } else {
+            btn_group_show = 1
+        }
+    }
     if (btn_group_show == 1) {
         $('#btn-group-1').hide()
         $('#btn-group-2').show()
         btn_group_show = 2
+
+        //hide drag
+        show_upload_box(false)
     } else {
-        console.log('checked_map')
+        // console.log('checked_map')
         if (checked_count == 0) {
             $('#btn-group-2').hide()
             $('#btn-group-1').show()
@@ -128,17 +171,36 @@ $('#btn-user').click((e) => {
 
 var is_drag_show = false
 
-$('#btn-upload').click((e) => {
+$('#formFileInputCt').click((e) => {
     // console.log('btn-upload')
+    show_upload_box()
+})
+
+$('#task-box').click((e) => {
+    show_upload_box()
+})
+
+function show_upload_box(is_show) {
+    if (is_show != null) {
+        is_drag_show = !is_show
+    }
     if (is_drag_show) {
         $("#upload-box").hide()
         $('#btn-upload').removeClass('bg-red')
+        $('#formFileInputCt').removeClass('bg-red')
+
+        if (fileCount > 0) {
+            $('#task-box').show()
+        }
     } else {
         $("#upload-box").show()
         $('#btn-upload').addClass('bg-red')
+        $('#formFileInputCt').addClass('bg-red')
+
+        $('#task-box').hide()
     }
     is_drag_show = !is_drag_show
-})
+}
 
 function switch_class(id, c) {
     var item = $(`#${id}`)
@@ -147,6 +209,11 @@ function switch_class(id, c) {
     } else {
         item.addClass(c)
     }
+}
+
+function remove_class(id, c) {
+    var item = $(`#${id}`)
+    item.removeClass(c)
 }
 
 var current = 0
@@ -167,6 +234,14 @@ function set_img(id) {
 $('#btn-close-preview').click((e) => {
     $("#img-preview").hide()
 })
+
+function map_to_json(map) {
+    let obj = Object.create(null);
+    for (let [k, v] of map) {
+        obj[k] = v;
+    }
+    return JSON.stringify(obj)
+}
 
 function img_to(step) {
     while (current < data.Files.length) {
@@ -199,13 +274,43 @@ $("#btn-new-folder").click((e) => {
     $("#input-new-folder").focus()
 })
 
-$("#input-new-folder").blur(function() {
+// $("#input-new-folder").blur(function() {
+//     $("#new-folder").hide()
+// });
+
+function hide_new_folder() {
     $("#new-folder").hide()
-});
+}
 
 function new_folder() {
-    $("#new-folder").hide()
-    console.log('new folder')
+    var new_folder_name = $("#input-new-folder").val()
+
+    //1.检查是否重名
+    for (i = 0; i < data.Files.length; i++) {
+        var file = data.Files[i]
+        if (file.Name == new_folder_name) {
+            alert("文件夹已经存在！")
+            return
+        }
+    }
+
+    //2.开始创建
+    $.ajax({
+        url: '/folder/',
+        type: 'put',
+        dataType: 'json',
+        contentType: "application/json", //form 格式作为提交
+        data: JSON.stringify({
+            "dir": data.Path + new_folder_name //千万别掉了data.Path
+        }),
+        success: function(d) {
+            console.log('new folder success')
+            reload_page()
+        },
+        error: function(e) {
+            console.log(e)
+        }
+    });
 }
 
 $("#btn-close-audio").click((e) => {
@@ -221,26 +326,129 @@ function play_audio(path) {
         // $("#audio").play()
 }
 
-$('#input-new-folder').keydown(function(e) {
-    if (e.keyCode == 13) { //inter
+// $('#input-new-folder').keydown(function(e) {
+
+// });
+
+function new_folder_keydown() {
+    if (event.keyCode == 13) { //inter
         new_folder()
         return false
-    } else if (e.keyCode == 27) { //esc
+    } else if (event.keyCode == 27) { //esc
         $("#new-folder").hide()
     }
-});
+}
 
 function getFileName(file) {
     var pos = file.lastIndexOf('/')
     return file.substring(pos + 1)
 }
 
+function delete_file() {
+    $.ajax({
+        url: '/file/',
+        type: 'delete',
+        dataType: 'json',
+        contentType: "application/json", //json 格式作为提交
+        data: map_to_json(checked_map),
+        success: function(d) {
+            console.log('delete success')
+            reload_page()
+        },
+        error: function(e) {
+            console.log(e)
+        }
+    });
+}
+
+
+$("#btn-delete").click((e) => {
+    console.log('delete')
+    delete_file()
+})
+
+// $("#app").click((e) => {
+//     if(event.currentTarget.id in ['','','']){
+//         return
+//     }
+//     // hide_menu()
+// })
+
+$("#_layout_main").click((e) => {
+    console.log('hide')
+    hide_menu()
+})
+
+$(".layout-aside").click((e) => {
+    console.log('hide')
+    hide_menu()
+})
+
+
+$("#btn-select-all").click((e) => {
+    console.log('select all')
+    for (i = 0; i < data.Files.length; i++) {
+        check_file(i)
+    }
+})
+
+function show_select_info() {
+    $("#selected-count").html(checked_count)
+    if (checked_count > 0) {
+        $("#select-all-box").removeClass('up')
+        $("#select-all-box").addClass('checked')
+        $("#select-all-box").addClass('cur')
+    } else {
+        $("#select-all-box").removeClass('checked')
+        $("#select-all-box").removeClass('cur')
+        $("#select-all-box").addClass('up')
+    }
+
+    if (checked_count == data.Files.length) {
+        $("#select-all-item").addClass('act')
+    } else {
+        $("#select-all-item").removeClass('act')
+    }
+
+}
+
+
+// $("#toolbar").click((e) => {
+//     console.log('hide')
+//     hide_menu()
+// })
+
+function hide_menu() {
+    show_upload_box(false)
+    remove_class('menu-new', 'act')
+    remove_class('menu-user', 'act')
+}
+
+function reload_page() {
+    get_data_http(data.Path).then((data_new) => {
+        // 设置新数据
+        set_data(data_new)
+    })
+}
+
+$(document).keyup(function(e) {
+    var key = e.which || e.keyCode;
+    if (key == 27) { //esc
+        show_upload_box(false)
+        hide_menu()
+    }
+});
+
 $(document).ready(() => {
     get_data('').then((data) => {
+        // 设置数据
         set_data(data)
+
+        //设置下载页面
         set_upload(data.Path, () => {
-            get_data_http(data.Path).then((data2) => {
-                set_data(data2)
+            //这是回调函数
+            get_data_http(data.Path).then((data_new) => {
+                set_data(data_new)
             })
         })
     })

@@ -14,7 +14,7 @@ function set_upload(path, f) {
             }
         },
         validation: {
-            itemLimit: 20
+            itemLimit: 256
         },
         deleteFile: {
             enabled: false,
@@ -31,23 +31,54 @@ function set_upload(path, f) {
                 } else {
                     console.log("Upload Failed");
                 }
+
+                fileCount = 0 // 上传数量清零
+                $('#task-box').hide()
+
+                // clean_done_list() // 注释掉则是手动清空
                 // window.location.href = "/folder?name={{$.Folder.Path}}";
+                // show_box_bg(true)
+            },
+            onComplete: function(id, name) {
+                --fileCount
+                $('#task-count').html(fileCount);
             },
             onSubmitted: function(id, name) {
+                ++fileCount
+                $('#task-count').html(fileCount);
                 // $('#upload-info').text(++fileCount);
                 // $('#upload-info').show();
+                // show_box_bg(false)
             },
             onCancel: function(id, name) {
+                --fileCount
+                $('#task-count').html(fileCount);
                 // $('#upload-info').text(--fileCount);
                 // if (fileCount == 0) {
                 //     $('#upload-info').hide();
                 // }
-
             }
         }
     });
 }
 
+function show_box_bg(show) {
+    if (show) {
+        $('#qq-uploader').css("background-image", `url("/public/img/svg/icon-collect-info.svg") 100% 100% no-repeat;`)
+    } else {
+        $('#qq-uploader').css("background", "white")
+    }
+}
+
 function doUpload() {
     uploader.uploadStoredFiles();
+}
+
+function clean_done_list() {
+    if (fileCount > 0) {
+        alert('还有未完成的任务！')
+        return
+    }
+    uploader.clearStoredFiles()
+    show_box_bg(true)
 }
