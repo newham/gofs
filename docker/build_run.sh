@@ -1,6 +1,6 @@
 #docker run -v /vagrant_data/http-files:/gohttpserver/http-files/ --name go-http-fileserver -d gohttpserver:latest 
 image="gofs"
-version="1.0"
+version="2.0"
 outport=8087
 inport=8087
 savedfilepath=/Users/liuhan/Work/go/src/github.com/newham/gofs/files
