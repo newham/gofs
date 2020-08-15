@@ -113,6 +113,8 @@ function set_file_list(file_list) {
             action = `href="/video/${f.Path}" target="blank"`
         } else if (f.Type == 'audio') {
             action = `href="javascript:void(0)" onclick="play_audio('${f.Path}','${f.Name}')"`
+        } else if (f.Suffix == 'md') {
+            action = `href="/edit/${f.Path}" target="blank"`
         }
         $("#file-list").append(getFileLi(i, icon, action, f.Name, f.ModTime, f.Size))
     }

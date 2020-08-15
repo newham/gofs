@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/newham/gofs/api"
@@ -128,4 +129,19 @@ func UploadController(ctx hamgo.Context) {
 
 func DownloadController(ctx hamgo.Context) {
 
+}
+
+func EditController(ctx hamgo.Context) {
+	path := getPath(ctx, "/edit/")
+	name := filepath.Base(path)
+	dir := filepath.Dir(path)
+	txt, err := api.ReadString(api.ROOT_PATH + path)
+	if err != nil {
+		ctx.Redirect("/")
+		return
+	}
+	ctx.PutData("txt", txt)
+	ctx.PutData("name", name)
+	ctx.PutData("dir", dir)
+	ctx.HTML("./public/editor.html")
 }

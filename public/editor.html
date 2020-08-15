@@ -3,19 +3,88 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Mardown-Editor</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        table {
+            width: calc(100% - 30px);
+            border-spacing: 0px;
+        }
+        
+        .my-input {
+            height: 45px;
+            width: 100%;
+            /* border-radius: 3px; */
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            font-size: 18px;
+        }
+        
+        .my-input:focus {
+            border-bottom: 2px solid green;
+        }
+        
+        .my-btn {
+            /* max-width: 80px; */
+            margin-left: 10px;
+            width: 100%;
+            border-radius: 3px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            color: green
+            /* background: green; */
+            /* color: white; */
+        }
+        
+        .title-box {
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .md-box {
+            padding: 0 10px 10px 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <input placeholder="请输入文件名">.md
-    <textarea id="markdown"> </textarea>
+    <div class="title-box">
+        <table>
+            <tr>
+                <td>
+                    <input id="md-name" class="my-input" placeholder="请输入文件名">
+                </td>
+                <td style="width:100px">
+                    <div class="my-btn"> 保存</div>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div class="md-box">
+        <textarea id="markdown"> </textarea>
+    </div>
+
 </body>
+<script src="/public/js/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
     var simplemde = new SimpleMDE({
         element: document.getElementById("markdown")
     });
-    simplemde.value('# Hello World!')
+    simplemde.value('{{.txt}}')
+    $("#md-name").val('{{.name}}')
 </script>
 
 </html>
