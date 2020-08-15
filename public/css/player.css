@@ -1,0 +1,119 @@
+:root {
+    --side-with: 250px;
+    --side-height: 30%;
+    --main-bg-color: #000;
+    --side-bg-color: #111;
+    --side-border-color: #111;
+}
+
+body,
+html {
+    padding: 0;
+    margin: 0;
+    /* width: 100%; */
+    height: 100%;
+    background: var(--main-bg-color);
+    overflow: hidden;
+}
+
+.main {
+    /* width: 100%;
+    height: calc(100% - var(--side-height)); */
+    float: left;
+    height: 100%;
+    width: calc(100% - var(--side-with));
+}
+
+.main .title {
+    color: floralwhite;
+}
+
+.side {
+    /* width: 100%;
+    height: var(--side-height); */
+    width: calc(var(--side-with) - 1px);
+    height: 100%;
+    float: left;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-left: 1px solid var(--side-border-color);
+    /* background: #111;
+    color: #fff; */
+    background: var(--side-bg-color);
+    padding-top: 51px;
+    color: whitesmoke;
+    /* opacity: 0.8; */
+}
+
+ul {
+    list-style: none;
+    padding: 0px 5px;
+    margin: 0px;
+}
+
+li {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    /* background: #eee; */
+    border-radius: 1px;
+    /* display: inline-block; */
+    /* max-width: 50%; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: #ccc;
+    color: #333;
+}
+
+.act {
+    background: dodgerblue;
+    color: #fff;
+}
+
+video {
+    max-width: calc(100%);
+    max-height: calc(100% - 50px);
+    outline: none;
+    /* border-radius: 2px; */
+}
+
+.video-box {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /* background: #111; */
+    /* border-bottom: 1px solid #111; */
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 15px 5px;
+    text-align: center;
+}
+
+.title-list {
+    /* background: #111; */
+    color: dodgerblue;
+    position: fixed;
+    top: 0;
+    /* background: white; */
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 14px;
+    /* border-bottom: 1px solid #111; */
+    width: calc(var(--side-with) - 1px);
+    /* width: 100%; */
+}
+
+
+/* .icon-m {
+    width: 20px;
+    height: 24px;
+} */

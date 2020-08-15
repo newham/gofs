@@ -100,7 +100,7 @@ function set_file_list(file_list) {
     for (i = 0; i < file_list.length; i++) {
         var f = data.Files[i]
         var icon = f.Type
-        var action = `href="/file/${f.Path}" target="blank"`
+        var action = `href="/file/${f.Path}"`
         if (f.Type == 'folder') {
             icon = "file"
 

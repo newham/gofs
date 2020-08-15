@@ -7,6 +7,7 @@
     overflow-x: hidden;
     /* opacity: 0.9; */
     /* box-shadow: 0px 5px 15px #888888; */
+    background: #eee;
 }
 
 .qq-uploader {
@@ -16,7 +17,6 @@
     padding: 10px 10px 0px 10px;
     overflow-x: hidden;
     /* border */
-    background: #eee;
     border-right: none;
     border-bottom: none;
     border: 2px dashed rgb(209, 209, 209);
@@ -85,8 +85,8 @@
     padding: 7px 10px;
     text-align: center;
     float: left;
-    background: #FF4040;
-    color: #fff !important;
+    background: #ddd;
+    color: #777 !important;
     border-radius: 2px;
     border: none !important;
     box-shadow: none !important;
@@ -97,11 +97,11 @@
 }
 
 .qq-clean-button:hover {
-    background: #CD3333;
+    background: #ccc;
 }
 
 .qq-clean-button:active {
-    background: #8B2323;
+    background: #bbb;
 }
 
 .qq-upload-list {

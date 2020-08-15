@@ -16,6 +16,9 @@ mkdir copy
 mkdir copy/files
 cp -r ../conf ../public ../view ../LICENSE ../gofs ./copy;
 
+echo "stop container"
+docker stop $image
+
 echo "rm old docker"
 docker rm $image
 docker rmi $image:$version

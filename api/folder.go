@@ -163,7 +163,7 @@ func getPath(p string) string {
 	if !strings.HasSuffix(p, "/") {
 		p = p + "/"
 	}
-	p = strings.ReplaceAll(p, "//", "/")
+	p = strings.Replace(p, "//", "/", -1)
 	if p == "/" || p == "./" {
 		p = ""
 	}
@@ -174,7 +174,7 @@ func getFile(p string) string {
 	if strings.HasSuffix(p, "/") {
 		p = strings.TrimSuffix(p, "/")
 	}
-	p = strings.ReplaceAll(p, "//", "/")
+	p = strings.Replace(p, "//", "/", -1)
 	return p
 }
 

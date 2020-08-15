@@ -82,6 +82,11 @@
             text-align: center;
         }
         
+        .audio-box img {
+            width: 20px;
+            height: 20px;
+        }
+        
         .td-audio-close {
             width: 40px;
             text-align: center;
@@ -100,8 +105,8 @@
         }
         
         .bg-red {
-            background: #FF4040 !important;
-            border-color: #FF4040 !important;
+            background: blue !important;
+            border-color: blue;
         }
         
         .btn-close {
@@ -137,7 +142,7 @@
         }
         
         .mod-logo a {
-            /* background-image: url('/public/img/icon/icon-logo.png'); */
+            background-image: url('/public/img/icon/logo-gofs.png');
             /* line-height: 36px;
             text-align: center; */
         }
@@ -224,14 +229,15 @@
                                     </div>
                                 </div>
                                 <!-- 测试用 -->
-                                <div class="menu-item">
+                                <!-- <div class="menu-item">
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
                                             <li><a href="/public/editor.html" target="blank"><i class="icon icon-all"></i><span class="menu-tit">editor</span></a></li>
                                             <li><a href="/public/upload.html" target="blank"><i class="icon icon-all"></i><span class="menu-tit">upload</span></a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
+                                <!-- 测试用 结束-->
                                 <!-- <div class="menu-item">
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
@@ -327,10 +333,11 @@
                                                                     <li class="menu-item" id="btn-new-folder"><span class="txt"><i class="icon icon-create-s"></i>新建文件夹</span>
                                                                         <div class="spliter"></div>
                                                                     </li>
+
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="menu-item">
+                                                        <!-- <div class="menu-item">
                                                             <div class="menu-item-hd">
                                                                 <p class="menu-item-hd-tit">腾讯文档</p>
                                                             </div>
@@ -361,6 +368,15 @@
                                                             <div class="menu-item-bd">
                                                                 <ul class="menu-list">
                                                                     <li class="menu-item"><span class="txt"><i class="icon icon-bt-s"></i>离线下载</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div> -->
+                                                        <div class="menu-item">
+                                                            <div class="menu-item-bd">
+                                                                <ul class="menu-list">
+                                                                    <li class="menu-item" id="btn-new-markdown">
+                                                                        <span class="txt"><i class="icon icon-create"></i>新建Markdown</span>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -414,35 +430,30 @@
                                                 <div class="action-item-con"><i class="icon icon-more"></i></div>
                                                 <div class="mod-bubble-menu with-border">
                                                     <ul class="menu-list">
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        收集文件
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                收集文件
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移动到
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                移动到
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        重命名
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                重命名
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        添加到共享组
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                添加到共享组
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移入保险箱
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                移入保险箱
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -462,23 +473,20 @@
                                                 <div class="action-item-con"><i class="icon icon-more"></i></div>
                                                 <div class="mod-bubble-menu with-border">
                                                     <ul class="menu-list">
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移动到
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt"><
+                                                                移动到
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        添加到共享组
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                添加到共享组
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移入保险箱
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                移入保险箱
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -498,23 +506,20 @@
                                                 <div class="action-item-con"><i class="icon icon-more"></i></div>
                                                 <div class="mod-bubble-menu with-border">
                                                     <ul class="menu-list">
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移动到
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                移动到
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        添加到共享组
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                添加到共享组
+                                                            </span>
                                                         </li>
-                                                        <li class="menu-item"><span class="txt"><!----> <!---->
-        移入保险箱
-        <!----> <!----></span>
-                                                            <!---->
-                                                            <!---->
+                                                        <li class="menu-item">
+                                                            <span class="txt">
+                                                                移入保险箱
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -535,7 +540,7 @@
                                             <div class="act-item-txt">
                                                 <div class="mod-user">
                                                     <div class="user-info" id="btn-user">
-                                                        <span title="柳寒" class="name">柳寒</span>
+                                                        <span title="Admin" class="name">Admin</span>
                                                         <!-- <i class="icon icon-vip" style="background-image: url(&quot;//qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_XM.png&quot;);"></i> -->
                                                         <i class="icon icon-trig"></i>
                                                     </div>
@@ -545,10 +550,10 @@
                                                 <div class="mod-info-box">
                                                     <div class="info-box-bd">
                                                         <div class="info-box-pic">
-                                                            <a href="javascript:void(0)"><img alt="柳寒" src="/public/img/icon/animal/bear2.png" class="pic"></a>
+                                                            <a href="javascript:void(0)"><img alt="Admin" src="/public/img/icon/animal/bear2.png" class="pic"></a>
                                                         </div>
                                                         <div class="info-box-con">
-                                                            <p class="tit"><span class="name"><a href="javascript:void(0)">柳寒</a></span></p>
+                                                            <p class="tit"><span class="name"><a href="javascript:void(0)">Admin</a></span></p>
                                                             <p class="txt">
                                                                 <!-- <span class="info-txt">未开通会员</span> <a href="javascript:void(0)" class="info-link">开通</a> -->
                                                                 今天心情如何？
@@ -557,8 +562,7 @@
                                                     </div>
                                                 </div>
                                                 <ul>
-                                                    <li class="menu-item"><span class="txt">开启每日极速上传</span>
-                                                        <!---->
+                                                    <!-- <li class="menu-item"><span class="txt">开启每日极速上传</span>
                                                         <div class="spliter"></div>
                                                     </li>
                                                     <li class="menu-item"><span class="txt">下载客户端</span>
@@ -570,11 +574,10 @@
                                                             <ul class="menu-list">
                                                                 <li class="menu-item"><span class="txt">开启保险箱</span></li>
                                                                 <li class="menu-item"><span class="txt">开启独立密码</span></li>
-                                                                <!---->
                                                             </ul>
                                                         </div>
                                                     </li>
-                                                    <li class="menu-item"><span class="txt">我的申诉</span></li>
+                                                    <li class="menu-item"><span class="txt">我的申诉</span></li> -->
                                                     <li class="menu-item"><span class="txt">退出登录</span></li>
                                                 </ul>
                                             </div>
@@ -606,12 +609,9 @@
                                                 <div tabindex="0" class="list-group-bd" selectbox-id="2" scroll-bottom-id="2">
                                                     <div class="list-group-wrapper">
                                                         <ul class="list-group">
-                                                            <!---->
-                                                            <!---->
                                                         </ul>
                                                     </div>
                                                     <div class="load-more-main">
-                                                        <!---->
                                                         <div class="mod-loadmore load"><i class="icon icon-load-bullet-left"></i> <i class="icon icon-load-bullet"></i> <i class="icon icon-load-bullet-right"></i></div>
                                                     </div>
                                                 </div>
@@ -631,7 +631,6 @@
                                                 <div class="team-search-all team-search-dir-active">
                                                     全部文件
                                                 </div>
-                                                <!---->
                                             </div>
                                             <div class="team-search-right">
                                                 <div class="team-search-item">
@@ -739,12 +738,8 @@
                                                 <div tabindex="0" class="list-group-bd" selectbox-id="3">
                                                     <div class="list-group-wrapper">
                                                         <ul class="list-group">
-                                                            <!---->
-                                                            <!---->
-                                                            <!---->
-                                                            <!---->
+
                                                         </ul>
-                                                        <!---->
                                                     </div>
                                                 </div>
                                             </div>
@@ -754,8 +749,7 @@
                             </div>
                             <div>
                                 <div class="layout-main-hd">
-                                    <!---->
-                                    <!---->
+
                                     <div class="mod-act-panel">
                                         <div class="act-panel-inner clearfix">
                                             <!-- <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-d  mod-action-wrap-mode clearfix">
@@ -842,20 +836,16 @@
                 <div class="operation"><button aria-hidden="true" class="btn btn-icon"><i class="icon icon-window-fold"></i></button> <button aria-label="关闭" class="btn btn-icon"><i class="icon icon-close"></i></button></div>
                 <div class="tasks-header">
                     <div class="summary-wrapper"><b class="before"></b> <i class="icon icon-status"></i>
-                        <!---->
                         <p class="txt"></p>
-                        <!---->
                         <div class="tasks-vip-guide">
                             <div>
                                 超级会员尊享极速上传 <span class="tasks-open-vip">开通超级会员</span>
-                                <!---->
                             </div>
                         </div>
                     </div>
                     <div class="title-wrapper">
                         <div class="info">
                             <p class="txt txt-sub"></p>
-                            <!---->
                         </div>
                         <h2 class="title"></h2>
                     </div>
@@ -863,18 +853,13 @@
                 <div class="tasks-body">
                     <div class="tasks-cont">
                         <div class="tasks-op-wrapper">
-                            <!---->
                             <ul class="op-list">
-                                <!---->
-                                <!---->
                                 <li class="op-list-item"><button class="btn btn-link txt txt-sub">取消全部</button></li>
-                                <!---->
                             </ul>
                         </div>
                         <div class="tasks-vip-guide">
                             <div>
                                 超级会员尊享极速上传 <span class="tasks-open-vip">开通超级会员</span>
-                                <!---->
                             </div>
                         </div>
                         <div class="tasks-group-wrapper">
@@ -884,7 +869,6 @@
                                 </div>
                                 <div class="tasks-list-wrapper" style="display: none;">
                                     <ul class="task-list-cont"></ul>
-                                    <!---->
                                 </div>
                                 <div class="status-wrapper" style="display: none;">
                                     <div class="status-blank"><i class="icon icon-list-blank"></i>
@@ -899,7 +883,8 @@
         </div>
     </div>
     <!-- 模态框 -->
-    <div class="modal"><b class="modal-mask"></b>
+    <div class="modal">
+        <b class="modal-mask"></b>
         <div class="modal-dialog modal-dialog-400 modal-dialog-confirm">
             <div class="modal-dialog-hd clearfix">
                 <h4 class="modal-dialog-title">删除文件</h4> <button class="btn-icon icon icon-pop-close"></button></div>
@@ -1188,13 +1173,10 @@
                                     <span class="qq-btn qq-continue-icon " aria-label="Continue "></span>
                                 </button>
                         </td>
-                        <td style="text-align:right;padding-top:5px;">
+                        <td style="text-align:right;padding-top:5px;min-width:150px;">
                             <span class="qq-upload-size-selector qq-upload-size"></span>
                             <button type="button " class="qq-upload-cancel-selector qq-upload-cancel ">取消</button>
-                            <button type="button " class="qq-upload-retry-selector qq-upload-retry ">
-                                    <!-- <span class="qq-btn qq-retry-icon " aria-label="Retry "></span> -->
-                                    重试
-                                </button>
+                            <button type="button " class="qq-upload-retry-selector qq-upload-retry ">重试</button>
                         </td>
                         <tr>
                             <td colspan="4">
