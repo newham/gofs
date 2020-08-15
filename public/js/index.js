@@ -1,8 +1,39 @@
-function set_data(data) {
+var data
+
+function get_data_http(path = '', isBase64 = false) {
+    return new Promise(function(resolve, reject) {
+        // 通过API
+        $.ajax({
+            url: '/folder/',
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                "dir": path,
+                "base64": isBase64,
+            }),
+            success: function(d) {
+                data = d
+                resolve(d);
+            },
+            error: function(e) {
+                reject(e);
+            }
+        });
+    })
+}
+
+function set_data(d) {
+    //绑定数据
+    data = d
+
+    //初始化参数
     btn_group_show = 1
     checked_map = new Map()
     checked_count = 0
     is_drag_show = false
+
+    //初始化界面
     set_file_list(data.Files)
     set_path(data.PathArray)
     show_btn_group(1)
@@ -16,17 +47,17 @@ function set_path(pathArray) {
     // console.log(pathArray.length, pathArray)
     if (pathArray.length == 1) {
         var item = pathArray[0]
-        $("#path-array").append(`<li class="item all cur"><a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+        $("#path-array").append(`<li class="item all cur"><a href="javascript:void(0)" onclick="load_page('${item[1]}',true)" title="${item[0]}">${item[0]}</a></li>`)
         return
     }
     for (i = 0; i < pathArray.length; i++) {
         var item = pathArray[i]
         if (i == 0) {
-            $("#path-array").append(`<li class="item all"><a href="/folder/${item[1]}"><i class="icon"></i>${item[0]}</a></li>`)
+            $("#path-array").append(`<li class="item all"><a href="javascript:void(0)" onclick="load_page('${item[1]}',true)"><i class="icon"></i>${item[0]}</a></li>`)
         } else if (i == pathArray.length - 1) {
-            $("#path-array").append(`<li class="item cur"><i class="icon icon-bread-next"></i> <a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+            $("#path-array").append(`<li class="item cur"><i class="icon icon-bread-next"></i><a href="javascript:void(0)" onclick="load_page('${item[1]}',true)" title="${item[0]}">${item[0]}</a></li>`)
         } else {
-            $("#path-array").append(`<li class="item"><i class="icon icon-bread-next"></i> <a href="/folder/${item[1]}" title="${item[0]}">${item[0]}</a></li>`)
+            $("#path-array").append(`<li class="item"><i class="icon icon-bread-next"></i> <a href="javascript:void(0)" onclick="load_page('${item[1]}',true)" title="${item[0]}">${item[0]}</a></li>`)
         }
     }
 }
@@ -60,7 +91,7 @@ function set_file_list(file_list) {
     // 当存在上级目录时，显示上级目录
     if (data.PathArray.length > 1) {
         index = data.PathArray.length - 2
-        $("#file-list").append(getFileLi(-1, 'file', `href="/folder/${data.PathArray[index][1]}"`, "../上级目录", "", ""))
+        $("#file-list").append(getFileLi(-1, 'file', `href="javascript:void(0)" onclick="load_page('${data.PathArray[index][1]}',true)"`, "../上级目录", "", ""))
     }
     // var action = `href="/folder/${data.PathArray[index][1]}"`
     // var f = {Name:data.PathArray[index][0],ModTime:"",Size:""}
@@ -72,7 +103,10 @@ function set_file_list(file_list) {
         var action = `href="/file/${f.Path}" target="blank"`
         if (f.Type == 'folder') {
             icon = "file"
-            action = `href="/folder/${f.Path}"`
+
+            // action = `href="/folder/${f.Path}"`
+            // console.log("path", `${f.Path}`)
+            action = `href="javascript:void(0)" onclick="load_page('${f.Path}',true)"`
         } else if (f.Type == 'pic') {
             action = `href="javascript:void(0)" onclick="preview(${i})"`
         } else if (f.Type == 'flv' || f.Type == 'video') {
@@ -317,14 +351,62 @@ function new_folder() {
 $("#btn-close-audio").click((e) => {
     $("#audio").attr('src', '')
     $("#player-audio").hide()
+
+    //clean data
+    audio_map = new Map()
+    audio_map_len = 0
+    audio_index = 0
 })
 
 function play_audio(path, name) {
-    console.log(encodeURI(`/file/${path}`))
+    console.log('play', name)
     $("#audio").attr('src', encodeURI(`/file/${path}`))
     $("#audio-title").html(name)
     $("#player-audio").show()
-        // $("#audio").play()
+
+    // $("#audio").play()
+
+    set_audio_list(name)
+}
+
+var audio_map = new Map()
+
+var audio_map_len = 0
+
+var audio_index = 0
+
+function set_audio_list(name) {
+    for (i = 0; i < data.Files.length; i++) {
+        var f = data.Files[i]
+        if (f.Type == 'audio') {
+            audio_map.set(audio_map_len, f)
+            if (name == f.Name) {
+                audio_index = audio_map_len
+            }
+            audio_map_len++
+        }
+    }
+}
+
+$("#audio").on('ended', (e) => {
+    console.log('audio ended')
+    audio_next()
+})
+
+function audio_back() {
+    if (--audio_index == -1) {
+        audio_index = audio_map_len - 1
+    }
+    var f = audio_map.get(audio_index)
+    play_audio(f.Path, f.Name)
+}
+
+function audio_next() {
+    if (++audio_index == audio_map_len) {
+        audio_index = 0
+    }
+    var f = audio_map.get(audio_index)
+    play_audio(f.Path, f.Name)
 }
 
 // $('#input-new-folder').keydown(function(e) {
@@ -361,7 +443,6 @@ function delete_file() {
         }
     });
 }
-
 
 $("#btn-delete").click((e) => {
     console.log('delete')
@@ -413,7 +494,6 @@ function show_select_info() {
 
 }
 
-
 // $("#toolbar").click((e) => {
 //     console.log('hide')
 //     hide_menu()
@@ -426,9 +506,20 @@ function hide_menu() {
 }
 
 function reload_page() {
-    get_data_http(data.Path).then((data_new) => {
+    load_page(data.Path)
+}
+
+function get_current() {
+    return data.Path
+}
+
+function load_page(path, isBase64 = false) {
+    get_data_http(path, isBase64).then((data) => {
         // 设置新数据
-        set_data(data_new)
+        set_data(data)
+
+        //设置uploader 的 path
+        set_upload_path(data.Path)
     })
 }
 
@@ -439,18 +530,3 @@ $(document).keyup(function(e) {
         hide_menu()
     }
 });
-
-$(document).ready(() => {
-    get_data('').then((data) => {
-        // 设置数据
-        set_data(data)
-
-        //设置下载页面
-        set_upload(data.Path, () => {
-            //这是回调函数
-            get_data_http(data.Path).then((data_new) => {
-                set_data(data_new)
-            })
-        })
-    })
-})

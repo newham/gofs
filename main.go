@@ -16,6 +16,7 @@ func main() {
 	server.Handler("/file/", controllers.FileController, "DELETE,GET,PUT")
 	server.Get("/video/", controllers.VideoController)
 	server.Post("/upload", controllers.UploadController)
+	server.Post("/download", controllers.DownloadController)
 	server.Get("/", controllers.IndexController)
 
 	server.Run()

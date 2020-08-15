@@ -7,3 +7,5 @@ files/
 download_frequency.csv
 .*
 .DS_Store
+*.log
+/log

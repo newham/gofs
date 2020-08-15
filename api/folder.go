@@ -36,6 +36,10 @@ type File struct {
 	DownloadFrequency int
 }
 
+func (f File) DecodedPath() string {
+	return Base64ToURL(f.Path)
+}
+
 func (f File) Print() {
 	println(f.Name, f.Size, f.Path, f.ModTime, f.Type, f.Editable, f.DownloadFrequency)
 }
@@ -67,7 +71,7 @@ func SetRoot(path string) {
 	os.MkdirAll(ROOT_PATH, 0777)
 }
 
-func GetFolder(path string, typeFilter []string) Folder {
+func GetFolder(path string, filter func(int, File) bool) Folder {
 	path = getPath(path)
 	dir, err := ioutil.ReadDir(ROOT_PATH + path)
 	if err != nil {
@@ -76,12 +80,12 @@ func GetFolder(path string, typeFilter []string) Folder {
 	// folders := make([][]string, 0, 10)
 	files := make([]File, 0, 10)
 	// readme := Readme{"", ""} // 这里不要直接读取readme，应该异步请求
-	for _, fi := range dir {
+	for i, fi := range dir {
 		fileType := GetType(fi.Name())
-		//过滤不符合typeFilter
-		if typeFilter != nil && !strings.Contains(strings.Join(typeFilter, ","), fileType) {
-			continue
-		}
+
+		// if typeFilter != nil && !strings.Contains(strings.Join(typeFilter, ","), fileType) {
+		// 	continue
+		// }
 		//不显示隐藏文件
 		if !hamgo.Conf.DefaultBool("show_hidden", false) && strings.HasPrefix(fi.Name(), ".") {
 			continue
@@ -101,7 +105,12 @@ func GetFolder(path string, typeFilter []string) Folder {
 			fileType = "folder"
 			filePath = getPath(filePath)
 		}
-		files = append(files, File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())})
+		file := File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())}
+		//过滤不符合typeFilter
+		if filter != nil && !filter(i, file) {
+			continue
+		}
+		files = append(files, file)
 		// }
 
 	}

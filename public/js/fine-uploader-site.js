@@ -1,7 +1,7 @@
 var fileCount = 0;
 var uploader
 
-function set_upload(path, f) {
+function set_upload() {
     uploader = new qq.FineUploader({
         autoUpload: true,
         debug: false,
@@ -9,9 +9,9 @@ function set_upload(path, f) {
         request: {
             endpoint: '/upload',
             inputName: 'file',
-            params: {
-                path: path
-            }
+            // params: {
+            //     dir: get_current(),
+            // }
         },
         validation: {
             itemLimit: 256
@@ -27,7 +27,7 @@ function set_upload(path, f) {
             onAllComplete: function(succeeded, failed) {
                 if (failed.length == 0) {
                     console.log("Upload Success");
-                    f()
+                    reload_page()
                 } else {
                     console.log("Upload Failed");
                 }
@@ -81,4 +81,9 @@ function clean_done_list() {
     }
     uploader.clearStoredFiles()
     show_box_bg(true)
+}
+
+function set_upload_path(path) {
+    console.log('set upload path', path)
+    uploader.setParams({ dir: path })
 }

@@ -2,13 +2,16 @@
 <html>
 
 <head>
-    <title>{{.video}}</title>
+    <title id="head-title">Video Player</title>
     <link rel="shortcut icon" href="/public/img/icon/icon-video.png" type="image/x-icon">
     <link rel="stylesheet" href="/public/css/page-home.css">
     <style>
          :root {
             --side-with: 250px;
             --side-height: 30%;
+            --main-bg-color: #000;
+            --side-bg-color: #111;
+            --side-border-color: #111;
         }
         
         body,
@@ -17,19 +20,16 @@
             margin: 0;
             /* width: 100%; */
             height: 100%;
-            background: #222;
-        }
-        
-        video {
-            width: 100%;
+            background: var(--main-bg-color);
+            overflow: hidden;
         }
         
         .main {
             /* width: 100%;
             height: calc(100% - var(--side-height)); */
+            float: left;
             height: 100%;
             width: calc(100% - var(--side-with));
-            float: left;
         }
         
         .main .title {
@@ -44,25 +44,26 @@
             float: left;
             overflow-x: hidden;
             overflow-y: auto;
-            border-left: 1px solid #333;
+            border-left: 1px solid var(--side-border-color);
             /* background: #111;
             color: #fff; */
-            background: #fff;
-            padding-top: 50px;
-            opacity: 0.8;
+            background: var(--side-bg-color);
+            padding-top: 51px;
+            color: whitesmoke;
+            /* opacity: 0.8; */
         }
         
         ul {
             list-style: none;
-            padding: 0px 0px;
+            padding: 0px 5px;
             margin: 0px;
         }
         
         li {
-            /* margin-bottom: 5px; */
+            margin-bottom: 5px;
             padding: 5px 10px;
             /* background: #eee; */
-            /* border-radius: 2px; */
+            border-radius: 1px;
             /* display: inline-block; */
             /* max-width: 50%; */
             overflow: hidden;
@@ -74,6 +75,7 @@
         
         li:hover {
             background: #ccc;
+            color: #333;
         }
         
         .act {
@@ -82,9 +84,18 @@
         }
         
         video {
-            max-width: 100%;
+            max-width: calc(100%);
             max-height: calc(100% - 50px);
             outline: none;
+            /* border-radius: 2px; */
+        }
+        
+        .video-box {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            /* background: #111; */
+            /* border-bottom: 1px solid #111; */
         }
         
         .title {
@@ -96,22 +107,22 @@
         }
         
         .title-list {
-            z-index: 2;
+            /* background: #111; */
+            color: dodgerblue;
             position: fixed;
             top: 0;
-            background: white;
+            /* background: white; */
             text-align: center;
-            padding-bottom: 14px;
             padding-top: 15px;
-            border-bottom: 1px solid #ededed;
+            padding-bottom: 14px;
+            /* border-bottom: 1px solid #111; */
             width: calc(var(--side-with) - 1px);
             /* width: 100%; */
         }
-        
-        .icon-m {
+        /* .icon-m {
             width: 20px;
             height: 24px;
-        }
+        } */
     </style>
 </head>
 
@@ -120,7 +131,9 @@
         <div class="title">
             <label style="color:dodgerblue;">正在播放:</label> <label id="title"></label>
         </div>
-        <video id="videoElement" controls autoplay></video>
+        <div class="video-box">
+            <video id="videoElement" controls autoplay></video>
+        </div>
     </div>
     <div class="side">
         <div class="title-list"><label>播放列表</label></div>
@@ -131,33 +144,34 @@
     <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/public/js/flv.min.js"></script>
     <script>
-        function play(url, type, name, i) {
+        function play(i) {
+            var video = player_list.Files[i]
             if (flvjs.isSupported()) {
                 var videoElement = document.getElementById('videoElement');
                 var flvPlayer = flvjs.createPlayer({
-                    type: type,
-                    url: encodeURI(`/file/${url}`)
+                    type: video.Suffix,
+                    url: encodeURI(`/file/${video.Path}`)
                 });
                 flvPlayer.attachMediaElement(videoElement);
                 flvPlayer.load();
                 flvPlayer.play();
-                $("#title").html(name)
-                    //set act li
+                $("#title").html(video.Name)
+                $("#head-title").html(video.Name)
+
+                //set act li
                 set_act_li(i)
             }
         }
 
-        var current = -1
+        var current = 0
+
+        var play_list
 
         function set_play_list() {
-            var player_list = JSON.parse('{{.playList}}')
+            player_list = JSON.parse('{{.playList}}')
             for (i = 0; i < player_list.Files.length; i++) {
                 var video = player_list.Files[i]
-                if (video.Path == decodeURI('{{.video}}')) {
-                    current = i
-                    console.log('current:', i)
-                }
-                $("#play-list").append(`<li id="li-${i}" onclick="play('${video.Path}','${video.Type}','${video.Name}',${i})"><i class="icon icon-m icon-video-m"></i>  ${video.Name} </li>`)
+                $("#play-list").append(`<li id="li-${i}" onclick="play(${i})"> ${video.Name} </li>`)
             }
         }
 
@@ -171,7 +185,8 @@
 
         $(document).ready(() => {
             set_play_list()
-            play('{{.video}}', '{{.type}}', decodeURI('{{.video}}'), current)
+                // console.log(Number('{{.id}}'))
+            play(Number('{{.id}}'))
         })
     </script>
 </body>

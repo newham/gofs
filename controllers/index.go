@@ -23,7 +23,11 @@ func FolderController(ctx hamgo.Context) {
 		if err != nil {
 			ctx.JSONMsg(500, "error", err.Error())
 		}
-		folders := api.GetFolder(m["dir"].(string), nil)
+		path := m["dir"].(string)
+		if m["base64"].(bool) {
+			path = api.Base64ToURL(path)
+		}
+		folders := api.GetFolder(path, nil)
 		ctx.JSONFrom(200, folders)
 		return
 	}).OnPUT(func(ctx hamgo.Context) { //put请求json新建
@@ -45,15 +49,7 @@ func FolderController(ctx hamgo.Context) {
 }
 
 func getPath(ctx hamgo.Context, prefix string) string {
-	path := strings.TrimPrefix(ctx.R().URL.String(), prefix)
-	// if isUnicode {
-	// 	path, _ = url.QueryUnescape(strings.TrimPrefix(ctx.R().URL.String(), prefix))
-	// }
-	path = api.Base64ToURL(path)
-	if path == "" {
-		path = "/"
-	}
-	return path
+	return api.Base64ToURL(strings.TrimPrefix(ctx.R().URL.String(), prefix))
 }
 
 func FileController(ctx hamgo.Context) {
@@ -95,21 +91,22 @@ func IndexController(ctx hamgo.Context) {
 
 func VideoController(ctx hamgo.Context) {
 	video := getPath(ctx, "/video/")
+	ctx.PutData("playList", hamgo.JSONToString(api.GetFolder(path.Dir(video), func(i int, f api.File) bool {
+		if f.Path == api.URLToBase64(video) {
+			ctx.PutData("id", i)
+		}
+		return strings.Contains("video,flv", f.Type)
+	})))
 	hamgo.Log.Info("%d %-10s %s", 200, "video", video)
-	ctx.PutData("video", api.URLToBase64(video))
-	ctx.PutData("type", api.GetType(video))
-	ctx.PutData("playList", hamgo.JSONToString(api.GetFolder(path.Dir(video), []string{"flv", "video"})))
 	ctx.HTML("public/player.html")
 }
 
 func UploadController(ctx hamgo.Context) {
 	ctx.R().ParseMultipartForm(32 << 20)
-	path := ctx.FormValue("path")
-	// println("path:", path)
+	path := ctx.FormValue("dir")
 	//1.get upload file
 	file, handle, err := ctx.FormFile("file")
 	if err != nil {
-		// getHtml("").Execute(w, CommonResponse{getMsg("Upload Failed!"), getFolder(path)})
 		hamgo.Log.Error("%d %-10s %s", 500, "upload ", "failed:"+err.Error())
 		ctx.JSONMsg(http.StatusInternalServerError, "error", err.Error())
 		return
@@ -118,7 +115,6 @@ func UploadController(ctx hamgo.Context) {
 	//2.create local file
 	f, err := os.OpenFile(api.ROOT_PATH+path+handle.Filename, os.O_WRONLY|os.O_CREATE, 0777)
 	if err != nil {
-		// getHtml("").Execute(w, CommonResponse{getMsg("Upload Failed!"), getFolder(path)})
 		hamgo.Log.Error("%d %-10s %s", 500, "upload ", handle.Filename+" failed:"+err.Error())
 		ctx.JSONMsg(http.StatusInternalServerError, "error", err.Error())
 		return
@@ -127,6 +123,9 @@ func UploadController(ctx hamgo.Context) {
 	//3.copy uploadfile to localfile
 	io.Copy(f, file)
 	hamgo.Log.Info("%d %-10s %s", 200, "upload", path+handle.Filename)
-	// getHtml("").Execute(w, CommonResponse{"success", getFolder(path)})
 	ctx.JSONMsg(http.StatusOK, "success", true)
+}
+
+func DownloadController(ctx hamgo.Context) {
+
 }

@@ -4,22 +4,24 @@
     right: -1px;
     bottom: -1px;
     display: none;
-    background: #eee;
     overflow-x: hidden;
-    opacity: 0.9;
+    /* opacity: 0.9; */
     /* box-shadow: 0px 5px 15px #888888; */
 }
 
 .qq-uploader {
-    max-height: 50% !important;
-    min-height: 400px !important;
+    max-height: 100% !important;
+    min-height: 500px !important;
     background: url("/public/img/svg/icon-collect-info.svg") 100% 100% no-repeat;
-    border-right: none;
-    border-bottom: none;
-    border-radius: 2px;
-    border: 2px dashed rgb(209, 209, 209);
     padding: 10px 10px 0px 10px;
     overflow-x: hidden;
+    /* border */
+    background: #eee;
+    border-right: none;
+    border-bottom: none;
+    border: 2px dashed rgb(209, 209, 209);
+    border-radius: 0px;
+    border-top-left-radius: 2px;
 }
 
 .qq-btn-group {}

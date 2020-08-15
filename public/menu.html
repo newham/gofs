@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css">
+</head>
+
+<body>
+    <a id="simple-menu" href="#sidr">Toggle menu</a>
+    <div>
+        <h1>Hello</h1>
+    </div>
+
+    <div id="sidr">
+        <!-- Your content -->
+        <ul>
+            <li><a href="#">List 1</a></li>
+            <li class="active"><a href="#">List 2</a></li>
+            <li><a href="#">List 3</a></li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/jquery/2.2.0/jquery.min.js"></script>
+    <!-- Include the Sidr JS -->
+    <script src="https://cdn.jsdelivr.net/jquery.sidr/2.2.1/jquery.sidr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#simple-menu').sidr({
+                side: 'right',
+                displace: false,
+            });
+        });
+    </script>
+</body>
+
+</html>

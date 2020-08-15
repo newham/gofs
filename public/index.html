@@ -10,7 +10,7 @@
     <title>GOFS 2.0</title>
     <meta name="Keywords" content="QQ, 腾讯,微云, 分享, 网盘, 网络硬盘, U盘, 云存储, 传输, 存储, 同步, 备份, 拍照, 上传, 下载, 中转, 文件, 照片, 相册, 离线, 传文件, wifi, cloud, 微云网页版, weiyun, weiyun web">
     <meta name="Description" content="微云是腾讯公司为用户精心打造的一项智能云服务, 您可以通过微云方便地在手机和电脑之间同步文件、推送照片和传输数据。">
-    <link rel="shortcut icon" href="https://img.weiyun.com/vipstyle/nr/box/img/favicon.ico?max_age=31536000" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/img/icon/icon-logo.png" type="image/x-icon">
     <!-- <script src="./腾讯微云_files/stats.js" name="MTAH5" sid="500461463" cid="500462644"></script> -->
     <!-- <script type="text/javascript">
         window.g_start_time = +new Date()
@@ -40,26 +40,63 @@
         }
         
         .audio-box {
-            position: fixed;
-            right: -1px;
-            bottom: 10px;
+            width: 100%;
+            /* width: 400px; */
+            /* position: fixed; */
+            /* right: calc(50% - 200px); */
+            /* bottom: -1px; */
             /* top: 0px; */
             display: none;
-            background: rgb(241, 243, 244);
+            /* background: rgb(241, 243, 244); */
             padding-top: 5px;
-            padding-left: 10px;
-            padding-right: 5px;
             /* border-radius: 10px; */
             color: #0071e3;
             /* border-left: 4px solid #0071e3; */
             /* border-top-left-radius: 5px;
             border-bottom-left-radius: 5px; */
-            border: 1px solid #ccc;
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
-            /* opacity: 0.8; */
+            /* border: 1px solid #ccc; */
+            /* radius */
+            /* border-top-left-radius: 5px; */
+            /* border-top-right-radius: 5px; */
+            /* opacity: 0.9; */
             /* box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); */
             /* box-shadow: 0px 3px 8px #888888; */
+        }
+        
+        .audio-box table {
+            width: 100%;
+        }
+        
+        .audio-box img {
+            border-radius: 2px;
+            padding: 4px;
+            cursor: pointer;
+            margin: 0px 2px;
+        }
+        
+        .audio-box img:hover {
+            background: #ddd;
+        }
+        
+        .audio-box td {
+            text-align: center;
+        }
+        
+        .td-audio-close {
+            width: 40px;
+            text-align: center;
+            padding-bottom: 5px;
+        }
+        
+        #audio-title {
+            text-align: center;
+            max-width: 170px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            /* 超出省略号 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .bg-red {
@@ -78,17 +115,38 @@
         
         .task-box {
             position: fixed;
-            bottom: 0px;
-            right: 0px;
-            background: #ddd;
-            padding: 5px 20px;
+            bottom: -1px;
+            right: -1px;
+            background: #0071e3;
+            /* padding: 10px 20px; */
+            width: 60px;
+            height: 60px;
             display: none;
             cursor: pointer;
+            color: white;
+            border-top-left-radius: 10px;
         }
         
         .task-box img {
             margin-top: 5px;
         }
+        
+        .task-box table {
+            margin-top: 15px;
+            margin-left: 10px;
+        }
+        
+        .mod-logo a {
+            /* background-image: url('/public/img/icon/icon-logo.png'); */
+            /* line-height: 36px;
+            text-align: center; */
+        }
+        /* .layout-aside {
+            background: gray;
+        } */
+        /* .layout-aside .menu-tit {
+            color: #333;
+        } */
     </style>
     <!-- fine-uploader -->
     <link rel="stylesheet" href="/public/css/fine-uploader-new.min.css">
@@ -157,7 +215,7 @@
                                 <div class="menu-item">
                                     <div class="menu-item-bd">
                                         <ul class="menu-list">
-                                            <li class="cur"><a href="/folder/"><i class="icon icon-all"></i><span class="menu-tit">全部</span></a></li>
+                                            <li class="cur"><a href="javascript:void(0)" onclick="load_page('/')"><i class="icon icon-all"></i><span class="menu-tit">全部</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-doc"></i><span class="menu-tit">文档</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-pic"></i><span class="menu-tit">图片</span></a></li>
                                             <li class=""><a href="javascript:void(0)"><i class="icon icon-video"></i><span class="menu-tit">视频</span></a></li>
@@ -196,7 +254,7 @@
                             </div>
                         </div>
                         <div class="layout-aside-ft">
-                            <div class="mod-progress-info">
+                            <!-- <div class="mod-progress-info">
                                 <div class="progress-info-bd">
                                     <div class="progress-info-detail">
                                         <div class="info-detail-hd">
@@ -210,9 +268,35 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+                            <div class="audio-box" id="player-audio">
+                                <table>
+                                    <tr>
+                                        <td id="audio-title" colspan="3">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <audio id="audio" autoplay="autoplay" style="outline: none;">
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>
+                                            <img src="/public/img/icon/icon-back.png" onclick="audio_back()">
+                                        </td> -->
+                                        <td>
+                                            <img src="/public/img/icon/icon-back.png" onclick="audio_back()">
+                                        </td>
+                                        <td>
+                                            <img id="btn-close-audio" src="/public/img/icon/icon-stop.png">
+                                        </td>
+                                        <td>
+                                            <img src="/public/img/icon/icon-next.png" onclick="audio_next()">
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <!---->
-                            <!---->
                         </div>
                     </div>
                     <div class="layout-main-wrap">
@@ -1021,22 +1105,7 @@
     <script>
         window.g_js_time = +new Date()
     </script> -->
-    <div class="audio-box" id="player-audio">
-        <table>
-            <tr>
-                <td id="audio-title" style="padding-right: 5px;padding-bottom: 5px;max-width: 250px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 
-                </td>
-                <td>
-                    <audio id="audio" controls="controls" autoplay="autoplay" style="outline: none;">
-                    </audio>
-                </td>
-                <td style="padding-bottom: 5px;padding-left: 5px;">
-                    <i id="btn-close-audio" class="icon icon-pop-close" style="cursor: pointer !important;"></i>
-                </td>
-            </tr>
-        </table>
-    </div>
 
     <div id="upload-box">
         <div id="fine-uploader">
@@ -1164,45 +1233,13 @@
         </dialog>
     </div>
 </script>
-
+<script src="/public/js/index.js "></script>
 <script src="/public/js/fine-uploader-site.js "></script>
 <script>
-    var data
-
-    function get_data_http(path = '') {
-        return new Promise(function(resolve, reject) {
-            // 通过API
-            $.ajax({
-                url: '/folder/',
-                type: 'post',
-                dataType: 'json',
-                contentType: "application/json",
-                data: JSON.stringify({
-                    "dir": path
-                }),
-                success: function(d) {
-                    data = d
-                    resolve(d);
-                },
-                error: function(e) {
-                    reject(e);
-                }
-            });
-        })
-    }
-
-    function get_data(path = '') {
-        return new Promise(function(resolve, reject) {
-            //后台传过来的
-            try {
-                data = JSON.parse('{{.}}')
-                resolve(data);
-            } catch (e) {
-                reject(e);
-            }
-        })
-    }
+    $(document).ready(() => {
+        set_upload()
+        load_page('/')
+    })
 </script>
-<script src="/public/js/index.js "></script>
 
 </html>
