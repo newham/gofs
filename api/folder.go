@@ -105,7 +105,11 @@ func GetFolder(path string, filter func(int, File) bool) Folder {
 			fileType = "folder"
 			filePath = getPath(filePath)
 		}
-		file := File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, getSuffix(fi.Name()), isEditable(fileType), getDownloadFrequency(path + fi.Name())}
+		fileSuffix := getSuffix(fi.Name())
+		if fi.IsDir() {
+			fileSuffix = "folder"
+		}
+		file := File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, fileSuffix, isEditable(fileSuffix), getDownloadFrequency(path + fi.Name())}
 		//过滤不符合typeFilter
 		if filter != nil && !filter(i, file) {
 			continue
@@ -187,7 +191,7 @@ func getFile(p string) string {
 
 func getSuffix(fileName string) string {
 	ext := path.Ext(fileName)
-	extStr := ""
+	extStr := "nor"
 	if len(ext) >= 2 {
 		extStr = strings.ToLower(ext[1:])
 	}

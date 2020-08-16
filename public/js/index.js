@@ -9,6 +9,8 @@ var audio_map = new Map()
 var audio_map_len = 0
 var audio_index = 0
 
+const default_rank_by_type = ['folder', 'docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'pdf', 'txt', 'md', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'mp3', 'mp4', 'flv', 'mkv', 'avi', 'zip', '7z', 'tar', 'rar', 'gz', 'exe']
+
 function get_data_http(path = '', isBase64 = false) {
     return new Promise(function(resolve, reject) {
         http_post('/folder/', {
@@ -26,6 +28,9 @@ function get_data_http(path = '', isBase64 = false) {
 function set_data(d) {
     //绑定数据
     data = d
+
+    //排序,默认是根据类型分组，文件夹优先
+    data.Files = sort_by_type(data.Files)
 
     //初始化参数
     btn_group_show = 1
@@ -64,6 +69,37 @@ function set_path(pathArray) {
             $("#path-array").append(`<li class="item"><i class="icon icon-bread-next"></i> <a href="javascript:void(0)" onclick="load_page('${item[1]}',true)" title="${item[0]}">${item[0]}</a></li>`)
         }
     }
+}
+
+//根据文件后缀分类，时间复杂度2n，空间复杂度n
+function sort_by_type(file_list, rank = default_rank_by_type) {
+    //文件名后缀
+    var typeMap = new Map()
+    console.log('sort_by_type')
+    for (i in file_list) {
+        var file = file_list[i]
+        if (!typeMap.get(file.Suffix)) {
+            typeMap.set(file.Suffix, [file])
+        } else {
+            var array = typeMap.get(file.Suffix)
+            array.push(file)
+            typeMap.set(file.Suffix, array)
+        }
+
+    }
+    file_list = [] //清空未排序的列表
+    for (var j in rank) { //1.先把rank里的写入
+        var k1 = rank[j]
+        if (typeMap.has(k1)) {
+            file_list.push.apply(file_list, typeMap.get(k1)) //数组拼接
+            typeMap.delete(k1) //2.从map中删除
+        }
+    }
+    //2.把剩下的随机写入
+    for (var k2 of typeMap.keys()) {
+        file_list.push.apply(file_list, typeMap.get(k2))
+    }
+    return file_list
 }
 
 function set_file_list(file_list) {
@@ -105,22 +141,20 @@ function set_file_list(file_list) {
 
     // $("#file-list").append(file_li)
     for (i = 0; i < file_list.length; i++) {
-        var f = data.Files[i]
+        var f = file_list[i] //这里不是 data.Files!!!请注意，否则排序无效
         var icon = f.Type
         var action = `href="/file/${f.Path}"`
         if (f.Type == 'folder') {
             icon = "file"
-
-            // action = `href="/folder/${f.Path}"`
-            // console.log("path", `${f.Path}`)
-            action = `href="javascript:void(0)" onclick="load_page('${f.Path}',true)"`
+                // console.log("path", `${f.Path}`)
+            action = `href="javascript:void(0)" onclick="load_page('${f.Path}',true)"` // action = `href="/folder/${f.Path}"`
         } else if (f.Type == 'pic') {
             action = `href="javascript:void(0)" onclick="preview(${i})"`
         } else if (f.Type == 'flv' || f.Type == 'video') {
             action = `href="/video/${f.Path}" target="blank"`
         } else if (f.Type == 'audio') {
             action = `href="javascript:void(0)" onclick="play_audio('${f.Path}','${f.Name}')"`
-        } else if (f.Suffix == 'md') {
+        } else if (f.Editable) {
             action = `href="/edit/${f.Path}" target="blank"`
         }
         $("#file-list").append(getFileLi(i, icon, action, f.Name, f.ModTime, f.Size))
@@ -205,7 +239,7 @@ function check_file(i) {
         return
     }
 
-    console.log('check:', i)
+    // console.log('check:', i)
     switch_class(`check-${i}`, 'act')
     if ($(`#check-${i}`).hasClass('act')) {
         // console.log(data.Files[i].Path)
