@@ -134,13 +134,20 @@ func getPathArray(path string) [][]string {
 	return pathArray
 }
 
+const (
+	K = int64(1024)
+	M = K * K
+	G = K * M
+	T = K * G
+	E = K * T
+)
+
 func formatSize(size int64) string {
-	var K int64 = 1024
-	uMap := map[string]int64{"B": 1, "KB": K, "MB": K * K, "GB": K * K * K, "TB": K * K * K * K}
+	uMap := map[string]int64{"B": 1, "KB": K, "MB": M, "GB": G, "TB": T}
 	for k, v := range uMap {
 		r := size / v
 		if r < K && r > 0 {
-			return fmt.Sprintf("%d%s", r, k)
+			return fmt.Sprintf("%d %s", r, k)
 		}
 	}
 	return "0B"
@@ -252,4 +259,28 @@ func getDownloadFrequencyCsv() *CSV {
 		return nil
 	}
 	return NewCSV(DOWNLOAD_FREQUENCY_PATH)
+}
+
+func FileSize(filePath string) int64 {
+	var dirSize int64 = 0
+	stat, err := os.Stat(filePath)
+	if err != nil {
+		return 0
+	}
+	if !stat.IsDir() {
+		return stat.Size()
+	}
+	fileList, e := ioutil.ReadDir(filePath)
+	if e != nil {
+		fmt.Println("read file error")
+		return 0
+	}
+	for _, f := range fileList {
+		if f.IsDir() {
+			dirSize += FileSize(filePath + "/" + f.Name())
+		} else {
+			dirSize += f.Size()
+		}
+	}
+	return dirSize
 }

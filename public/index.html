@@ -154,6 +154,15 @@
         /* .layout-aside .menu-tit {
             color: #333;
         } */
+        
+        .btn-success {
+            color: #0071e3 !important;
+            /* border-color: green; */
+        }
+        
+        .btn-danger {
+            color: red !important;
+        }
     </style>
     <!-- fine-uploader -->
     <link rel="stylesheet" href="/public/css/fine-uploader-new.min.css">
@@ -322,7 +331,6 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <!---->
                                             </div>
                                         </div>
                                         <div title="" class="mod-action-wrap mod-action-wrap-create clearfix" style="">
@@ -335,7 +343,6 @@
                                                                     <li class="menu-item" id="btn-new-folder"><span class="txt"><i class="icon icon-create-s"></i>新建文件夹</span>
                                                                         <div class="spliter"></div>
                                                                     </li>
-
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -386,6 +393,21 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div title="" class="mod-action-wrap mod-action-wrap-create clearfix" style="">
+                                            <div class="action-item" id="menu-download" style="display: none;">
+                                                <div class="action-item-con" id="btn-download-list"><i class="icon icon-download"></i> <span class="act-txt">打包下载 <span id="downloaded-count">0</span></span>
+                                                    <div class="mod-bubble-menu with-border">
+                                                        <div class="menu-item">
+                                                            <div class="menu-item-bd">
+                                                                <ul class="menu-list" id="downloaded-list">
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div title="" class="mod-action-wrap mod-action-wrap-a mod-action-wrap-upload clearfix" style="display: none;">
                                         <div class="action-item">
@@ -419,7 +441,7 @@
                                     </div>
                                     <div id="_mod_act_bar4">
                                         <div id="btn-group-2" class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
-                                            <div class="action-item">
+                                            <div class="action-item" id="btn-download">
                                                 <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
                                             </div>
                                             <div class="action-item">
@@ -428,116 +450,24 @@
                                             <div class="action-item" id="btn-delete">
                                                 <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
                                             </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
-                                                <div class="mod-bubble-menu with-border">
-                                                    <ul class="menu-list">
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                收集文件
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                移动到
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                重命名
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                添加到共享组
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                移入保险箱
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <div class="action-item" id="btn-paste" onclick="paste()" style="display: none;">
+                                                <div class="action-item-con btn-success"><i class="icon icon-location"></i><span class="act-txt">粘贴</span></div>
+                                            </div>
+                                            <div class="action-item" id="btn-cut-cancel" onclick="cut(0)" style="display: none;">
+                                                <div class="action-item-con"><i class="icon icon-undo"></i><span class="act-txt">撤销</span></div>
+                                            </div>
+                                            <div class="action-item" id="btn-cut" onclick="cut(1)">
+                                                <div class="action-item-con"><i class="icon icon-move"></i><span class="act-txt">剪切</span></div>
+                                            </div>
+                                            <div class="action-item" id="btn-rename">
+                                                <div class="action-item-con"><i class="icon icon-edit"></i><span class="act-txt">重命名</span></div>
                                             </div>
                                         </div>
-                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
-                                                <div class="mod-bubble-menu with-border">
-                                                    <ul class="menu-list">
-                                                        <li class="menu-item">
-                                                            <span class="txt"><
-                                                                移动到
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                添加到共享组
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                移入保险箱
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-download"></i><span class="act-txt">下载</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
-                                            </div>
-                                            <div class="action-item">
-                                                <div class="action-item-con"><i class="icon icon-more"></i></div>
-                                                <div class="mod-bubble-menu with-border">
-                                                    <ul class="menu-list">
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                移动到
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                添加到共享组
-                                                            </span>
-                                                        </li>
-                                                        <li class="menu-item">
-                                                            <span class="txt">
-                                                                移入保险箱
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                        <div id="btn-group-3" class="mod-action-wrap mod-action-wrap-menu clearfix" style="display: none;">
+
                                         </div>
                                     </div>
                                     <div class="mod-act-group">
-                                        <!-- <div class="act-item act-item-act">
-                                            <div class="act-item-txt"><a href="javascript:void(0)" class="act-item-link">@所有人 年卡促销 多送2个月
-		</a></div>
-                                        </div>
-                                        <div class="act-item act-item-info">
-                                            <div class="act-item act-item-info">
-                                                <div class="act-item-txt"><a href="javascript:void(0)" class="btn btn-s">开通会员</a></div>
-                                            </div>
-                                        </div> -->
                                         <div class="act-item act-item-acc" id="menu-user" style="position: fixed;right: 15px;">
                                             <div class="act-item-txt">
                                                 <div class="mod-user">
@@ -780,8 +710,7 @@
                                                         <span class="mod-check" id="select-all-item">
                                                             <i class="icon icon-check-s icon-checkbox" id="btn-select-all"></i> 
                                                             <span class="check-info">
-                                                                已选择
-                                                                <b class="check-info-num" id="selected-count">0</b>项
+                                                                已选择 <b class="check-info-num" id="selected-count">0</b> 项
                                                             </span>
                                                         </span>
                                                         <span class="tit-con">
@@ -924,7 +853,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-menu clearfix">
+                    <!-- <div class="mod-action-wrap mod-action-wrap-c mod-action-wrap-menu clearfix">
                         <div class="action-item">
                             <div class="action-item-con"><i class="icon icon-share"></i><span class="act-txt">分享</span></div>
                         </div>
@@ -934,7 +863,7 @@
                         <div class="action-item">
                             <div class="action-item-con"><i class="icon icon-trash"></i><span class="act-txt">删除</span></div>
                         </div>
-                    </div>
+                    </div> -->
                     <div title="关闭" class="hd-close" id="btn-close-preview">
                         <div class="btn"><i class="icon icon-close-m"></i></div>
                     </div>
@@ -951,7 +880,7 @@
                         </div>
                         <div class="inner">
                             <div class="pic-preview-bd">
-                                <div id="_wy_preview_pic" class="pic" style="transform: scale(0.51) translate3d(-50%, -50%, 0px); transform-origin: 0px 0px;">
+                                <div id="_wy_preview_pic" class="pic" style="transform: scale(0.31) translate3d(-50%, -50%, 0px); transform-origin: 0px 0px;">
                                     <img class="is-loaded" id="img" src="" style="transform: rotate(0deg);"></div> <a class="btn btn-close"><i class="icon icon-close"></i></a> <a class="pre" id="btn-img-pre"><i class="icon icon-pre"></i></a>
                                 <a class="next" id="btn-img-next"><i class="icon icon-next"></i></a>
                             </div>
@@ -1217,7 +1146,8 @@
         </dialog>
     </div>
 </script>
-<script src="/public/js/index.js "></script>
+<script src="/public/js/util.js"></script>
+<script src="/public/js/index.js"></script>
 <script src="/public/js/fine-uploader-site.js "></script>
 <script>
     $(document).ready(() => {

@@ -11,3 +11,8 @@ func TestGetFolder(t *testing.T) {
 func TestMkdir(t *testing.T) {
 	Mkdir(ROOT_PATH + "new")
 }
+
+func TestDirSize(t *testing.T) {
+	println(formatSize(FileSize("../files")))
+	println(formatSize(FileSize("./file.go")))
+}

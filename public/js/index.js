@@ -1,25 +1,25 @@
 var data
+var btn_group_show = 1
+var checked_map = new Map()
+var checked_count = 0
+var is_drag_show = false
+
+// 以下数据不随页面更新而更新
+var audio_map = new Map()
+var audio_map_len = 0
+var audio_index = 0
 
 function get_data_http(path = '', isBase64 = false) {
     return new Promise(function(resolve, reject) {
-        // 通过API
-        $.ajax({
-            url: '/folder/',
-            type: 'post',
-            dataType: 'json',
-            contentType: "application/json",
-            data: JSON.stringify({
-                "dir": path,
-                "base64": isBase64,
-            }),
-            success: function(d) {
-                data = d
-                resolve(d);
-            },
-            error: function(e) {
-                reject(e);
-            }
-        });
+        http_post('/folder/', {
+            "dir": path,
+            "base64": isBase64,
+        }, (d) => {
+            data = d
+            resolve(d);
+        }, (e) => {
+            reject(e);
+        })
     })
 }
 
@@ -36,7 +36,11 @@ function set_data(d) {
     //初始化界面
     set_file_list(data.Files)
     set_path(data.PathArray)
-    show_btn_group(1)
+    if (isCut) {
+        show_btn_group(2)
+    } else {
+        show_btn_group(1)
+    }
     show_select_info()
 }
 
@@ -73,12 +77,15 @@ function set_file_list(file_list) {
                                     <div class="thumb">
                                         <i class="icon icon-m icon-file-m"></i>
                                     </div>
-                                    <div class="info"><a href="javascript:void(0)" title="新建文件夹" class="tit" style="display: none;">新建文件夹</a>
-                                        <span class="fileedit"><input type="text" class="ui-input" id="input-new-folder" onkeydown="new_folder_keydown()" onblur="hide_new_folder()"></span>
+                                    <div class="info">
+                                        <a href="javascript:void(0)" title="新建文件夹" class="tit" style="display: none;">新建文件夹</a>
+                                        <span class="fileedit">
+                                            <input type="text" class="ui-input" id="input-new-folder" onkeydown="new_folder_keydown()" onblur="hide_new_folder()">
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="item-info"><span class="item-info-list"><span class="txt txt-time"></span></span> <span class="item-info-list"><span class="txt txt-size">-</span></span>
-                                    <!---->
+                                <div class="item-info">
+                                    <span class="item-info-list"><span class="txt txt-time"></span></span> <span class="item-info-list"><span class="txt txt-size">-</span></span>
                                 </div>
                             </div>
                         </li>`
@@ -134,7 +141,7 @@ function getFileLi(i, icon, action, name, mod_time, size) {
                                         </div>
                                         <div class="thumb">
                                             <i class="icon icon-m icon-${icon}-m"></i></div>
-                                        <div class="info">
+                                        <div class="info" id="file-info-${i}">
                                             <a ${action} title="${name}" class="tit">${name}</a><br>
                                         </div>
                                     </div>
@@ -147,13 +154,57 @@ function getFileLi(i, icon, action, name, mod_time, size) {
     return file_li
 }
 
-var btn_group_show = 1
+$("#btn-rename").click((e) => {
+    if (checked_count == 0) {
+        return
+    }
+    show_rename()
+})
 
-var checked_map = new Map()
+var temp_old_file_html = ''
+var temp_old_file_index = 0
 
-var checked_count = 0
+function show_rename() {
+    // log('show_rename')
+    for (var i of checked_map.keys()) {
+        temp_old_file_index = i
+        var btn = $(`#file-info-${i}`)
+        temp_old_file_html = btn.html()
+        temp_old_file_name = data.Files[i].Name
+        btn.html(`<span class="fileedit"><input type="text" value="${temp_old_file_name}" class="ui-input" id="input-rename" onkeydown="rename_keydown()" onblur="hide_rename()"></span>`)
+        $("#input-rename").focus()
+    }
+}
+
+function hide_rename() {
+    // log('hide_rename', temp_old_file_index)
+    $(`#file-info-${temp_old_file_index}`).html(temp_old_file_html)
+}
+
+function rename_keydown() {
+    if (event.keyCode == 13) { //inter
+        rename()
+        return false
+    } else if (event.keyCode == 27) { //esc
+        hide_rename()
+    }
+}
+
+function rename() {
+    log('do rename')
+    http_post('/file/rename', { old: data.Files[temp_old_file_index].Name, new: $('#input-rename').val(), path: data.Files[temp_old_file_index].Path }, reload_page, (e) => {
+        alert("重命名失败：", e)
+    })
+}
 
 function check_file(i) {
+    //如果有还未粘贴的文件，不允许点击选择
+    if (isCut) {
+        alert('请先粘贴，再选择！')
+        log('check pass')
+        return
+    }
+
     console.log('check:', i)
     switch_class(`check-${i}`, 'act')
     if ($(`#check-${i}`).hasClass('act')) {
@@ -168,6 +219,13 @@ function check_file(i) {
     show_select_info()
         // console.log(btn_group_show)
     show_btn_group()
+
+    //如果checked_count > 1则隐藏重命名按钮
+    if (checked_count > 1) {
+        $("#btn-rename").hide();
+    } else {
+        $("#btn-rename").show();
+    }
 
 }
 
@@ -201,11 +259,15 @@ $('#btn-new').click((e) => {
     switch_class('menu-new', 'act')
 })
 
+$('#btn-download-list').click((e) => {
+    if (downloaded_count > 0) {
+        switch_class('menu-download', 'act')
+    }
+})
+
 $('#btn-user').click((e) => {
     switch_class('menu-user', 'act')
 })
-
-var is_drag_show = false
 
 $('#formFileInputCt').click((e) => {
     // console.log('btn-upload')
@@ -271,14 +333,6 @@ $('#btn-close-preview').click((e) => {
     $("#img-preview").hide()
 })
 
-function map_to_json(map) {
-    let obj = Object.create(null);
-    for (let [k, v] of map) {
-        obj[k] = v;
-    }
-    return JSON.stringify(obj)
-}
-
 function img_to(step) {
     while (current < data.Files.length) {
         if (step > 0 && current == data.Files.length - 1) {
@@ -332,22 +386,9 @@ function new_folder() {
     console.log("new folder:", data.Path + new_folder_name)
 
     //2.开始创建
-    $.ajax({
-        url: '/folder/',
-        type: 'put',
-        dataType: 'json',
-        contentType: "application/json",
-        data: JSON.stringify({
-            "dir": data.Path + new_folder_name,
-        }),
-        success: function(d) {
-            console.log('new folder success')
-            reload_page()
-        },
-        error: function(e) {
-            console.log(e)
-        }
-    });
+    http_put('/folder/', {
+        "dir": data.Path + new_folder_name,
+    }, reload_page, console.log)
 }
 
 $("#btn-close-audio").click((e) => {
@@ -370,12 +411,6 @@ function play_audio(path, name) {
 
     set_audio_list(name)
 }
-
-var audio_map = new Map()
-
-var audio_map_len = 0
-
-var audio_index = 0
 
 function set_audio_list(name) {
     for (i = 0; i < data.Files.length; i++) {
@@ -429,34 +464,58 @@ function getFileName(file) {
     return file.substring(pos + 1)
 }
 
-function delete_file() {
-    $.ajax({
-        url: '/file/',
-        type: 'delete',
-        dataType: 'json',
-        contentType: "application/json", //json 格式作为提交
-        data: map_to_json(checked_map),
-        success: function(d) {
-            console.log('delete success')
-            reload_page()
-        },
-        error: function(e) {
-            console.log(e)
+function download_files() {
+    log("download files")
+    http_post('/download', map_to_obj(checked_map), (data) => {
+        log(data.tmp)
+        for (var i of checked_map.keys()) {
+            check_file(i)
         }
-    });
+        //添加到完成列表
+        add_downloaded_list(data.tmp)
+    }, console.log)
+}
+
+var downloaded_count = 0
+
+function add_downloaded_list(tmp) {
+    var name = "..." + tmp.substring(tmp.length - 28, tmp.length)
+    var li = `<li class="menu-item" id="btn-new-folder">
+                <span class="txt">
+                    <a href="/tmp/${tmp}" target="blank">${name}</a>
+                </span>
+            </li>`
+
+    $("#downloaded-count").html(++downloaded_count)
+    $("#downloaded-list").append(li)
+
+    //显示或隐藏任务按钮
+    if (downloaded_count > 0) {
+        $("#menu-download").show()
+    } else {
+        $("#menu-download").hide()
+    }
+}
+
+function delete_file() {
+    http_delete('/file/', map_to_obj(checked_map), reload_page, console.log)
 }
 
 $("#btn-delete").click((e) => {
+    if (checked_count == 0) {
+        return
+    }
     console.log('delete')
     delete_file()
 })
 
-// $("#app").click((e) => {
-//     if(event.currentTarget.id in ['','','']){
-//         return
-//     }
-//     // hide_menu()
-// })
+$("#btn-download").click((e) => {
+    if (checked_count == 0) {
+        return
+    }
+    console.log('download')
+    download_files()
+})
 
 $("#_layout_main").click((e) => {
     console.log('hide')
@@ -470,6 +529,10 @@ $(".layout-aside").click((e) => {
 
 
 $("#btn-select-all").click((e) => {
+    if (isCut) {
+        alert('请先粘贴，再选择！')
+        log('check pass')
+    }
     console.log('select all')
     for (i = 0; i < data.Files.length; i++) {
         check_file(i)
@@ -496,15 +559,49 @@ function show_select_info() {
 
 }
 
-// $("#toolbar").click((e) => {
-//     console.log('hide')
-//     hide_menu()
-// })
-
 function hide_menu() {
     show_upload_box(false)
     remove_class('menu-new', 'act')
     remove_class('menu-user', 'act')
+    remove_class('menu-download', 'act')
+    remove_class('menu-more', 'act')
+}
+
+var isCut = false
+var tmp_checked_map
+
+function cut(ifCut) {
+    log('cut', ifCut)
+    isCut = ifCut
+    if (ifCut) {
+        tmp_checked_map = checked_map
+    } else {
+        tmp_checked_map = null
+    }
+    show_paste()
+    reload_page()
+}
+
+function show_paste() {
+    if (isCut) {
+        $("#btn-paste").show()
+        $("#btn-cut").hide()
+        $("#btn-cut-cancel").show()
+    } else {
+        $("#btn-paste").hide()
+        $("#btn-cut").show()
+        $("#btn-cut-cancel").hide()
+    }
+}
+
+function paste() {
+    http_post("/file/move", { checkedMap: map_to_obj(tmp_checked_map), dir: data.Path }, (d) => {
+        isCut = false
+        show_paste()
+        reload_page()
+    }, (e) => {
+        alert("粘贴失败！文件已经存在/路径无效")
+    })
 }
 
 function reload_page() {

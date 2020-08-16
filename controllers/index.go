@@ -86,6 +86,49 @@ func FileController(ctx hamgo.Context) {
 	})
 }
 
+func FileTmpController(ctx hamgo.Context) {
+	tmp := ctx.PathParam("tmp")
+	path := api.TmpDir + tmp
+	if !api.IsFileExist(path) {
+		ctx.WriteString("404 not found")
+		ctx.Text(404)
+		return
+	}
+	ctx.File(path)
+}
+
+func FileRenameController(ctx hamgo.Context) {
+	m, err := ctx.BindMap()
+	if err != nil {
+		ctx.JSONMsg(400, "error", err.Error())
+		return
+	}
+	err = api.Rename(m["old"].(string), m["new"].(string), filepath.Dir(api.Base64ToURL(m["path"].(string))))
+	if err != nil {
+		ctx.JSONMsg(500, "error", err.Error())
+		return
+	}
+	ctx.JSONOk()
+}
+
+func FileMoveController(ctx hamgo.Context) {
+	req := struct {
+		Dir        string
+		CheckedMap map[string]string
+	}{}
+	err := ctx.BindJSON(&req)
+	if err != nil {
+		ctx.JSONMsg(400, "error", err.Error())
+		return
+	}
+	err = api.MV(req.CheckedMap, req.Dir)
+	if err != nil {
+		ctx.JSONMsg(500, "error", err.Error())
+		return
+	}
+	ctx.JSONOk()
+}
+
 func IndexController(ctx hamgo.Context) {
 	ctx.Redirect("/folder/")
 }
@@ -128,7 +171,24 @@ func UploadController(ctx hamgo.Context) {
 }
 
 func DownloadController(ctx hamgo.Context) {
-
+	downloadMap := map[string]string{}
+	err := ctx.BindJSON(&downloadMap)
+	if err != nil {
+		ctx.JSONMsg(400, "error", err.Error())
+		return
+	}
+	fileList := []string{}
+	for _, v := range downloadMap {
+		fileList = append(fileList, api.ROOT_PATH+api.Base64ToURL(v))
+	}
+	tmp, err := api.Zip(api.G, fileList)
+	if err != nil {
+		ctx.JSONMsg(500, "error", err.Error())
+		return
+	}
+	hamgo.Log.Info("%d %-10s %s", 200, "download", tmp)
+	ctx.PutData("tmp", tmp)
+	ctx.JSONOk()
 }
 
 func EditController(ctx hamgo.Context) {

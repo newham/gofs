@@ -9,6 +9,7 @@ package api
 import (
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
 
@@ -113,4 +114,25 @@ func DeleteFiles(array map[string]string) error {
 		}
 	}
 	return nil
+}
+
+func Rename(old, new, path string) error {
+	path = getPath(path)
+	// println(old, new, path)
+	return os.Rename(ROOT_PATH+path+old, ROOT_PATH+path+new)
+}
+
+func MV(array map[string]string, dir string) error {
+	dir = ROOT_PATH + dir
+	args := []string{"-f"}
+	for _, path := range array {
+		path = ROOT_PATH + Base64ToURL(path)
+		args = append(args, path)
+	}
+	args = append(args, dir)
+	// println("->", dir)
+	cmd := exec.Command("mv", args...)
+	_, err := cmd.CombinedOutput()
+	// println(string(b))
+	return err
 }

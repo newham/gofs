@@ -9,3 +9,4 @@ download_frequency.csv
 .DS_Store
 *.log
 /log
+tmp/
