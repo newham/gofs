@@ -84,6 +84,10 @@ function clean_done_list() {
 }
 
 function set_upload_path(path) {
+    // 如果有上传的任务，禁止修改path！
+    if (fileCount > 0) {
+        return
+    }
     console.log('set upload path', path)
     uploader.setParams({ dir: path })
 }

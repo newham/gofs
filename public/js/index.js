@@ -75,7 +75,7 @@ function set_path(pathArray) {
 function sort_by_type(file_list, rank = default_rank_by_type) {
     //文件名后缀
     var typeMap = new Map()
-    console.log('sort_by_type')
+        // console.log('sort_by_type')
     for (i in file_list) {
         var file = file_list[i]
         if (!typeMap.get(file.Suffix)) {
@@ -554,12 +554,12 @@ $("#btn-download").click((e) => {
 })
 
 $("#_layout_main").click((e) => {
-    console.log('hide')
+    // console.log('hide')
     hide_menu()
 })
 
 $(".layout-aside").click((e) => {
-    console.log('hide')
+    // console.log('hide')
     hide_menu()
 })
 
