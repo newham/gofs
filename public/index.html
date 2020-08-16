@@ -814,18 +814,19 @@
         </div>
     </div>
     <!-- 模态框 -->
-    <div class="modal">
+    <!-- modal-show -->
+    <div class="modal" id="modal">
         <b class="modal-mask"></b>
         <div class="modal-dialog modal-dialog-400 modal-dialog-confirm">
             <div class="modal-dialog-hd clearfix">
-                <h4 class="modal-dialog-title">删除文件</h4> <button class="btn-icon icon icon-pop-close"></button></div>
+                <h4 class="modal-dialog-title" id="modal-title">删除文件</h4> <button class="btn-icon icon icon-pop-close" onclick="show_modal(-1,0)"></button></div>
             <div class="modal-dialog-bd">
                 <div class="modal-bd-cont clearfix"><i class="icon icon-pop-confirm-info"></i>
-                    <p class="title">确定要删除这个文件？</p>
-                    <p class="txt">删除后可在回站站保留7天&nbsp;&nbsp;<a href="javascript:void(0)" class="mod-btn link">延长至90天</a></p>
+                    <p class="title" id="modal-content">确定要删除这些文件？</p>
+                    <!-- <p class="txt">删除后可在回站站保留7天&nbsp;&nbsp;<a href="javascript:void(0)" class="mod-btn link">延长至90天</a></p> -->
                 </div>
             </div>
-            <div class="modal-dialog-ft clearfix btn-group"><button class="btn">取消</button> <button class="btn btn-active">确定</button></div>
+            <div class="modal-dialog-ft clearfix btn-group"><button class="btn" id="modal-btn-cancel">取消</button> <button class="btn btn-active" id="modal-btn-ok">确定</button></div>
         </div>
     </div>
     <!-- 相册 -->

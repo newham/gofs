@@ -227,15 +227,14 @@ function rename_keydown() {
 function rename() {
     log('do rename')
     http_post('/file/rename', { old: data.Files[temp_old_file_index].Name, new: $('#input-rename').val(), path: data.Files[temp_old_file_index].Path }, reload_page, (e) => {
-        alert("重命名失败：", e)
+        // alert("重命名失败：", e)
+        show_modal(4)
     })
 }
 
 function check_file(i) {
     //如果有还未粘贴的文件，不允许点击选择
-    if (isCut) {
-        alert('请先粘贴，再选择！')
-        log('check pass')
+    if (!before_check()) {
         return
     }
 
@@ -413,7 +412,8 @@ function new_folder() {
     for (i = 0; i < data.Files.length; i++) {
         var file = data.Files[i]
         if (file.Name == new_folder_name) {
-            alert("文件夹已经存在！")
+            // alert("文件夹已经存在！")
+            show_modal(2)
             return
         }
     }
@@ -540,7 +540,9 @@ $("#btn-delete").click((e) => {
         return
     }
     console.log('delete')
-    delete_file()
+    show_modal(1)
+
+    // delete_file()
 })
 
 $("#btn-download").click((e) => {
@@ -561,12 +563,22 @@ $(".layout-aside").click((e) => {
     hide_menu()
 })
 
+function before_check() {
+    if (isCut) {
+        // alert('请先粘贴，再选择！')
+        show_modal(5)
+        log('check pass')
+        return false
+    }
+    return true
+}
+
 
 $("#btn-select-all").click((e) => {
-    if (isCut) {
-        alert('请先粘贴，再选择！')
-        log('check pass')
+    if (!before_check()) {
+        return
     }
+
     console.log('select all')
     for (i = 0; i < data.Files.length; i++) {
         check_file(i)
@@ -634,7 +646,8 @@ function paste() {
         show_paste()
         reload_page()
     }, (e) => {
-        alert("粘贴失败！文件已经存在/路径无效")
+        // alert("粘贴失败！路径无效")
+        show_modal(3)
     })
 }
 
@@ -654,6 +667,48 @@ function load_page(path, isBase64 = false) {
         //设置uploader 的 path
         set_upload_path(data.Path)
     })
+}
+
+function show_modal(modal_type, isShow = 1) {
+    var title = ''
+    var content = ''
+    var action_cancel = 'show_modal(-1,0);'
+    var action_ok = 'show_modal(-1,0);'
+    if (modal_type > 0) {
+        switch (modal_type) {
+            case 1: //删除提醒
+                title = '删除文件'
+                content = '确定要删除这些文件？'
+                action_cancel = "show_modal(-1,0);"
+                action_ok = "delete_file();show_modal(-1,0);"
+                break
+            case 2: //文件夹已经存在！
+                title = '创建失败'
+                content = '文件夹名不合规/文件夹已经存在！'
+                break
+            case 3: //粘贴失败！路径无效
+                title = '粘贴失败'
+                content = '粘贴失败！路径无效'
+                break
+            case 4: //重命名失败：
+                title = '重命名失败'
+                content = '文件名存在冲突！'
+                break
+            case 5: //请先粘贴，再选择！
+                title = '无效操作'
+                content = '请先完成粘贴，再选择！'
+                break
+        }
+        $('#modal-title').html(title)
+        $('#modal-content').html(content)
+        $('#modal-btn-cancel').attr('onclick', action_cancel)
+        $('#modal-btn-ok').attr('onclick', action_ok)
+    }
+    if (isShow) {
+        $('#modal').addClass('modal-show')
+    } else {
+        $('#modal').removeClass('modal-show')
+    }
 }
 
 $(document).keyup(function(e) {
