@@ -698,6 +698,10 @@ function show_modal(modal_type, isShow = 1) {
                 title = '无效操作'
                 content = '请先完成粘贴，再选择！'
                 break
+            case 6: //请先粘贴，再选择！
+                title = '正在开发...'
+                content = '未完待续，敬请期待！'
+                break
         }
         $('#modal-title').html(title)
         $('#modal-content').html(content)

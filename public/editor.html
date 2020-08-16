@@ -3,88 +3,200 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Mardown-Editor</title>
+    <title>{{.name}}</title>
+    <link rel="shortcut icon" href="/public/img/icon/icon-doc.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <style>
         html,
         body {
-            height: 100%;
-            width: 100%;
             padding: 0px;
             margin: 0px;
         }
         
         table {
-            width: calc(100% - 30px);
+            width: 100%;
             border-spacing: 0px;
         }
         
         .my-input {
-            height: 45px;
-            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            width: calc(100% - 20px);
             /* border-radius: 3px; */
             border: none;
-            border-bottom: 2px solid #ccc;
+            border-bottom: 2px solid #fff;
             outline: none;
             font-size: 18px;
+            /* 超出省略号 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .my-input:focus {
-            border-bottom: 2px solid green;
+            border-bottom: 2px solid #ccc;
         }
         
         .my-btn {
             /* max-width: 80px; */
-            margin-left: 10px;
+            min-width: 80px;
+            margin-top: -1px;
+            border-top: none !important;
+            /* border-top: 3px solid #fff !important; */
             width: 100%;
-            border-radius: 3px;
+            /* border-radius: 2px; */
             height: 50px;
             line-height: 50px;
             text-align: center;
-            color: green
+            cursor: pointer;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
             /* background: green; */
             /* color: white; */
         }
         
+        .btn-1 {
+            border: 3px solid #0071e3;
+            background: #fff;
+            color: #aaa;
+        }
+        
+        .btn-1:hover {
+            border: 3px solid #0071e3;
+            background: #eee;
+            color: #999;
+        }
+        
+        .btn-2 {
+            border: 3px dashed #0071e3;
+            color: #0071e3;
+        }
+        
+        .btn-2:hover {
+            background: #0071e3;
+            color: #fff;
+        }
+        
+        .btn-2:active {
+            color: #111;
+        }
+        
         .title-box {
-            padding: 10px;
-            width: calc(100% - 20px);
+            z-index: 2;
+            width: calc(100% - 60px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-left: 30px;
+            padding-right: 30px;
+            background: #fff;
+            opacity: 0.8;
         }
         
         .md-box {
             padding: 0 10px 10px 10px;
         }
+        
+        .main {
+            margin-top: 70px;
+            margin-left: calc(50% - 360px);
+            max-width: 720px;
+        }
+        
+        .boder-1 {
+            border-top: 3px solid #0071e3;
+        }
+        
+        .boder-2 {
+            border-top: 3px dashed #0071e3;
+        }
     </style>
 </head>
 
 <body>
-    <div class="title-box">
+    <div class="title-box boder-1" id="title-box">
         <table>
             <tr>
                 <td>
-                    <input id="md-name" class="my-input" placeholder="请输入文件名">
+                    <div id="md-name" class="my-input"></div>
                 </td>
                 <td style="width:100px">
-                    <div class="my-btn"> 保存</div>
+                    <div class="my-btn btn-1" onclick="save()" id="my-btn"> 保存</div>
                 </td>
 
             </tr>
         </table>
     </div>
-
-    <div class="md-box">
-        <textarea id="markdown"> </textarea>
+    <div class="main">
+        <div class="md-box">
+            <textarea id="markdown"> </textarea>
+        </div>
     </div>
-
 </body>
 <script src="/public/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script src="/public/js/util.js"></script>
 <script>
+    var path = '{{.path}}'
+    var name = '{{.name}}'
+    var isbegin = true
     var simplemde = new SimpleMDE({
-        element: document.getElementById("markdown")
+        element: document.getElementById('markdown')
     });
-    simplemde.value('{{.txt}}')
-    $("#md-name").val('{{.name}}')
+
+    function get_markdown() {
+        return simplemde.value()
+    }
+
+    function set_markdown(txt) {
+        simplemde.value(txt)
+    }
+
+    function save() {
+        // console.log(path, get_markdown())
+        http_post('/file/', {
+            path: path,
+            txt: get_markdown(),
+        }, (d) => {
+            // alert("保存成功")
+            change_status_style(true)
+        }, log)
+    }
+
+    function set_name(name) {
+        $("#md-name").html(name)
+    }
+
+    function change_status_style(reset = false) {
+        if (isbegin) {
+            isbegin = false
+            return
+        }
+        if (!reset) {
+            $("#title-box").removeClass('boder-1')
+            $("#title-box").addClass('boder-2')
+            $("#my-btn").removeClass('btn-1')
+            $("#my-btn").addClass('btn-2')
+        } else {
+            $("#title-box").addClass('boder-1')
+            $("#title-box").removeClass('boder-2')
+            $("#my-btn").addClass('btn-1')
+            $("#my-btn").removeClass('btn-2')
+        }
+
+    }
+
+    simplemde.codemirror.on("change", (e) => {
+        change_status_style()
+    });
+
+    $(document).ready(() => {
+        set_name('{{.name}}@{{.path}}')
+        set_markdown('{{.txt}}')
+    })
+
+    // md5(pwd)
 </script>
 
 </html>

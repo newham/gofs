@@ -83,6 +83,20 @@ func FileController(ctx hamgo.Context) {
 			return
 		}
 		ctx.JSONOk()
+	}).OnPOST(func(ctx hamgo.Context) {
+		m, err := ctx.BindMap()
+		if err != nil {
+			ctx.JSONMsg(500, "error", err.Error())
+			return
+		}
+		path := m["path"].(string)
+		txt := m["txt"].(string)
+		err = api.OverwriteString(api.ROOT_PATH+path, txt)
+		if err != nil {
+			ctx.JSONMsg(500, "error", err.Error())
+			return
+		}
+		ctx.JSONOk()
 	})
 }
 
@@ -194,7 +208,6 @@ func DownloadController(ctx hamgo.Context) {
 func EditController(ctx hamgo.Context) {
 	path := getPath(ctx, "/edit/")
 	name := filepath.Base(path)
-	dir := filepath.Dir(path)
 	txt, err := api.ReadString(api.ROOT_PATH + path)
 	if err != nil {
 		ctx.Redirect("/")
@@ -202,6 +215,6 @@ func EditController(ctx hamgo.Context) {
 	}
 	ctx.PutData("txt", txt)
 	ctx.PutData("name", name)
-	ctx.PutData("dir", dir)
+	ctx.PutData("path", path)
 	ctx.HTML("./public/editor.html")
 }

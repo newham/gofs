@@ -12,8 +12,8 @@ func main() {
 	//设置下载保存文件的根目录
 	api.SetRoot(hamgo.Conf.String("http_file_path"))
 	server.Static("public")
-	server.Handler("/folder/", controllers.FolderController, "POST,GET,PUT")
-	server.Handler("/file/", controllers.FileController, "DELETE,GET,PUT")
+	server.Handler("/folder/", controllers.FolderController, "POST,GET,PUT,POST")
+	server.Handler("/file/", controllers.FileController, "DELETE,GET,PUT,POST")
 	server.Handler("/tmp/=tmp", controllers.FileTmpController, "GET")
 	server.Post("/file/rename", controllers.FileRenameController)
 	server.Post("/file/move", controllers.FileMoveController)
