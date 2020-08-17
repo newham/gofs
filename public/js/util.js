@@ -60,3 +60,10 @@ function http_put(url, json_data, success_callback, error_callback) {
 function log(txt) {
     console.log(txt)
 }
+
+function get_suffix(filename) {
+    var index = filename.lastIndexOf(".");
+    if (index != -1)
+        return filename.substring(index + 1, filename.length).toLowerCase();
+    else return "";
+}

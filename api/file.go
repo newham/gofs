@@ -43,7 +43,6 @@ func OverwriteBytes(filename string, content []byte) error {
 
 func Mkdir(filename string) error {
 	if !IsFileExist(filename) {
-		println("start to mkdir:", filename)
 		err := os.MkdirAll(filepath.Dir(filename), 0777)
 		if err != nil {
 			println("mk dir failed ", filename, " failed,", err)

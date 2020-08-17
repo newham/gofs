@@ -80,7 +80,8 @@ func GetFolder(path string, filter func(int, File) bool) Folder {
 	// folders := make([][]string, 0, 10)
 	files := make([]File, 0, 10)
 	// readme := Readme{"", ""} // 这里不要直接读取readme，应该异步请求
-	for i, fi := range dir {
+	i := 0 //这里是一个坑！index指的是实际的文件列表的id
+	for _, fi := range dir {
 		fileType := GetType(fi.Name())
 
 		// if typeFilter != nil && !strings.Contains(strings.Join(typeFilter, ","), fileType) {
@@ -109,12 +110,14 @@ func GetFolder(path string, filter func(int, File) bool) Folder {
 		if fi.IsDir() {
 			fileSuffix = "folder"
 		}
+		// println("fileSuffix", fileSuffix)
 		file := File{fi.Name(), formatSize(fi.Size()), URLToBase64(filePath), fi.ModTime().String()[:16], fileType, fileSuffix, isEditable(fileSuffix), getDownloadFrequency(path + fi.Name())}
 		//过滤不符合typeFilter
 		if filter != nil && !filter(i, file) {
-			continue
+			continue //不合规的直接跳过，且i不自增
 		}
 		files = append(files, file)
+		i += 1
 		// }
 
 	}

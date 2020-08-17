@@ -6,12 +6,15 @@
     <link rel="shortcut icon" href="/public/img/icon/icon-video.png" type="image/x-icon">
     <link rel="stylesheet" href="/public/css/page-home.css">
     <link rel="stylesheet" href="/public/css/player.css">
+    <link rel="stylesheet" href="/public/css/ul.css">
 </head>
 
 <body>
     <div class="main">
         <div class="title">
-            <label style="color:dodgerblue;">正在播放:</label> <label id="title"></label>
+            <!-- <label style="color:var(--main-color);">正在播放:</label> -->
+            <i class="icon icon-m icon-video-m"></i>
+            <label id="title"></label>
         </div>
         <div class="video-box">
             <video id="videoElement" controls autoplay></video>
@@ -26,8 +29,12 @@
 <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/public/js/flv.min.js"></script>
 <script>
+    var current = 0
+
+    var play_list
+
     function play(i) {
-        var video = player_list.Files[i]
+        var video = play_list.Files[i]
         if (flvjs.isSupported()) {
             var videoElement = document.getElementById('videoElement');
             var flvPlayer = flvjs.createPlayer({
@@ -39,21 +46,14 @@
             flvPlayer.play();
             $("#title").html(video.Name)
             $("#head-title").html(video.Name)
-
-            //set act li
-            set_act_li(i)
+            set_act_li(i) //set act li
         }
     }
 
-    var current = 0
-
-    var play_list
-
     function set_play_list() {
-        player_list = JSON.parse('{{.playList}}')
-        for (i = 0; i < player_list.Files.length; i++) {
-            var video = player_list.Files[i]
-            $("#play-list").append(`<li id="li-${i}" onclick="play(${i})"> ${video.Name} </li>`)
+        play_list = JSON.parse('{{.playList}}')
+        for (i = 0; i < play_list.Files.length; i++) {
+            $("#play-list").append(`<li id="li-${i}" onclick="play(${i})"> ${play_list.Files[i].Name} </li>`)
         }
     }
 
@@ -67,7 +67,6 @@
 
     $(document).ready(() => {
         set_play_list()
-            // console.log(Number('{{.id}}'))
         play(Number('{{.id}}'))
     })
 </script>

@@ -1,9 +1,16 @@
 :root {
+    --top-h: 50px;
     --side-with: 250px;
     --side-height: 30%;
-    --main-bg-color: #000;
-    --side-bg-color: #111;
-    --side-border-color: #111;
+    --main-color: dodgerblue;
+    --main-font-color: #333;
+    --main-bg-color: #fff;
+    --side-bg-color: #fff;
+    --side-border-color: dodgerblue;
+    --side-font-color: #777;
+    --side-title-font-color: #333;
+    --act-color: dodgerblue;
+    --title-align: center;
 }
 
 body,
@@ -25,7 +32,7 @@ html {
 }
 
 .main .title {
-    color: floralwhite;
+    color: var(--main-font-color);
 }
 
 .side {
@@ -38,47 +45,17 @@ html {
     overflow-y: auto;
     border-left: 1px solid var(--side-border-color);
     /* background: #111;
-    color: #fff; */
+    color: var(--font-color); */
     background: var(--side-bg-color);
     padding-top: 51px;
-    color: whitesmoke;
+    color: var(--side-font-color);
     /* opacity: 0.8; */
 }
 
-ul {
-    list-style: none;
-    padding: 0px 5px;
-    margin: 0px;
-}
-
-li {
-    margin-bottom: 5px;
-    padding: 5px 10px;
-    /* background: #eee; */
-    border-radius: 1px;
-    /* display: inline-block; */
-    /* max-width: 50%; */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 10px;
-    cursor: pointer;
-}
-
-li:hover {
-    background: #ccc;
-    color: #333;
-}
-
-.act {
-    background: dodgerblue;
-    color: #fff;
-}
-
 video {
-    min-width: 50%;
-    max-width: calc(100%);
-    max-height: calc(100% - 50px);
+    min-width: 400px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100% - var(--top-h)*2);
     outline: none;
     /* border-radius: 2px; */
 }
@@ -95,13 +72,13 @@ video {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 15px 5px;
-    text-align: center;
+    padding: 5px 5px;
+    text-align: var(--title-align);
 }
 
 .title-list {
     /* background: #111; */
-    color: dodgerblue;
+    color: var(--main-color);
     position: fixed;
     top: 0;
     /* background: white; */

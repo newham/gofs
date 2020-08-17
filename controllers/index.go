@@ -74,22 +74,27 @@ func FileController(ctx hamgo.Context) {
 		}
 		ctx.JSONOk()
 		return
-	}).OnPUT(func(ctx hamgo.Context) {
-		path := getPath(ctx, "/file/")
-		hamgo.Log.Info("%d %-10s %s", 200, "put file", path)
-		_, err := os.Create(api.ROOT_PATH + path)
+	}).OnPUT(func(ctx hamgo.Context) { //新增，put:{dir,txt}
+		m, err := ctx.BindMap()
 		if err != nil {
-			ctx.JSONMsg(500, "error", err.Error())
+			ctx.JSONMsg(500, "msg", err.Error())
 			return
 		}
-		ctx.JSONOk()
-	}).OnPOST(func(ctx hamgo.Context) {
+		path := api.ROOT_PATH + m["dir"].(string) //这是由用户输入的，不用转base64
+		// println("path", filePath)
+		err = api.Mkfile(path)
+		if err != nil {
+			ctx.JSONMsg(500, "msg", err.Error())
+		} else {
+			ctx.JSONOk()
+		}
+	}).OnPOST(func(ctx hamgo.Context) { //对已有的修改，post:/=path,{txt}
+		path := getPath(ctx, "/file/")
 		m, err := ctx.BindMap()
 		if err != nil {
 			ctx.JSONMsg(500, "error", err.Error())
 			return
 		}
-		path := m["path"].(string)
 		txt := m["txt"].(string)
 		err = api.OverwriteString(api.ROOT_PATH+path, txt)
 		if err != nil {
@@ -206,15 +211,15 @@ func DownloadController(ctx hamgo.Context) {
 }
 
 func EditController(ctx hamgo.Context) {
-	path := getPath(ctx, "/edit/")
-	name := filepath.Base(path)
-	txt, err := api.ReadString(api.ROOT_PATH + path)
-	if err != nil {
-		ctx.Redirect("/")
-		return
-	}
-	ctx.PutData("txt", txt)
-	ctx.PutData("name", name)
-	ctx.PutData("path", path)
+	file := getPath(ctx, "/edit/")
+	ctx.PutData("history", hamgo.JSONToString(api.GetFolder(path.Dir(file), func(i int, f api.File) bool {
+		if f.Path == api.URLToBase64(file) {
+			ctx.PutData("id", i)
+		}
+		if f.Editable {
+			return true
+		}
+		return false
+	})))
 	ctx.HTML("./public/editor.html")
 }

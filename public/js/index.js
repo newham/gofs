@@ -106,17 +106,16 @@ function set_file_list(file_list) {
     // 先清空原来的
     $("#file-list").html('')
 
-    var new_folder_li = `<li class="list-group-item checked" id="new-folder" style="display: none;">
+    var new_file_li = `<li class="list-group-item checked" id="new-file" style="display: none;">
                             <div class="item-inner">
                                 <div class="item-tit">
                                     <div class="label"><i class="icon icon-check-s icon-checkbox"></i></div>
                                     <div class="thumb">
-                                        <i class="icon icon-m icon-file-m"></i>
+                                        <i class="icon icon-m icon-file-m" id="icon-new-file"></i>
                                     </div>
                                     <div class="info">
-                                        <a href="javascript:void(0)" title="新建文件夹" class="tit" style="display: none;">新建文件夹</a>
                                         <span class="fileedit">
-                                            <input type="text" class="ui-input" id="input-new-folder" onkeydown="new_folder_keydown()" onblur="hide_new_folder()">
+                                            <input type="text" class="ui-input" id="input-new-file" onkeydown="new_file_keydown()" onblur="hide_new_file()">
                                         </span>
                                     </div>
                                 </div>
@@ -127,7 +126,7 @@ function set_file_list(file_list) {
                         </li>`
 
     // 新建文件夹li
-    $("#file-list").append(new_folder_li)
+    $("#file-list").append(new_file_li)
 
     // var icon ="file"
     // var index = 0
@@ -393,36 +392,70 @@ $('#btn-img-pre').click((e) => {
 })
 
 $("#btn-new-folder").click((e) => {
-    $("#new-folder").show()
-    $("#input-new-folder").focus()
+    new_file_type = 1
+    show_new_file()
 })
 
-// $("#input-new-folder").blur(function() {
-//     $("#new-folder").hide()
-// });
+$("#btn-new-txt").click((e) => {
+    new_file_type = 2
+    show_new_file()
+})
 
-function hide_new_folder() {
-    $("#new-folder").hide()
+
+function show_new_file() {
+    switch (new_file_type) {
+        case 1: //folder
+            $("#icon-new-file").addClass("icon-file-m")
+            $("#icon-new-file").removeClass("icon-txt-m")
+            break
+        case 2: //txt
+            $("#icon-new-file").removeClass("icon-file-m")
+            $("#icon-new-file").addClass("icon-txt-m")
+            break
+    }
+    $("#new-file").show()
+    $("#input-new-file").focus()
 }
 
-function new_folder() {
-    var new_folder_name = $("#input-new-folder").val()
+// $("#input-new-file").blur(function() {
+//     $("#new-file").hide()
+// });
 
-    //1.检查是否重名
-    for (i = 0; i < data.Files.length; i++) {
+function hide_new_file() {
+    $("#new-file").hide()
+}
+
+var new_file_type = 1
+
+function new_file() {
+    //公共变量
+    var new_file_name = $("#input-new-file").val()
+    if (new_file_type == 2 && get_suffix(new_file_name) == '') { //文本自动添加.md后缀
+        new_file_name = new_file_name + '.md'
+    }
+    var path = data.Path + new_file_name
+    for (i = 0; i < data.Files.length; i++) { //1.检查是否重名
         var file = data.Files[i]
-        if (file.Name == new_folder_name) {
+        if (file.Name == new_file_name) {
             // alert("文件夹已经存在！")
             show_modal(2)
             return
         }
     }
-    console.log("new folder:", data.Path + new_folder_name)
-
-    //2.开始创建
-    http_put('/folder/', {
-        "dir": data.Path + new_folder_name,
-    }, reload_page, console.log)
+    switch (new_file_type) { //2.开始创建
+        case 1: //folder
+            http_put('/folder/', {
+                dir: path,
+            }, reload_page, console.log)
+            console.log("new folder:", path)
+            break
+        case 2: //txt
+            http_put('/file/', { //2.开始创建
+                dir: path,
+            }, reload_page, console.log)
+            console.log("new file:", path)
+            break
+    }
 }
 
 $("#btn-close-audio").click((e) => {
@@ -480,16 +513,16 @@ function audio_next() {
     play_audio(f.Path, f.Name)
 }
 
-// $('#input-new-folder').keydown(function(e) {
+// $('#input-new-file').keydown(function(e) {
 
 // });
 
-function new_folder_keydown() {
+function new_file_keydown() {
     if (event.keyCode == 13) { //inter
-        new_folder()
+        new_file(1)
         return false
     } else if (event.keyCode == 27) { //esc
-        $("#new-folder").hide()
+        $("#new-file").hide()
     }
 }
 
@@ -514,7 +547,7 @@ var downloaded_count = 0
 
 function add_downloaded_list(tmp) {
     var name = "..." + tmp.substring(tmp.length - 28, tmp.length)
-    var li = `<li class="menu-item" id="btn-new-folder">
+    var li = `<li class="menu-item">
                 <span class="txt">
                     <a href="/tmp/${tmp}" target="blank">${name}</a>
                 </span>

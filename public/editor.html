@@ -3,12 +3,30 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{.name}}</title>
+    <title>Editor</title>
     <link rel="shortcut icon" href="/public/img/icon/icon-doc.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <style>
+         :root {
+            --side-width: 230px;
+            --title-h: 36px;
+            --top-border: 3px;
+            --container-margin: 0px;
+            /* common style */
+            --main-color: dodgerblue;
+            --main-font-color: #333;
+            --main-bg-color: #fff;
+            --side-bg-color: #eee;
+            --side-border-color: #ddd;
+            --side-font-color: #777;
+            --side-title-font-color: #333;
+            --act-color: dodgerblue;
+        }
+        
         html,
         body {
+            width: 100%;
+            height: 100%;
             padding: 0px;
             margin: 0px;
         }
@@ -19,9 +37,9 @@
         }
         
         .my-input {
-            height: 50px;
-            line-height: 50px;
-            width: calc(100% - 20px);
+            height: var(--title-h);
+            line-height: var(--title-h);
+            width: 100%;
             /* border-radius: 3px; */
             border: none;
             border-bottom: 2px solid #fff;
@@ -34,7 +52,7 @@
         }
         
         .my-input:focus {
-            border-bottom: 2px solid #ccc;
+            border-bottom: 2px solid #fff;
         }
         
         .my-btn {
@@ -45,35 +63,35 @@
             /* border-top: 3px solid #fff !important; */
             width: 100%;
             /* border-radius: 2px; */
-            height: 50px;
-            line-height: 50px;
+            height: var(--title-h);
+            line-height: var(--title-h);
             text-align: center;
             cursor: pointer;
-            border-bottom-right-radius: 4px;
-            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: var(--top-border);
+            border-bottom-left-radius: var(--top-border);
             /* background: green; */
             /* color: white; */
         }
         
         .btn-1 {
-            border: 3px solid #0071e3;
+            border: var(--top-border) solid #0071e3;
             background: #fff;
             color: #aaa;
         }
         
         .btn-1:hover {
-            border: 3px solid #0071e3;
+            border: var(--top-border) solid var(--main-color);
             background: #eee;
             color: #999;
         }
         
         .btn-2 {
-            border: 3px dashed #0071e3;
-            color: #0071e3;
+            border: var(--top-border) dashed var(--main-color);
+            color: var(--main-color);
         }
         
         .btn-2:hover {
-            background: #0071e3;
+            background: var(--main-color);
             color: #fff;
         }
         
@@ -83,34 +101,55 @@
         
         .title-box {
             z-index: 2;
-            width: calc(100% - 60px);
+            width: calc(100% - 65px - var(--side-width));
             position: fixed;
             top: 0;
-            left: 0;
-            padding-left: 30px;
-            padding-right: 30px;
+            left: var(--side-width);
+            padding-left: 25px;
+            padding-right: 40px;
             background: #fff;
             opacity: 0.8;
         }
         
         .md-box {
             padding: 0 10px 10px 10px;
+            margin-top: calc(var(--title-h) + 20px);
+        }
+        
+        .side {
+            float: left;
+            width: var(--side-width);
+            height: 100%;
+            background: #eee;
+            overflow-y: auto;
         }
         
         .main {
-            margin-top: 70px;
-            margin-left: calc(50% - 360px);
-            max-width: 720px;
+            /* margin-left: calc(50% - var(--main-max-width)/2); */
+            height: calc(100% - 20px);
+            float: left;
+            padding: 10px;
+            width: calc(100% - var(--side-width) - 20px);
+            background: #fff;
+            overflow-y: auto;
         }
         
         .boder-1 {
-            border-top: 3px solid #0071e3;
+            border-top: var(--top-border) solid var(--main-color);
         }
         
         .boder-2 {
-            border-top: 3px dashed #0071e3;
+            border-top: var(--top-border) dashed var(--main-color);
+        }
+        
+        .container {
+            width: calc(100% - var(--container-margin)*2);
+            margin-left: var(--container-margin);
+            height: 100%;
+            overflow: hidden;
         }
     </style>
+    <link rel="stylesheet" href="/public/css/ul.css">
 </head>
 
 <body>
@@ -127,36 +166,67 @@
             </tr>
         </table>
     </div>
-    <div class="main">
-        <div class="md-box">
-            <textarea id="markdown"> </textarea>
+
+    <div class="container">
+        <div class="side">
+            <div class="title-list"><label>文本列表</label></div>
+            <ul id="history_list">
+            </ul>
+        </div>
+        <div class="main">
+            <div class="md-box">
+                <textarea id="markdown"> </textarea>
+            </div>
         </div>
     </div>
+
 </body>
 <script src="/public/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <script src="/public/js/util.js"></script>
 <script>
-    var path = '{{.path}}'
-    var name = '{{.name}}'
+    var current = 0
+    var history_list
     var isbegin = true
     var simplemde = new SimpleMDE({
-        element: document.getElementById('markdown')
+        element: document.getElementById('markdown'),
+        autofocus: true,
+        hideIcons: ["guide"],
+        forceSync: true,
     });
 
     function get_markdown() {
         return simplemde.value()
     }
 
-    function set_markdown(txt) {
+    function set_txt(txt) {
         simplemde.value(txt)
+    }
+
+    function get_set_txt(i) {
+        console.log('set i:', i)
+        get_txt(history_list.Files[i].Path, (txt) => {
+            set_txt(txt)
+            set_name(history_list.Files[i].Name)
+            set_act_li(i)
+            if (txt != '') {
+                simplemde.togglePreview(); //开启预览
+            }
+        })
+    }
+
+    function set_act_li(i) {
+        if (current > -1) {
+            $(`#li-${current}`).removeClass('act')
+        }
+        $(`#li-${i}`).addClass('act')
+        current = i
     }
 
     function save() {
         // console.log(path, get_markdown())
-        http_post('/file/', {
-            path: path,
+        http_post('/file/' + history_list.Files[current].Path, {
             txt: get_markdown(),
         }, (d) => {
             // alert("保存成功")
@@ -166,6 +236,22 @@
 
     function set_name(name) {
         $("#md-name").html(name)
+        $("title").html(name);
+        change_status_style(true);
+    }
+
+    function get_txt(path, f) {
+        http_get('/file/' + path, (d) => {
+            f(d)
+        }, console.log)
+    }
+
+    function set_history_list() {
+        for (var i in history_list.Files) {
+            var f = history_list.Files[i]
+            var li = `<li id="li-${i}" onclick="get_set_txt(${i})">${f.Name}</li>`
+            $("#history_list").append(li)
+        }
     }
 
     function change_status_style(reset = false) {
@@ -184,7 +270,6 @@
             $("#my-btn").addClass('btn-1')
             $("#my-btn").removeClass('btn-2')
         }
-
     }
 
     simplemde.codemirror.on("change", (e) => {
@@ -192,9 +277,14 @@
     });
 
     $(document).ready(() => {
-        set_name('{{.name}}@{{.path}}')
-        set_markdown('{{.txt}}')
+        history_list = JSON.parse('{{.history}}')
+        set_history_list()
+        get_set_txt(Number('{{.id}}'))
     })
+
+    $(window).bind('beforeunload', function() {
+        return true;
+    });
 
     // md5(pwd)
 </script>
