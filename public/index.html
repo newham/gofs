@@ -32,7 +32,6 @@
     <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/search.min.js"></script>
     <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/teamSearch.min.js"></script>
     <script type="text/javascript" charset="utf-8" async="" src="./腾讯微云_files/teamOperator.min.js"></script> -->
-    <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script>
     <style>
         .act-txt,
         .action-item-con {
@@ -111,6 +110,10 @@
             border-color: blue;
         }
         
+        .txt-info {
+            color: #0071e3;
+        }
+        
         .btn-close {
             margin-top: 7px;
             background: url("/public/img/svg/icon-trig.svg") no-repeat;
@@ -162,6 +165,14 @@
         
         .btn-danger {
             color: red !important;
+        }
+        
+        .no-padding-left {
+            padding-left: 5px !important;
+        }
+        
+        .txt-center {
+            text-align: center;
         }
     </style>
     <!-- fine-uploader -->
@@ -395,7 +406,7 @@
                                         </div>
                                         <div title="" class="mod-action-wrap mod-action-wrap-create clearfix" style="">
                                             <div class="action-item" id="menu-download" style="display: none;">
-                                                <div class="action-item-con" id="btn-download-list"><i class="icon icon-download"></i> <span class="act-txt">打包下载 <span id="downloaded-count">0</span></span>
+                                                <div class="action-item-con txt-info" id="btn-download-list"><i class="icon icon-download"></i> <span class="act-txt">打包下载 <span id="downloaded-count">0</span></span>
                                                     <div class="mod-bubble-menu with-border">
                                                         <div class="menu-item">
                                                             <div class="menu-item-bd">
@@ -472,7 +483,7 @@
                                             <div class="act-item-txt">
                                                 <div class="mod-user">
                                                     <div class="user-info" id="btn-user">
-                                                        <span title="Admin" class="name">Admin</span>
+                                                        <span title="user" class="name" id="btn-user"></span>
                                                         <!-- <i class="icon icon-vip" style="background-image: url(&quot;//qzonestyle.gtimg.cn/qz-proj/wy-src/img/vip-v2/vip_0_off_XM.png&quot;);"></i> -->
                                                         <i class="icon icon-trig"></i>
                                                     </div>
@@ -482,10 +493,10 @@
                                                 <div class="mod-info-box">
                                                     <div class="info-box-bd">
                                                         <div class="info-box-pic">
-                                                            <a href="javascript:void(0)"><img alt="Admin" src="/public/img/icon/animal/bear2.png" class="pic"></a>
+                                                            <a href="javascript:void(0)"><img alt="用户头像" src="/public/img/icon/animal/bear2.png" class="pic"></a>
                                                         </div>
                                                         <div class="info-box-con">
-                                                            <p class="tit"><span class="name"><a href="javascript:void(0)">Admin</a></span></p>
+                                                            <p class="tit"><span class="name"><a href="javascript:void(0)" id="user-name"></a></span></p>
                                                             <p class="txt">
                                                                 <!-- <span class="info-txt">未开通会员</span> <a href="javascript:void(0)" class="info-link">开通</a> -->
                                                                 今天心情如何？
@@ -494,6 +505,9 @@
                                                     </div>
                                                 </div>
                                                 <ul>
+                                                    <li class="menu-item" id="btn-open-tmp"><span class="txt">管理临时文件</span>
+                                                        <div class="spliter"></div>
+                                                    </li>
                                                     <!-- <li class="menu-item"><span class="txt">开启每日极速上传</span>
                                                         <div class="spliter"></div>
                                                     </li>
@@ -510,7 +524,7 @@
                                                         </div>
                                                     </li>
                                                     <li class="menu-item"><span class="txt">我的申诉</span></li> -->
-                                                    <li class="menu-item"><span class="txt">退出登录</span></li>
+                                                    <li class="menu-item"><a href="/logout"><span class="txt">退出登录</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -826,7 +840,7 @@
                     <!-- <p class="txt">删除后可在回站站保留7天&nbsp;&nbsp;<a href="javascript:void(0)" class="mod-btn link">延长至90天</a></p> -->
                 </div>
             </div>
-            <div class="modal-dialog-ft clearfix btn-group"><button class="btn" id="modal-btn-cancel">取消</button> <button class="btn btn-active" id="modal-btn-ok">确定</button></div>
+            <div class="modal-dialog-ft clearfix btn-group" id="modal-btn-group"><button class="btn" id="modal-btn-cancel">取消</button> <button class="btn btn-active" id="modal-btn-ok">确定</button></div>
         </div>
     </div>
     <!-- 相册 -->
@@ -1043,6 +1057,11 @@
     </div>
 </body>
 
+<!-- js -->
+<!-- <script type="text/javascript" charset="utf-8" src="/public/js/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 <script src="/public/js/fine-uploader.min.js"></script>
 <script type="text/template" id="qq-template">
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="拖拽到这里上传" id="qq-uploader">
@@ -1147,13 +1166,16 @@
         </dialog>
     </div>
 </script>
+
 <script src="/public/js/util.js"></script>
+<script src="/public/js/cookie.js"></script>
 <script src="/public/js/index.js"></script>
 <script src="/public/js/fine-uploader-site.js "></script>
 <script>
     $(document).ready(() => {
+        set_user()
         set_upload()
-        load_page('/')
+        load_page(get_path_cookie())
     })
 </script>
 

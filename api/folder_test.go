@@ -4,7 +4,7 @@ import "testing"
 
 func TestGetFolder(t *testing.T) {
 	SetRoot("../")
-	folder := GetFolder("/", nil)
+	folder := GetFolder(ROOT_PATH, "/", nil)
 	folder.Print()
 }
 

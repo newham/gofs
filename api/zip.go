@@ -9,13 +9,13 @@ import (
 	"strings"
 )
 
-var TmpDir = "./tmp/"
+var TMP_ROOT = ".tmp/"
 
-func setTmpDir(dir string) {
-	TmpDir = getPath(dir)
+func setTMP_ROOT(dir string) {
+	TMP_ROOT = getPath(dir)
 }
 
-func Zip(maxFilter int64, fileList []string) (string, error) {
+func Zip(root string, maxFilter int64, fileList []string) (string, error) {
 	totalSize := int64(0)
 	for _, filePath := range fileList {
 		totalSize += FileSize(filePath)
@@ -24,9 +24,17 @@ func Zip(maxFilter int64, fileList []string) (string, error) {
 		return "", errors.New("文件总大小超过" + formatSize(totalSize))
 	}
 	//开始压缩
-	os.MkdirAll(TmpDir, 0777)
-	tmpName := GetUUID() + ".zip"
-	zipfile, err := os.Create(TmpDir + tmpName)
+	// 截取文件列表的前10个
+	totalName := strings.Join(fileList, ",")
+	tmpName := GetMd5String(totalName) + ".zip" //生成文件名的md5
+	zipPath := root + TMP_ROOT
+	os.MkdirAll(zipPath, 0777) //创建目录
+	zipFileName := zipPath + tmpName
+	// 如果存在则不创建
+	if IsFileExist(zipFileName) {
+		return tmpName, nil
+	}
+	zipfile, err := os.Create(zipFileName)
 	if err != nil {
 		return "", err
 	}

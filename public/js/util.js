@@ -38,8 +38,9 @@ function http_request(method, url, json_data, success_callback = null, error_cal
             }
         },
         error: function(e) {
+            // console.log(e)
             if (error_callback != null) {
-                error_callback(e.statusText)
+                error_callback(e.responseJSON.error)
             }
         }
     });

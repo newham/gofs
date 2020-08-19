@@ -6,6 +6,7 @@
     <title>Editor</title>
     <link rel="shortcut icon" href="/public/img/icon/icon-doc.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="/public/css/gofs.css">
     <style>
          :root {
             --side-width: 230px;
@@ -210,9 +211,10 @@
             set_txt(txt)
             set_name(history_list.Files[i].Name)
             set_act_li(i)
-            if (txt != '') {
-                simplemde.togglePreview(); //开启预览
-            }
+
+            // if (txt != '') {
+            //     simplemde.togglePreview(); //开启预览
+            // }
         })
     }
 

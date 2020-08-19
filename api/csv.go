@@ -7,9 +7,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+	"sync"
 )
 
 type CSV struct {
+	lock  sync.Mutex
+	path  string
 	lines []Line
 }
 
@@ -40,12 +43,18 @@ func (l *Line) Print() {
 	println(l.Text())
 }
 
-func NewCSV(path string) *CSV {
-	c := &CSV{[]Line{}}
-	if c.Load(path) != nil {
-		return nil
+func NewLine(id string, data ...string) Line {
+	l := []string{id}
+	return append(l, data...)
+}
+
+func NewCSV(path string) (*CSV, error) {
+	Mkfile(path) //不存在就创建一份
+	c := &CSV{path: path, lines: []Line{}}
+	if err := c.Load(path); err != nil {
+		return nil, err
 	}
-	return c
+	return c, nil
 }
 
 func (c *CSV) Get(id string) Line {
@@ -114,13 +123,20 @@ func (c *CSV) Print() {
 	})
 }
 
-func (c *CSV) Save(path string) error {
+func (c *CSV) SaveTo(path string) error {
 	if path == "" {
 		return errors.New("no path")
 	}
 	//eb := Base64Encode(c.ToBytes()) //encrypt
 	eb := c.ToBytes()
-	return OverwriteBytes(path, eb)
+	c.lock.Lock()
+	err := OverwriteBytes(path, eb)
+	c.lock.Unlock()
+	return err
+}
+
+func (c *CSV) Save() error {
+	return c.SaveTo(c.path)
 }
 
 func (c *CSV) Load(path string) error {

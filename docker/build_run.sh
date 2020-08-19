@@ -3,7 +3,7 @@ image="gofs"
 version="2.0"
 outport=8087
 inport=8087
-savedfilepath=/Users/liuhan/Work/go/src/github.com/newham/gofs/files
+savedfilepath=$HOME/http-files
 
 echo "build"
 cd ../
@@ -14,7 +14,7 @@ cd docker
 
 mkdir copy
 mkdir copy/files
-cp -r ../conf ../public ../view ../LICENSE ../gofs ./copy;
+cp -r ../conf ../public ../gofs ./copy;
 
 echo "stop container"
 docker stop $image

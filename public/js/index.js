@@ -47,6 +47,9 @@ function set_data(d) {
         show_btn_group(1)
     }
     show_select_info()
+
+    //下载列表
+    set_tmp_list()
 }
 
 function set_path(pathArray) {
@@ -131,10 +134,10 @@ function set_file_list(file_list) {
     // var icon ="file"
     // var index = 0
     // 当存在上级目录时，显示上级目录
-    if (data.PathArray.length > 1) {
-        index = data.PathArray.length - 2
-        $("#file-list").append(getFileLi(-1, 'file', `href="javascript:void(0)" onclick="load_page('${data.PathArray[index][1]}',true)"`, "../上级目录", "", ""))
-    }
+    // if (data.PathArray.length > 1) {
+    //     index = data.PathArray.length - 2
+    //     $("#file-list").append(getFileLi(-1, 'file', `href="javascript:void(0)" onclick="load_page('${data.PathArray[index][1]}',true)"`, "../上级目录", "", ""))
+    // }
     // var action = `href="/folder/${data.PathArray[index][1]}"`
     // var f = {Name:data.PathArray[index][0],ModTime:"",Size:""}
 
@@ -143,9 +146,9 @@ function set_file_list(file_list) {
         var f = file_list[i] //这里不是 data.Files!!!请注意，否则排序无效
         var icon = f.Type
         var action = `href="/file/${f.Path}"`
+        var name = f.Name
         if (f.Type == 'folder') {
             icon = "file"
-                // console.log("path", `${f.Path}`)
             action = `href="javascript:void(0)" onclick="load_page('${f.Path}',true)"` // action = `href="/folder/${f.Path}"`
         } else if (f.Type == 'pic') {
             action = `href="javascript:void(0)" onclick="preview(${i})"`
@@ -156,7 +159,7 @@ function set_file_list(file_list) {
         } else if (f.Editable) {
             action = `href="/edit/${f.Path}" target="blank"`
         }
-        $("#file-list").append(getFileLi(i, icon, action, f.Name, f.ModTime, f.Size))
+        $("#file-list").append(getFileLi(i, icon, action, name, f.ModTime, f.Size))
     }
     $("#count").html(file_list.length)
 }
@@ -292,9 +295,7 @@ $('#btn-new').click((e) => {
 })
 
 $('#btn-download-list').click((e) => {
-    if (downloaded_count > 0) {
-        switch_class('menu-download', 'act')
-    }
+    switch_class('menu-download', 'act')
 })
 
 $('#btn-user').click((e) => {
@@ -531,38 +532,88 @@ function getFileName(file) {
     return file.substring(pos + 1)
 }
 
+//下载文件到zip
 function download_files() {
-    log("download files")
+
+    console.log('download') //单独文件的情况：
+    if (checked_count == 1) {
+        for (i of checked_map.keys()) {
+            if (data.Files[i].Type != "folder") {
+                window.open("/download/" + checked_map.get(i))
+                return
+            }
+        }
+    }
+
+    log("download files") //多个文件的情况
+    show_modal(7)
     http_post('/download', map_to_obj(checked_map), (data) => {
         log(data.tmp)
         for (var i of checked_map.keys()) {
             check_file(i)
         }
-        //添加到完成列表
-        add_downloaded_list(data.tmp)
-    }, console.log)
+        // add_downloaded_list(data.tmp) //添加到完成列表
+        // set_tmp_list() //设置下载按钮和列表
+        show_modal(-1, false) // 关闭模态框
+        reload_page() //重新加载页面
+    }, (e) => {
+        show_alert("下载出错：" + e)
+    })
 }
 
-var downloaded_count = 0
+function set_tmp_list() {
+    // console.log('set_tmp_list')
+    http_get("/tmp/", (data) => {
+        // console.log(data) 
+        data = JSON.parse(data) //get 的data是字符串，需要转义
+        if (data == null || data.Files == null) {
+            return
+        }
+        $("#downloaded-list").html("") // 先清空
+        for (var i = 0; i < data.Files.length; i++) {
+            var size = data.Files[i].Size
+            var modTime = data.Files[i].ModTime
+            var tmp = data.Files[i].Name
+            var name = " ..." + tmp.substring(tmp.length - 9, tmp.length)
+            var li = `<li class="menu-item txt-center" target="blank" href="/tmp/${tmp}">
+                    <span class="txt no-padding-left">
+                        <a >${modTime} ${name} <span class="btn-success">${size}</span> </a>
+                    </span>
+                </li>`
+            $("#downloaded-list").append(li)
+        }
 
-function add_downloaded_list(tmp) {
-    var name = "..." + tmp.substring(tmp.length - 28, tmp.length)
-    var li = `<li class="menu-item">
-                <span class="txt">
-                    <a href="/tmp/${tmp}" target="blank">${name}</a>
-                </span>
-            </li>`
+        var clean_li = `<li class="menu-item txt-center" onclick="clean_tmp_list()">
+                    <span class="txt no-padding-left">
+                         清除列表
+                    </span>
+                </li>`
+        $("#downloaded-list").append(clean_li)
 
-    $("#downloaded-count").html(++downloaded_count)
-    $("#downloaded-list").append(li)
+        //显示或隐藏任务按钮
+        if (i > 0) {
+            $("#downloaded-count").html(i)
+            $("#menu-download").show()
+        } else {
+            $("#menu-download").hide()
+        }
 
-    //显示或隐藏任务按钮
-    if (downloaded_count > 0) {
-        $("#menu-download").show()
-    } else {
-        $("#menu-download").hide()
-    }
+    }, log)
 }
+
+function clean_tmp_list() {
+    http_delete("/tmp/*", {}, (d) => {
+        show_modal(8)
+        reload_page()
+    }, log)
+}
+
+$("#btn-open-tmp").click(e => {
+    load_page(".tmp/")
+
+    //隐藏目录
+    remove_class('menu-user', 'act')
+})
 
 function delete_file() {
     http_delete('/file/', map_to_obj(checked_map), reload_page, console.log)
@@ -582,8 +633,8 @@ $("#btn-download").click((e) => {
     if (checked_count == 0) {
         return
     }
-    console.log('download')
-    download_files()
+
+    download_files() //开始下载
 })
 
 $("#_layout_main").click((e) => {
@@ -642,7 +693,6 @@ function hide_menu() {
     show_upload_box(false)
     remove_class('menu-new', 'act')
     remove_class('menu-user', 'act')
-    remove_class('menu-download', 'act')
     remove_class('menu-more', 'act')
 }
 
@@ -699,10 +749,22 @@ function load_page(path, isBase64 = false) {
 
         //设置uploader 的 path
         set_upload_path(data.Path)
+
+        //将path保存到cookie
+        set_path_cookie(data.Path)
     })
 }
 
+function show_alert(msg) {
+    $('#modal-title').html("提示")
+    $('#modal-content').html(msg)
+    $('#modal-btn-cancel').hide()
+    $('#modal').addClass('modal-show') //显示
+
+}
+
 function show_modal(modal_type, isShow = 1) {
+    var isAlert = true
     var title = ''
     var content = ''
     var action_cancel = 'show_modal(-1,0);'
@@ -714,6 +776,7 @@ function show_modal(modal_type, isShow = 1) {
                 content = '确定要删除这些文件？'
                 action_cancel = "show_modal(-1,0);"
                 action_ok = "delete_file();show_modal(-1,0);"
+                isAlert = false
                 break
             case 2: //文件夹已经存在！
                 title = '创建失败'
@@ -735,11 +798,26 @@ function show_modal(modal_type, isShow = 1) {
                 title = '正在开发...'
                 content = '未完待续，敬请期待！'
                 break
+            case 7: //请先粘贴，再选择！
+                title = '后台正在打包文件'
+                content = '请稍等...时间根据文件大小决定'
+
+                // action_cancel = 'javascript:void(0)' //不让用户关闭
+                // action_ok = 'javascript:void(0)'
+                break
+            case 8: //删除成功
+                title = '清理缓存成功！'
+                content = '下载缓存已清空'
         }
         $('#modal-title').html(title)
         $('#modal-content').html(content)
         $('#modal-btn-cancel').attr('onclick', action_cancel)
         $('#modal-btn-ok').attr('onclick', action_ok)
+    }
+    if (isAlert) {
+        $('#modal-btn-cancel').hide()
+    } else {
+        $('#modal-btn-cancel').show()
     }
     if (isShow) {
         $('#modal').addClass('modal-show')

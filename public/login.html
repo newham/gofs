@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://www.weiyun.com/disk/folder/101262188385cca72fb099ade51a2f4b -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GOFS 2.0</title>
+    <meta name="Keywords" content="网盘, 网络硬盘, U盘, 云存储, 传输, 存储, 同步, 备份, 拍照, 上传, 下载, 中转, 文件, 照片, 相册, 离线, 传文件">
+    <meta name="Description" content="方便地在手机和电脑之间同步文件、推送照片和传输数据。">
+    <link rel="shortcut icon" href="/public/img/icon/icon-logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/gofs.css">
+    <style>
+         :root {
+            --side-width: 230px;
+            --title-h: 40px;
+            --top-border: 3px;
+            --container-margin: 0px;
+            /* common style */
+            --main-color: dodgerblue;
+            --main-font-color: #333;
+            --main-bg-color: #fff;
+            --side-bg-color: #eee;
+            --side-border-color: #ddd;
+            --side-font-color: #777;
+            --side-title-font-color: #333;
+            --act-color: dodgerblue;
+        }
+        
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+        }
+        
+        .my-input {
+            height: var(--title-h);
+            line-height: var(--title-h);
+            /* width: 100%; */
+            min-width: 200px;
+            /* border-radius: 3px; */
+            border: none;
+            background: #fff;
+            padding-left: 10px;
+            border: 2px solid #e1e1e1;
+            outline: none;
+            font-size: 13px;
+            /* 超出省略号 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .my-input:focus {
+            border-color: var(--main-color);
+        }
+        
+        .input-danger {
+            border-color: red;
+        }
+        
+        .input-wide {
+            min-width: 300px;
+        }
+        
+        .my-btn {
+            /* max-width: 80px; */
+            border-top: none !important;
+            /* border-top: 3px solid #fff !important; */
+            width: 100%;
+            /* border-radius: 2px; */
+            /* height: var(--title-h); */
+            /* height: calc(var(--title-h) + 10px); */
+            text-align: center;
+            cursor: pointer;
+            /* border-bottom-right-radius: var(--top-border); */
+            /* border-bottom-left-radius: var(--top-border); */
+            /* background: green; */
+            /* color: white; */
+            padding: calc(var(--title-h)/2 - 8px);
+        }
+        
+        .btn-2 {
+            /* border: var(--top-border) dashed var(--main-color); */
+            color: var(--main-color);
+            /* background: #eee; */
+        }
+        
+        .btn-2:hover {
+            background: var(--main-color);
+            color: #fff;
+        }
+        
+        .btn-2:active {
+            color: #111;
+        }
+        
+        table {
+            /* 居中 */
+            margin: auto;
+            /* border: 1px solid #333; */
+        }
+        
+        td {
+            text-align: left;
+        }
+        
+        img {
+            user-select: none;
+            margin-right: 20px;
+        }
+        
+        a {
+            color: var(--main-color);
+            cursor: pointer;
+        }
+        
+        ul {
+            padding: 0;
+            margin: 0;
+            display: inline;
+            white-space: nowrap;
+        }
+        
+        ul li {
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        #register-form {
+            display: none;
+        }
+        
+        hr {
+            border: 1px dashed #eee;
+        }
+        
+        .container {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        
+        .main {
+            margin: auto;
+            text-align: center;
+            /* padding-bottom: 40px; */
+            /* padding-top: 10%; */
+            /* 垂直居中 */
+        }
+        
+        .action-bar {
+            font-size: 13px;
+            /* text-align: left; */
+            color: #777;
+            padding: 10px 5px;
+        }
+        
+        .txt-danger {
+            color: red !important;
+        }
+        
+        .txt-center {
+            text-align: center;
+        }
+        
+        .txt-left {
+            text-align: left;
+        }
+        
+        .txt-right {
+            text-align: right;
+        }
+        
+        .tip {
+            color: seagreen;
+            padding: 5px;
+            padding-top: 8px;
+            font-size: 13px;
+        }
+        
+        .tip:before {
+            content: "*";
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <form method="POST" action="/login" id="login-form">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="/public/img/icon/logo-gofs.png">
+                        </td>
+                        <td>
+                            <input class="my-input" type="text" name="user" placeholder="☻ 用户名" id="input-user-login">
+                        </td>
+                        <td>
+                            <input class="my-input" type="password" name="pwd" placeholder="＊ 密码" id="input-pwd-login">
+                        </td>
+                        <td>
+                            <a class="my-btn btn-2" onclick="login_form_submit()">➜ Go</a>
+                        </td>
+                    </tr>
+                    <tr id="msg-box" class="hidden">
+                        <td></td>
+                        <td colspan="2">
+                            <div class="tip txt-danger" id="msg"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2">
+                            <div class="action-bar">
+                                <ul>
+                                    <li>没有账号？<a onclick="show_register(1)">注册</a></li>
+                                    <li>，忘记密码？<a>重置</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="register-form">
+                <table>
+                    <tr>
+                        <td><img src="/public/img/icon/logo-gofs.png"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="my-input input-wide" type="text" name="user" placeholder="☻ 用户名" id="input-user-register">
+                            <div class="tip" id="tip-user">用户名只能输入4-16位（字母，数字，下划线）</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="my-input input-wide" type="text" name="pwd" placeholder="＊ 密码" id="input-pwd-register">
+                            <div class="tip" id="tip-pwd">密码只能输入6-20位（字母，数字，下划线）</div>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>
+                            <hr>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td>
+                            <input class="my-input input-wide" type="email" name="email" placeholder="@ Email，用于密码找回" id="input-email-register">
+                            <div class="tip" id="tip-email">邮箱格式</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="txt-right">
+                            <a class="my-btn btn-2" onclick="register_form_submit()">➜ 注册</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- <br> -->
+                            <div class="action-bar txt-right">
+                                <br>已有账户？直接
+                                <a href="/login"> 登录</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/util.js"></script>
+<script>
+    function login_form_submit() {
+        if (!login_check()) {
+            return
+        }
+        console.log('do submit')
+        $('#login-form').submit()
+    }
+
+    function login_check() {
+        if ($('#input-user-login').val() == '' || $('#input-user-pwd').val() == '') {
+            show_error('用户名/密码不能为空')
+            return false
+        }
+        return true
+    }
+
+    function register_check() {
+        var ok = true
+        var reg_email = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        var reg_pwd = /^(\w){6,20}$/; //密码只能输入6-20个字母、数字、下划线
+        var reg_user = /^[a-zA-Z0-9_]{4,16}$/; //校验用户姓名：只能输入4到16位（字母，数字，下划线）
+
+        $('#input-user-register').on('change', (e) => {
+            set_error('input-user-register', '☻ 用户名', true)
+        })
+
+        $('#input-pwd-register').on('change', (e) => {
+            set_error('input-pwd-register', '＊ 密码', true)
+        })
+
+        $('#input-email-register').on('change', (e) => {
+            set_error('input-email-register', '@ Email，用于密码找回', true)
+        })
+
+        //检查不为空
+        if (!reg_user.test($('#input-user-register').val())) {
+            set_error('input-user-register') //, '用户名长度3-32字母数字，以字母开头'
+            ok = false
+        }
+
+        if (!reg_pwd.test($('#input-pwd-register').val())) {
+            set_error('input-pwd-register') //'密码只能输入6-20个字母、数字、下划线'
+            ok = false
+        }
+
+        if (!reg_email.test($('#input-email-register').val())) {
+            set_error('input-email-register') //, '邮箱格式错误'
+            ok = false
+        }
+        return ok
+    }
+
+    function register_form_submit() {
+
+        if (!register_check()) {
+            return
+        }
+
+        var user = $('#input-user-register').val()
+
+        //提交
+        http_post('/register', {
+            user: user,
+            pwd: $('#input-pwd-register').val(),
+            email: $('#input-email-register').val()
+        }, (data) => {
+            // alert('注册成功!将跳转到登录页面')
+            // show_register(false)
+            // window.location.href = "/login"
+            $('#input-user-login').val(user)
+            show_error('')
+            show_register(false)
+        }, (e) => {
+            alert(e)
+        })
+    }
+
+    function set_error(id, msg = "", reset = false) {
+        if (reset) {
+            $(`#${id}`).removeClass('input-danger')
+            return
+        }
+        $(`#${id}`).addClass('input-danger')
+        if (msg != "") {
+            $(`#${id}`).attr('placeholder', msg)
+        }
+    }
+
+    document.getElementById('input-pwd-login').onkeydown = function(event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            login_form_submit()
+        }
+    };
+
+    document.getElementById('input-email-register').onkeydown = function(event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            register_form_submit()
+        }
+    };
+
+    function show_register(is_show = 1) {
+        if (is_show) {
+            $('#login-form').hide()
+            $('#register-form').show()
+        } else {
+            $('#login-form').show()
+            $('#register-form').hide()
+        }
+
+    }
+
+    function show_error(error) {
+        if (error != "") {
+            $("#msg").text(error)
+            $("#msg-box").show()
+        } else {
+            $("#msg-box").hide()
+        }
+    }
+
+    $(document).ready(() => {
+        show_error('{{.error}}')
+    })
+</script>
+
+
+</html>

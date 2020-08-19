@@ -71,9 +71,10 @@ func SetRoot(path string) {
 	os.MkdirAll(ROOT_PATH, 0777)
 }
 
-func GetFolder(path string, filter func(int, File) bool) Folder {
+func GetFolder(root, path string, filter func(int, File) bool) Folder {
+	root = getPath(root)
 	path = getPath(path)
-	dir, err := ioutil.ReadDir(ROOT_PATH + path)
+	dir, err := ioutil.ReadDir(root + path)
 	if err != nil {
 		return Folder{Path: "/"}
 	}
@@ -265,7 +266,8 @@ func getDownloadFrequencyCsv() *CSV {
 		println(err.Error())
 		return nil
 	}
-	return NewCSV(DOWNLOAD_FREQUENCY_PATH)
+	c, _ := NewCSV(DOWNLOAD_FREQUENCY_PATH)
+	return c
 }
 
 func FileSize(filePath string) int64 {

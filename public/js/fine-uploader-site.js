@@ -88,6 +88,6 @@ function set_upload_path(path) {
     if (fileCount > 0) {
         return
     }
-    console.log('set upload path', path)
+    // console.log('set upload path', path)
     uploader.setParams({ dir: path })
 }

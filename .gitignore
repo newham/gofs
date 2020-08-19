@@ -10,3 +10,4 @@ download_frequency.csv
 *.log
 /log
 tmp/
+*.csv

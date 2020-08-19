@@ -6,7 +6,7 @@ exc=gofs
 
 sudo rm ./$exc
 
-wget https://github.com/newham/gofs/releases/download/v1.0/$exc
+wget https://github.com/newham/gofs/releases/download/v2.0/$exc
 
 sudo chmod +x $exc
 

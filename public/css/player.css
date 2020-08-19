@@ -3,14 +3,14 @@
     --side-with: 250px;
     --side-height: 30%;
     --main-color: dodgerblue;
-    --main-font-color: #333;
-    --main-bg-color: #fff;
-    --side-bg-color: #fff;
-    --side-border-color: dodgerblue;
-    --side-font-color: #777;
-    --side-title-font-color: #333;
+    --main-font-color: #fff;
+    --main-bg-color: #111;
+    --side-bg-color: #222;
+    --side-border-color: #000;
+    --side-font-color: #fff;
+    --side-title-font-color: #fff;
     --act-color: dodgerblue;
-    --title-align: center;
+    --title-align: left;
 }
 
 body,
@@ -53,9 +53,10 @@ html {
 }
 
 video {
-    min-width: 400px;
-    max-width: calc(100% - 40px);
-    max-height: calc(100% - var(--top-h)*2);
+    width: 100%;
+    /* min-width: 400px; */
+    /* max-width: calc(100% - 40px); */
+    max-height: calc(100% - var(--top-h));
     outline: none;
     /* border-radius: 2px; */
 }
@@ -72,7 +73,7 @@ video {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 5px 5px;
+    padding: 15px 20px;
     text-align: var(--title-align);
 }
 

@@ -106,28 +106,24 @@ func DeleteFile(filename string) bool {
 	return true
 }
 
-func DeleteFiles(array map[string]string) error {
+func DeleteFiles(array []string) error {
 	for _, path := range array {
-		if err := os.RemoveAll(ROOT_PATH + Base64ToURL(path)); err != nil {
+		if err := os.RemoveAll(path); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func Rename(old, new, path string) error {
-	path = getPath(path)
+func Rename(root, old, new string) error {
+	root = getPath(root)
 	// println(old, new, path)
-	return os.Rename(ROOT_PATH+path+old, ROOT_PATH+path+new)
+	return os.Rename(root+old, root+new)
 }
 
-func MV(array map[string]string, dir string) error {
-	dir = ROOT_PATH + dir
+func MV(array []string, dir string) error {
 	args := []string{"-f"}
-	for _, path := range array {
-		path = ROOT_PATH + Base64ToURL(path)
-		args = append(args, path)
-	}
+	args = append(args, array...)
 	args = append(args, dir)
 	// println("->", dir)
 	cmd := exec.Command("mv", args...)
