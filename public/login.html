@@ -245,13 +245,13 @@
                     <tr>
                         <td>
                             <input class="my-input input-wide" type="text" name="user" placeholder="☻ 用户名" id="input-user-register">
-                            <div class="tip" id="tip-user">用户名只能输入4-16位（字母，数字，下划线）</div>
+                            <div class="tip" id="tip-user">用户名只能输入1-16位（字母，数字，下划线）</div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <input class="my-input input-wide" type="text" name="pwd" placeholder="＊ 密码" id="input-pwd-register">
-                            <div class="tip" id="tip-pwd">密码只能输入6-20位（字母，数字，下划线）</div>
+                            <div class="tip" id="tip-pwd">密码只能输入3-20位（字母，数字，下划线）</div>
                         </td>
                     </tr>
                     <!-- <tr>
@@ -310,8 +310,8 @@
     function register_check() {
         var ok = true
         var reg_email = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
-        var reg_pwd = /^(\w){6,20}$/; //密码只能输入6-20个字母、数字、下划线
-        var reg_user = /^[a-zA-Z0-9_]{4,16}$/; //校验用户姓名：只能输入4到16位（字母，数字，下划线）
+        var reg_pwd = /^(\w){3,64}$/; //密码只能输入3-64个字母、数字、下划线
+        var reg_user = /^[a-zA-Z0-9_]{1,16}$/; //校验用户姓名：只能输入1到16位（字母，数字，下划线）
 
         $('#input-user-register').on('change', (e) => {
             set_error('input-user-register', '☻ 用户名', true)
@@ -332,7 +332,7 @@
         }
 
         if (!reg_pwd.test($('#input-pwd-register').val())) {
-            set_error('input-pwd-register') //'密码只能输入6-20个字母、数字、下划线'
+            set_error('input-pwd-register') //'密码只能输入6-64个字母、数字、下划线'
             ok = false
         }
 
