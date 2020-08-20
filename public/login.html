@@ -286,12 +286,15 @@
     </div>
 </body>
 <script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/jquery.cookie.min.js"></script>
+<script src="/public/js/cookie.js"></script>
 <script src="/public/js/util.js"></script>
 <script>
     function login_form_submit() {
         if (!login_check()) {
             return
         }
+        set_path_cookie("/") //初始化用户目录
         console.log('do submit')
         $('#login-form').submit()
     }

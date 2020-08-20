@@ -145,7 +145,7 @@ function set_file_list(file_list) {
     for (i = 0; i < file_list.length; i++) {
         var f = file_list[i] //这里不是 data.Files!!!请注意，否则排序无效
         var icon = f.Type
-        var action = `href="/file/${f.Path}"`
+        var action = `href="/file/${f.Path}" target="blank"`
         var name = f.Name
         if (f.Type == 'folder') {
             icon = "file"
