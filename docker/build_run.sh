@@ -5,26 +5,33 @@ outport=8087
 inport=8087
 # 默认根目录下files
 savedfilepath=$(dirname "$PWD")/files
+echo "\n->savedfilepath:$savedfilepath\n"
 
-echo "build"
+echo "\n->build go bin\n"
 cd ../
 #go build --ldflags "-extldflags -static"
 #go build --ldflags '-extldflags "-static -lstdc++ -lpthread"'
 go build
+if [ $? -ne 0 ]; then
+    echo "build go bin failed, exit"
+    exit 1
+
+echo "\n->start to build docker\n"
+
 cd docker
 
 mkdir copy
 mkdir copy/files
 cp -r ../conf ../public ../gofs ./copy;
 
-echo "stop container"
+echo "\n->stop container\n"
 docker stop $image
 
-echo "rm old docker"
+echo "\n->rm old docker\n"
 docker rm $image
 docker rmi $image:$version
 
-echo "build docker"
+echo "\n->build docker\n"
 docker build -t $image:$version .
 echo "run docker"
 docker run --name $image -p $outport:$inport -v $savedfilepath:/gofs/files -d $image:$version
