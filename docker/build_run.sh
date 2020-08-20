@@ -3,7 +3,8 @@ image="gofs"
 version="2.0"
 outport=8087
 inport=8087
-savedfilepath=$HOME/http-files
+# 默认根目录下files
+savedfilepath=$(dirname "$PWD")/files
 
 echo "build"
 cd ../
