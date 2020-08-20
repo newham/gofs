@@ -58,7 +58,7 @@ func (f Folder) Print() {
 	// }
 }
 
-var DOWNLOAD_FREQUENCY_PATH = "download_frequency.csv"
+var DOWNLOAD_FREQUENCY_PATH = "./db/download_frequency.csv"
 
 var ROOT_PATH = "./"
 

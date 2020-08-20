@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var USER_DB, _ = NewCSV("./user.csv")
+var USER_DB, _ = NewCSV("./db/user.csv")
 
 type User struct {
 	ID         string

@@ -5,6 +5,8 @@ outport=8087
 inport=8087
 # 默认根目录下files
 savedfilepath=$(dirname "$PWD")/files
+dbpath=$(dirname "$PWD")/db
+
 echo "->savedfilepath:$savedfilepath"
 
 echo "->build go bin"
@@ -37,6 +39,6 @@ docker rmi $image:$version
 echo "->build docker"
 docker build -t $image:$version .
 echo "run docker"
-docker run --name $image -p $outport:$inport -v $savedfilepath:/gofs/files -d --restart=always $image:$version
+docker run --name $image -p $outport:$inport -v $savedfilepath:/gofs/files -v $dbpath:/gofs/db -d --restart=always $image:$version
 
 rm -rdf copy
