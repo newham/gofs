@@ -11,6 +11,8 @@ echo "\n->build go bin\n"
 cd ../
 #go build --ldflags "-extldflags -static"
 #go build --ldflags '-extldflags "-static -lstdc++ -lpthread"'
+# 升级依赖包
+go get -u github.com/newham/hamgo 
 go build
 if [ $? -ne 0 ]; then
     echo "build go bin failed, exit"
