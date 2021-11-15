@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM golang:1.10-alpine
 
 # RUN apk add --no-cache ca-certificates
 
@@ -8,4 +8,4 @@ EXPOSE 8087
 
 WORKDIR /gofs
 
-ENTRYPOINT /github.com/newham/gofs/gofs
+ENTRYPOINT /gofs/gofs

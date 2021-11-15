@@ -3,27 +3,28 @@ image="gofs"
 version="1.0"
 outport=8087
 inport=8087
-savedfilepath=/home/local/http-files
+savedfilepath=$(dirname "$PWD")/files
 
-echo "build"
-cd ../
+echo "rm old docker"
+docker stop $image
+docker rm $image
+docker rmi $image:$version
+
+#echo "build"
+#cd ../
 #go build --ldflags "-extldflags -static"
 #go build --ldflags '-extldflags "-static -lstdc++ -lpthread"'
-go build
-cd docker
+#go build
+#cd docker
 
 mkdir copy
 mkdir copy/files
 cp -r ../conf ../public ../view ../LICENSE ../gofs ./copy;
 
-echo "rm old docker"
-docker rm $image
-docker rmi $image:$version
-
 echo "build docker"
 docker build -t $image:$version .
 echo "run docker"
-docker run --name $image -p $outport:$inport -v /github.com/newham/gofs/files:$savedfilepath -d $image:$version
+docker run --name $image -p $outport:$inport --restart=always -v $savedfilepath:/gofs/files -d $image:$version
 
 rm -rdf copy
 
